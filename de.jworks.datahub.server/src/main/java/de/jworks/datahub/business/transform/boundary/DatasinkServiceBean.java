@@ -32,11 +32,11 @@ public class DatasinkServiceBean implements DatasinkService {
     public List<Datasink> getDatasinks() {
     	List<Datasink> result = new ArrayList<Datasink>();
     	
-    	List<DatasetGroup> collections = entityManager
-    			.createQuery("SELECT dc FROM DocumentCollection dc", DatasetGroup.class)
+    	List<DatasetGroup> datasetGroups = entityManager
+    			.createQuery("SELECT dg FROM DatasetGroup dg", DatasetGroup.class)
     			.getResultList();
-    	for (DatasetGroup collection : collections) {
-    		result.add(createDatasink(collection));
+    	for (DatasetGroup datasetGroup : datasetGroups) {
+    		result.add(createDatasink(datasetGroup));
     	}
     	
         return result;
@@ -81,11 +81,11 @@ public class DatasinkServiceBean implements DatasinkService {
     				}
     			}
     		} else {
-    			DatasetGroup collection = entityManager
-    					.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.name = :name", DatasetGroup.class)
+    			DatasetGroup datasetGroup = entityManager
+    					.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.name = :name", DatasetGroup.class)
     					.setParameter("name", name)
     					.getSingleResult();
-    			return createDatasink(collection);
+    			return createDatasink(datasetGroup);
     		}
     	} catch (Exception e) {
     		e.printStackTrace();

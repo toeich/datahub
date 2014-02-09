@@ -21,7 +21,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import de.jworks.datahub.business.documents.boundary.DocumentService;
+import de.jworks.datahub.business.documents.boundary.DatasetService;
 import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.editors.DocumentCollectionEditor;
@@ -44,7 +44,7 @@ public class AdminViewCollections extends CustomComponent {
 	private Label label;
 	
 	@Inject
-	DocumentService documentService;
+	DatasetService documentService;
 	
 	@Inject
 	ProjectService projectService;

@@ -15,7 +15,7 @@ public class Dataset implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private String id;
+	private Long id;
 	
 	@ManyToOne
 	private DatasetGroup group;
@@ -23,7 +23,7 @@ public class Dataset implements Serializable {
 	@Lob
 	private String content;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 

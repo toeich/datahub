@@ -40,7 +40,7 @@ public class Initializer {
 	UserService userService;
 
 	@Inject
-	UserGroupService groupService;
+	UserGroupService userGroupService;
 	
 	@Inject
 	DatasourceService datasourceService;
@@ -80,14 +80,14 @@ public class Initializer {
 		users.getRoles().add(Role.USER);
 		users.getUsers().add(admin);
 		users.getUsers().add(te);
-		groupService.addGroup(users);
+		userGroupService.addGroup(users);
 
 		// Group "admins"
 		UserGroup admins = new UserGroup();
 		admins.setName("Admins");
 		admins.getRoles().add(Role.ADMIN);
 		admins.getUsers().add(admin);
-		groupService.addGroup(admins);
+		userGroupService.addGroup(admins);
 
 		// Project "Catalogs"
 		{

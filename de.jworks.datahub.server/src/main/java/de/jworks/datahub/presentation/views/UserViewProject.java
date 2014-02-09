@@ -21,7 +21,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import de.jworks.datahub.business.documents.boundary.DocumentService;
+import de.jworks.datahub.business.documents.boundary.DatasetService;
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
 import de.jworks.datahub.business.documents.entity.Document;
 import de.jworks.datahub.business.documents.entity.DatasetGroup;
@@ -48,7 +48,7 @@ public class UserViewProject extends CustomComponent {
 	private Label label;
 	
 	@Inject
-	DocumentService documentService;
+	DatasetService documentService;
 	
 	private DatasetGroup collection;
 	

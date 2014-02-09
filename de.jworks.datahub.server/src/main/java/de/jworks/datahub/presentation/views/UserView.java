@@ -21,7 +21,7 @@ import com.vaadin.ui.Window;
 
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.Role;
-import de.jworks.datahub.business.documents.boundary.DocumentService;
+import de.jworks.datahub.business.documents.boundary.DatasetService;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Constants;
@@ -54,7 +54,7 @@ public class UserView extends CustomComponent implements View, Constants {
 	@Inject
 	ProjectService projectService;
 	@Inject
-	DocumentService documentService;
+	DatasetService documentService;
 	@Inject
 	UserViewTasks tasksComponent;
 	@Inject

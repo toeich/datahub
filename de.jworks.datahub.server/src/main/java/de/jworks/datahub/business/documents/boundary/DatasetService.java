@@ -16,7 +16,7 @@ import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 
 @Stateless
-public class DocumentService {
+public class DatasetService {
 	
 	@Inject
 	EntityManager entityManager;

@@ -32,7 +32,7 @@ import de.jworks.datahub.business.util.DBObjectUtil;
 public class CollectionsResource {
 
 	@Inject
-	DocumentService documentService;
+	DatasetService documentService;
 
 	@Inject
 	SchemaGenerator schemaGenerator;
