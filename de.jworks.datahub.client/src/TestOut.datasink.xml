@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasource name='TestOut_Files'>
+	<schema>
+		<inputs>
+			<input name="data" step="data" type="XML_ELEMENT">
+				<input name="row" step="row" type="XML_ELEMENT">
+					<input name="num" step="@num" type="XML_ATTRIBUTE" />
+				</input>
+			</input>
+		</inputs>
+	</schema>
+	<routeSpec><![CDATA[
+<to uri='file:/home/te/temp/TestOut/'/>
+]]></routeSpec>
+</datasource>

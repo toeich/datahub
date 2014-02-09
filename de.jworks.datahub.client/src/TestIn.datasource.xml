@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasource name='TestIn_Files'>
+	<schema>
+		<outputs>
+			<output name="data" step="data" type="XML_ELEMENT">
+				<output name="row" step="row" type="XML_ELEMENT">
+					<output name="num" step="@num" type="XML_ATTRIBUTE" />
+				</output>
+			</output>
+		</outputs>
+	</schema>
+	<routeSpec><![CDATA[
+<from uri='file:/home/te/temp/TestIn/'/>
+]]></routeSpec>
+</datasource>

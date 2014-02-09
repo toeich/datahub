@@ -1,0 +1,6 @@
+analyseLocally=false
+eclipse.preferences.version=1
+extraProperties=
+projectKey=de.jworks.connector\:de.jworks.connector.server
+serverUrl=http\://localhost\:9000
+version=2

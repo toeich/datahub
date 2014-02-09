@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Data Hub
+Bundle-SymbolicName: de.jworks.datahub.client;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: de.jworks.datahub.client.Activator
+Bundle-Vendor: jworks
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.9.0",
+ org.eclipse.ui;bundle-version="3.105.0",
+ org.eclipse.ui.views;bundle-version="3.6.100",
+ org.eclipse.core.databinding;bundle-version="1.4.1",
+ org.eclipse.core.databinding.beans;bundle-version="1.2.200",
+ org.eclipse.core.databinding.observable;bundle-version="1.4.1",
+ org.eclipse.core.databinding.property;bundle-version="1.4.200",
+ org.eclipse.jface.databinding;bundle-version="1.6.200",
+ org.eclipse.gef;bundle-version="3.9.0",
+ org.eclipse.zest.core;bundle-version="1.5.0",
+ org.eclipse.zest.layouts;bundle-version="1.1.0",
+ com.caucho.hessian;bundle-version="4.0.7",
+ de.jworks.datahub.api;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

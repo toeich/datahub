@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Data Hub :: API
+Bundle-SymbolicName: de.jworks.datahub.api
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: de.jworks.datahub.business.common.entity,
+ de.jworks.datahub.business.documents.entity,
+ de.jworks.datahub.business.projects.entity,
+ de.jworks.datahub.business.systems.entity,
+ de.jworks.datahub.business.transform.boundary,
+ de.jworks.datahub.business.transform.entity

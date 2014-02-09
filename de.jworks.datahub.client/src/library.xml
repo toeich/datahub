@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<group name="core - aggregates">
+
+		<component name="min" xpathFunction="min" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="values" step="values" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="max" xpathFunction="max" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="values" step="values" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="count" xpathFunction="count" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="nodes" step="nodes" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="sum" xpathFunction="sum" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="values" step="values" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="avg" xpathFunction="avg" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="values" step="values" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="concat" xpathFunction="concat" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="s1" step="s1" />
+					<input name="s2" step="s2" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="string-join" xpathFunction="string-join" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="context" step="context" type="CONTEXT" />
+					<input name="values" step="values" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+	</group>
+
+	<group name="core - conversion functions">
+
+		<component name="boolean" xpathFunction="boolean" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="value" step="value" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="number" xpathFunction="number" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="value" step="value" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="string" xpathFunction="string" xsi:type="function">
+			<schema>
+				<inputs>
+					<input name="value" step="value" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+	</group>
+
+	<group name="core - logical functions">
+
+		<component name="equal" operator="=" xsi:type="operation">
+			<schema>
+				<inputs>
+					<input name="a" step="a" />
+					<input name="b" step="b" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+		<component name="not-equal" operator="!=" xsi:type="operation">
+			<schema>
+				<inputs>
+					<input name="a" step="a" />
+					<input name="b" step="b" />
+				</inputs>
+				<outputs>
+					<output name="result" step="result" />
+				</outputs>
+			</schema>
+		</component>
+
+	</group>
+
+</library>

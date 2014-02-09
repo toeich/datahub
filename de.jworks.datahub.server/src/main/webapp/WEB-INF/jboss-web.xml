@@ -1,0 +1,3 @@
+<jboss-web>
+	<security-domain>connector</security-domain>
+</jboss-web>

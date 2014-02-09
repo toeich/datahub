@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasink name='NICHTLUSTIG_RSS_Files'>
+	<schema>
+		<inputs>
+			<input name="rss" step="rss" type="XML_ELEMENT">
+				<input name="@version" step="@version" type="XML_ATTRIBUTE" />
+				<input name="channel" step="channel" type="XML_ELEMENT">
+					<input name="title" step="title" type="XML_ELEMENT" />
+					<input name="link" step="link" type="XML_ELEMENT" />
+					<input name="description" step="description" type="XML_ELEMENT" />
+					<input name="language" step="language" type="XML_ELEMENT" />
+					<input name="copyright" step="copyright" type="XML_ELEMENT" />
+					<input name="pubDate" step="pubDate" type="XML_ELEMENT" />
+					<input name="creator" step="{http://purl.org/dc/elements/1.1/}creator" type="XML_ELEMENT" />
+					<input name="date" step="{http://purl.org/dc/elements/1.1/}date" type="XML_ELEMENT" />
+					<input name="language" step="{http://purl.org/dc/elements/1.1/}language" type="XML_ELEMENT" />
+					<input name="rights" step="{http://purl.org/dc/elements/1.1/}rights" type="XML_ELEMENT" />
+					<input name="image" step="image" type="XML_ELEMENT">
+						<input name="title" step="title" type="XML_ELEMENT" />
+						<input name="url" step="url" type="XML_ELEMENT" />
+						<input name="link" step="link" type="XML_ELEMENT" />
+					</input>
+					<input name="item" step="item" type="XML_ELEMENT">
+						<input name="title" step="title" type="XML_ELEMENT" />
+						<input name="link" step="link" type="XML_ELEMENT" />
+						<input name="description" step="description" type="XML_ELEMENT" />
+						<input name="pubDate" step="pubDate" type="XML_ELEMENT" />
+						<input name="guid" step="guid" type="XML_ELEMENT">
+							<input name="@isPermaLink" step="@isPermaLink" type="XML_ATTRIBUTE" />
+						</input>
+						<input name="creator" step="{http://purl.org/dc/elements/1.1/}creator" type="XML_ELEMENT" />
+						<input name="date" step="{http://purl.org/dc/elements/1.1/}date" type="XML_ELEMENT" />
+					</input>
+				</input>
+			</input>
+		</inputs>
+	</schema>
+	<routeSpec><![CDATA[
+<to uri='file:/home/te/temp/NICHTLUSTIG_RSS_Files/'/>
+]]></routeSpec>
+</datasink>

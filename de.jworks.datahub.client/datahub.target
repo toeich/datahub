@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="datahub" sequenceNumber="1">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.gef.sdk.feature.group" version="3.9.1.201308190730"/>
+<unit id="org.eclipse.sdk.ide" version="4.3.1.M20130911-1000"/>
+<unit id="org.eclipse.zest.sdk.feature.group" version="1.5.1.201308190730"/>
+<repository location="http://download.eclipse.org/releases/kepler"/>
+</location>
+<location path="${workspace_loc:/de.jworks.datahub.plugins}" type="Directory"/>
+</locations>
+</target>
