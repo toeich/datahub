@@ -11,14 +11,14 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
 
 import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DocumentSchema;
+import de.jworks.datahub.business.documents.entity.DatasetSchema;
 import de.jworks.datahub.business.documents.entity.Element;
 
 public class DocumentSchemaContainer implements Container.Hierarchical {
 	
-	private DocumentSchema documentSchema;
+	private DatasetSchema documentSchema;
 	
-	public DocumentSchemaContainer(DocumentSchema documentSchema) {
+	public DocumentSchemaContainer(DatasetSchema documentSchema) {
 		this.documentSchema = documentSchema;
 	}
 

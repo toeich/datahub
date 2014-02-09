@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.lang3.StringUtils;
 
 import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.documents.entity.Element;
 import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.boundary.DatasourceService;
@@ -44,17 +44,17 @@ public class DatasourceServiceBean implements DatasourceService {
     	}
     	
     	// collect datasources from collections
-    	List<DocumentCollection> collections = entityManager
-    			.createQuery("SELECT dc FROM DocumentCollection dc", DocumentCollection.class)
+    	List<DatasetGroup> collections = entityManager
+    			.createQuery("SELECT dc FROM DocumentCollection dc", DatasetGroup.class)
     			.getResultList();
-    	for (DocumentCollection collection : collections) {
+    	for (DatasetGroup collection : collections) {
     		result.add(createDatasource(collection));
     	}
     	
         return result;
     }
     
-    private Datasource createDatasource(DocumentCollection collection) {
+    private Datasource createDatasource(DatasetGroup collection) {
     	Datasource datasource = new Datasource();
     	datasource.setName(collection.getName());
     	datasource.getSchema().addOutput(createOutput(collection.getSchema().getRootElement()));
@@ -96,8 +96,8 @@ public class DatasourceServiceBean implements DatasourceService {
     			}
     		} else {
     			// collection datasource
-    			DocumentCollection collection = entityManager
-    					.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.name = :name", DocumentCollection.class)
+    			DatasetGroup collection = entityManager
+    					.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.name = :name", DatasetGroup.class)
     					.setParameter("name", name)
     					.getSingleResult();
     			return createDatasource(collection);

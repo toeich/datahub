@@ -24,7 +24,7 @@ import com.vaadin.ui.Window.CloseListener;
 import de.jworks.datahub.business.documents.boundary.DocumentService;
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
 import de.jworks.datahub.business.documents.entity.Document;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.data.DocumentContainer;
@@ -50,7 +50,7 @@ public class UserViewProject extends CustomComponent {
 	@Inject
 	DocumentService documentService;
 	
-	private DocumentCollection collection;
+	private DatasetGroup collection;
 	
 	public UserViewProject() {
 		buildMainLayout();
@@ -69,15 +69,15 @@ public class UserViewProject extends CustomComponent {
 		
 		menuBar.removeItems();
 		
-		List<DocumentCollection> collections = documentService.getCollections(project);
-		for (DocumentCollection collection : collections) {
+		List<DatasetGroup> collections = documentService.getCollections(project);
+		for (DatasetGroup collection : collections) {
 			menuBar.addItem(collection.getName(), new SelectCollectionCommand(collection));
 		}
 		
 		setCollection(collections.size() > 0 ? collections.get(0) : null);
 	}
 	
-	private void setCollection(DocumentCollection collection) {
+	private void setCollection(DatasetGroup collection) {
 		this.collection = collection;
 		
 		if (collection != null) {
@@ -197,9 +197,9 @@ public class UserViewProject extends CustomComponent {
 
 	private class SelectCollectionCommand implements MenuBar.Command {
 		
-		private DocumentCollection collection;
+		private DatasetGroup collection;
 		
-		public SelectCollectionCommand(DocumentCollection collection) {
+		public SelectCollectionCommand(DatasetGroup collection) {
 			this.collection = collection;
 		}
 

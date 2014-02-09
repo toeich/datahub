@@ -10,13 +10,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-@Path("documents")
+@Path("datasets")
 @Consumes(MediaType.APPLICATION_XML)
 @Produces(MediaType.APPLICATION_XML)
-public class DocumentsResource {
+public class DatasetsResource {
 	
 	@GET
-	public Response getDocuments(@Context UriInfo uriInfo) {
+	public Response getDatasets(@Context UriInfo uriInfo) {
 		return Response.ok().build();
 	}
 	

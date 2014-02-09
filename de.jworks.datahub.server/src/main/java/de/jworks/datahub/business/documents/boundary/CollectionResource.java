@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 
 @Path("collection")
 @Consumes(MediaType.APPLICATION_XML)
@@ -24,14 +24,14 @@ public class CollectionResource {
 	@GET
 	@Path("{id}")
 	public Response getCollection(@PathParam("id") long collectionId) {
-		DocumentCollection _collection = collectionService.getCollection(collectionId);
+		DatasetGroup _collection = collectionService.getCollection(collectionId);
 		return Response.ok(_collection).build();
 	}
 	
 	@PUT
 	@Path("{id}")
-	public Response updateCollection(@PathParam("id") long collectionId, DocumentCollection collection) {
-		DocumentCollection _collection = collectionService.getCollection(collectionId);
+	public Response updateCollection(@PathParam("id") long collectionId, DatasetGroup collection) {
+		DatasetGroup _collection = collectionService.getCollection(collectionId);
 		_collection.setName(collection.getName());
 		_collection.setDescription(collection.getDescription());
 		collectionService.updateCollection(_collection);
@@ -41,7 +41,7 @@ public class CollectionResource {
 	@DELETE
 	@Path("{id}")
 	public Response deleteCollection(@PathParam("id") long collectionId) {
-		DocumentCollection _collection = collectionService.getCollection(collectionId);
+		DatasetGroup _collection = collectionService.getCollection(collectionId);
 		collectionService.removeCollection(_collection);
 		return Response.ok().build();
 	}

@@ -24,7 +24,7 @@ import de.jworks.datahub.business.projects.entity.Project;
 @Entity
 @XmlRootElement(name = "collection")
 @XmlAccessorType(XmlAccessType.NONE)
-public class DocumentCollection {
+public class DatasetGroup {
 
 	@Id
 	@GeneratedValue
@@ -43,7 +43,7 @@ public class DocumentCollection {
 	@Lob
 	private String schemaData;
 	
-	private transient DocumentSchema schema;
+	private transient DatasetSchema schema;
 	
 	@Lob
 	private String columnsData;
@@ -82,14 +82,14 @@ public class DocumentCollection {
 		return schemaData;
 	}
 	
-	public DocumentSchema getSchema() {
+	public DatasetSchema getSchema() {
 		if (schema == null) {
 			try {
 				StringReader stringReader = new StringReader(schemaData);
-				schema = JAXB.unmarshal(stringReader, DocumentSchema.class);
+				schema = JAXB.unmarshal(stringReader, DatasetSchema.class);
 				schema.updateParents();
 			} catch (Exception e) {
-				schema = new DocumentSchema();
+				schema = new DatasetSchema();
 			}
 		}
 		return schema;

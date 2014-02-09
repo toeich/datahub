@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.mongodb.DBObject;
 
 import de.jworks.datahub.business.documents.controller.SchemaGenerator;
-import de.jworks.datahub.business.documents.entity.Document1;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.Dataset;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.util.DBObjectUtil;
 
 @Path("collections")
@@ -49,7 +49,7 @@ public class CollectionsResource {
 	 * REST-API: [POST] rest/collections
 	 */
 	@POST
-	public Response addCollection(DocumentCollection collection) {
+	public Response addCollection(DatasetGroup collection) {
 		documentService.addCollection(collection);
 		return Response.ok(collection).build();
 	}
@@ -58,7 +58,7 @@ public class CollectionsResource {
 	 * REST-API: [PUT] rest/collections // TODO: http://restcookbook.com/HTTP%20Methods/put-vs-post/
 	 */
 	@PUT
-	public Response updateCollection(DocumentCollection collection) {
+	public Response updateCollection(DatasetGroup collection) {
 		documentService.updateCollection(collection);
 		return Response.ok(collection).build();
 	}
@@ -88,7 +88,7 @@ public class CollectionsResource {
 	@GET
 	@Path("{id}/schema")
 	public Response getCollectionSchema(@PathParam("id") long collectionId) {
-		DocumentCollection collection = documentService.getCollection(collectionId);
+		DatasetGroup collection = documentService.getCollection(collectionId);
 		return Response.ok(collection.getSchema()).build();
 	}
 
@@ -98,7 +98,7 @@ public class CollectionsResource {
 	@GET
 	@Path("{id}/schema")
 	public Response updateCollectionSchema(@PathParam("id") long collectionId, String xml) {
-		DocumentCollection collection = documentService.getCollection(collectionId);
+		DatasetGroup collection = documentService.getCollection(collectionId);
 		return Response.ok().build();
 	}
 
@@ -108,7 +108,7 @@ public class CollectionsResource {
 	@GET
 	@Path("{id}/xsd")
 	public Response getCollectionXsd(@PathParam("id") long collectionId) {
-		DocumentCollection collection = documentService.getCollection(collectionId);
+		DatasetGroup collection = documentService.getCollection(collectionId);
 		String schema = schemaGenerator.generate(collection.getSchema().getRootElement());
 		return Response.ok(schema, MediaType.APPLICATION_XML_TYPE).build();
 	}
@@ -119,9 +119,9 @@ public class CollectionsResource {
 	@GET
 	@Path("{id}/documents")
 	public Response getCollectionDocuments(@PathParam("id") long collectionId) {
-		List<Document1> documents = new ArrayList<Document1>();
+		List<Dataset> documents = new ArrayList<Dataset>();
 		for (int i = 0; i < 100000; i++) {
-			documents.add(new Document1());
+			documents.add(new Dataset());
 		}
 		return Response.ok(new Documents(documents)).build();
 	}
@@ -142,12 +142,12 @@ public class CollectionsResource {
 	private static class DocumentCollections {
 
 		@XmlElement(name = "collection")
-		private List<DocumentCollection> collections;
+		private List<DatasetGroup> collections;
 		
 		@SuppressWarnings("unused")
 		private DocumentCollections() {}
 		
-		public DocumentCollections(List<DocumentCollection> collections) {
+		public DocumentCollections(List<DatasetGroup> collections) {
 			this.collections = collections;
 		}
 
@@ -158,12 +158,12 @@ public class CollectionsResource {
 	private static class Documents {
 
 		@XmlElement(name = "document")
-		private List<Document1> documents;
+		private List<Dataset> documents;
 
 		@SuppressWarnings("unused")
 		private Documents() {}
 
-		public Documents(List<Document1> documents) {
+		public Documents(List<Dataset> documents) {
 			this.documents = documents;
 		}
 

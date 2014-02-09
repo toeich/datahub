@@ -22,7 +22,7 @@ import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
 import de.jworks.datahub.business.documents.boundary.DocumentService;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.editors.DocumentCollectionEditor;
 import de.jworks.datahub.presentation.editors.DocumentCollectionEditor.SaveEvent;
@@ -49,7 +49,7 @@ public class AdminViewCollections extends CustomComponent {
 	@Inject
 	ProjectService projectService;
 	
-	private BeanItemContainer<DocumentCollection> collections = new BeanItemContainer<DocumentCollection>(DocumentCollection.class);
+	private BeanItemContainer<DatasetGroup> collections = new BeanItemContainer<DatasetGroup>(DatasetGroup.class);
 	
 	public AdminViewCollections() {
 		buildMainLayout();
@@ -90,7 +90,7 @@ public class AdminViewCollections extends CustomComponent {
 				}
 			});
 			
-			DocumentCollectionEditor editor = new DocumentCollectionEditor(new DocumentCollection(), projectService.getProjects());
+			DocumentCollectionEditor editor = new DocumentCollectionEditor(new DatasetGroup(), projectService.getProjects());
 			editor.addSaveListener(new SaveListener() {
 				@Override
 				public void save(SaveEvent event) {
@@ -111,7 +111,7 @@ public class AdminViewCollections extends CustomComponent {
 		
 		@Override
 		public Object generateCell(Table source, Object itemId, Object columnId) {
-			DocumentCollection collection = collections.getItem(itemId).getBean();
+			DatasetGroup collection = collections.getItem(itemId).getBean();
 			HorizontalLayout actions = new HorizontalLayout();
 			actions.setSpacing(true);
 			actions.addComponent(new EditCollectionButton(collection));
@@ -122,9 +122,9 @@ public class AdminViewCollections extends CustomComponent {
 
 	private class EditCollectionButton extends Button implements ClickListener {
 		
-		private DocumentCollection collection;
+		private DatasetGroup collection;
 		
-		public EditCollectionButton(DocumentCollection collection) {
+		public EditCollectionButton(DatasetGroup collection) {
 			this.collection = collection;
 			
 			setCaption("edit");
@@ -167,9 +167,9 @@ public class AdminViewCollections extends CustomComponent {
 	
 	private class DeleteCollectionButton extends Button implements ClickListener {
 		
-		private DocumentCollection collection;
+		private DatasetGroup collection;
 		
-		public DeleteCollectionButton(DocumentCollection collection) {
+		public DeleteCollectionButton(DatasetGroup collection) {
 			this.collection = collection;
 			
 			setCaption("delete");

@@ -6,13 +6,13 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import de.jworks.datahub.business.common.boundary.GroupService;
+import de.jworks.datahub.business.common.boundary.UserGroupService;
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.documents.entity.Element;
 import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.business.systems.entity.System;
@@ -40,7 +40,7 @@ public class Initializer {
 	UserService userService;
 
 	@Inject
-	GroupService groupService;
+	UserGroupService groupService;
 	
 	@Inject
 	DatasourceService datasourceService;
@@ -192,7 +192,7 @@ public class Initializer {
 		}
 
 		// Collection "Customers"
-		DocumentCollection collection = new DocumentCollection();
+		DatasetGroup collection = new DatasetGroup();
 		collection.setName("Customers");
 		Element rootElement = collection.getSchema().getRootElement();
 		rootElement.setName("customer");
@@ -203,7 +203,7 @@ public class Initializer {
 		entityManager.persist(collection);
 		
 		// Collection "cmi24_Products"
-		DocumentCollection cmi24Products = new DocumentCollection();
+		DatasetGroup cmi24Products = new DatasetGroup();
 		cmi24Products.setName("cmi24_Products");
 		Element cmi24Product = cmi24Products.getSchema().getRootElement();
 		cmi24Product.setName("product");
@@ -216,7 +216,7 @@ public class Initializer {
 		entityManager.persist(cmi24Products);
 		
 		// Collection "SAP_Products"
-		DocumentCollection sapProducts = new DocumentCollection();
+		DatasetGroup sapProducts = new DatasetGroup();
 		sapProducts.setName("SAP_Products");
 		Element sapProduct = sapProducts.getSchema().getRootElement();
 		sapProduct.setName("product");
@@ -229,7 +229,7 @@ public class Initializer {
 		entityManager.persist(sapProducts);
 
 		// Collection "Catalogs"
-		DocumentCollection catalogs = new DocumentCollection();
+		DatasetGroup catalogs = new DatasetGroup();
 		catalogs.setName("Catalogs");
 		Element catalog = catalogs.getSchema().getRootElement();
 		catalog.setName("catalog");

@@ -4,7 +4,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 
 @Stateless
 public class CollectionService {
@@ -12,16 +12,16 @@ public class CollectionService {
 	@Inject
 	EntityManager entityManager;
 
-	public DocumentCollection getCollection(long collectionId) {
-		DocumentCollection collection = entityManager.find(DocumentCollection.class, collectionId);
+	public DatasetGroup getCollection(long collectionId) {
+		DatasetGroup collection = entityManager.find(DatasetGroup.class, collectionId);
 		return collection;
 	}
 
-	public void updateCollection(DocumentCollection collection) {
+	public void updateCollection(DatasetGroup collection) {
 		entityManager.merge(collection);
 	}
 
-	public void removeCollection(DocumentCollection collection) {
+	public void removeCollection(DatasetGroup collection) {
 		entityManager.remove(entityManager.merge(collection));
 	}
 

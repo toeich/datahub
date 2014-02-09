@@ -21,7 +21,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import de.jworks.datahub.business.common.boundary.GroupService;
+import de.jworks.datahub.business.common.boundary.UserGroupService;
 import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.editors.GroupEditor;
@@ -44,7 +44,7 @@ public class AdminViewGroups extends CustomComponent {
 	private Label label;
 	
 	@Inject
-	GroupService groupService;
+	UserGroupService groupService;
 	
 	private BeanItemContainer<UserGroup> groups = new BeanItemContainer<UserGroup>(UserGroup.class);
 	

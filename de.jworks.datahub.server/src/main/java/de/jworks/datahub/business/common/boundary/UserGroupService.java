@@ -7,12 +7,12 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.common.entity.Role;
+import de.jworks.datahub.business.common.entity.UserGroup;
 
 @Stateless
 @RolesAllowed({ Role.ADMIN })
-public class GroupService {
+public class UserGroupService {
 
 	@Inject
 	EntityManager entityManager;

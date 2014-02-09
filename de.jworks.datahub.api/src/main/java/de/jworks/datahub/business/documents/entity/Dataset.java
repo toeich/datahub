@@ -1,25 +1,38 @@
 package de.jworks.datahub.business.documents.entity;
 
 import java.io.Serializable;
-import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Document1 implements Serializable {
+public class Dataset implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	private Long id = new Random().nextLong();
+	private String id;
+	
+	@ManyToOne
+	private DatasetGroup group;
 
 	@Lob
-	private String content = "<xml/>";
+	private String content;
 
-	public Long getId() {
+	public String getId() {
 		return id;
+	}
+
+	public DatasetGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(DatasetGroup group) {
+		this.group = group;
 	}
 
 	public String getContent() {

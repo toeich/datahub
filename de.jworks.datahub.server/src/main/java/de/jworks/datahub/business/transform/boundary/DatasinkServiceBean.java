@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.commons.lang3.StringUtils;
 
 import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.documents.entity.Element;
 import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.boundary.DatasinkService;
@@ -32,17 +32,17 @@ public class DatasinkServiceBean implements DatasinkService {
     public List<Datasink> getDatasinks() {
     	List<Datasink> result = new ArrayList<Datasink>();
     	
-    	List<DocumentCollection> collections = entityManager
-    			.createQuery("SELECT dc FROM DocumentCollection dc", DocumentCollection.class)
+    	List<DatasetGroup> collections = entityManager
+    			.createQuery("SELECT dc FROM DocumentCollection dc", DatasetGroup.class)
     			.getResultList();
-    	for (DocumentCollection collection : collections) {
+    	for (DatasetGroup collection : collections) {
     		result.add(createDatasink(collection));
     	}
     	
         return result;
     }
 
-    private Datasink createDatasink(DocumentCollection collection) {
+    private Datasink createDatasink(DatasetGroup collection) {
     	Datasink datasink = new Datasink();
     	datasink.setName(collection.getName());
     	datasink.getSchema().addInput(createInput(collection.getSchema().getRootElement()));
@@ -81,8 +81,8 @@ public class DatasinkServiceBean implements DatasinkService {
     				}
     			}
     		} else {
-    			DocumentCollection collection = entityManager
-    					.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.name = :name", DocumentCollection.class)
+    			DatasetGroup collection = entityManager
+    					.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.name = :name", DatasetGroup.class)
     					.setParameter("name", name)
     					.getSingleResult();
     			return createDatasink(collection);

@@ -21,7 +21,7 @@ import com.vaadin.ui.Tree.TreeTargetDetails;
 import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DocumentSchema;
+import de.jworks.datahub.business.documents.entity.DatasetSchema;
 import de.jworks.datahub.business.documents.entity.Element;
 import de.jworks.datahub.business.documents.entity.Item;
 import de.jworks.datahub.presentation.data.DocumentSchemaContainer;
@@ -49,7 +49,7 @@ public class DocumentSchemaEditor extends CustomComponent {
 		setCompositionRoot(mainLayout);
 	}
 	
-	public void setDocumentSchema(DocumentSchema documentSchema) {
+	public void setDocumentSchema(DatasetSchema documentSchema) {
 		schemaTree.setContainerDataSource(new DocumentSchemaContainer(documentSchema));
 
 		schemaTree.setItemCaptionMode(ItemCaptionMode.PROPERTY);

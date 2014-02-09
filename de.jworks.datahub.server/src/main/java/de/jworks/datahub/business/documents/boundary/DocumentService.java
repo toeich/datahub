@@ -12,7 +12,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 
 @Stateless
@@ -24,46 +24,46 @@ public class DocumentService {
 	@Inject
 	MongoClient mongoClient;
 	
-	public List<DocumentCollection> getCollections() {
-		List<DocumentCollection> result = entityManager
-				.createQuery("SELECT dc FROM DocumentCollection dc", DocumentCollection.class)
+	public List<DatasetGroup> getCollections() {
+		List<DatasetGroup> result = entityManager
+				.createQuery("SELECT dc FROM DocumentCollection dc", DatasetGroup.class)
 				.getResultList();
 		// TODO filter result
 		return result;
 	}
 
-	public List<DocumentCollection> getCollections(Project project) {
-		List<DocumentCollection> result = entityManager
-				.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.project IS NULL OR dc.project = :project", DocumentCollection.class)
+	public List<DatasetGroup> getCollections(Project project) {
+		List<DatasetGroup> result = entityManager
+				.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.project IS NULL OR dc.project = :project", DatasetGroup.class)
 				.setParameter("project", project)
 				.getResultList();
 		// TODO filter result
 		return result;
 	}
 
-	public DocumentCollection getCollection(long collectionId) {
-		DocumentCollection collection = entityManager.find(DocumentCollection.class, collectionId);
+	public DatasetGroup getCollection(long collectionId) {
+		DatasetGroup collection = entityManager.find(DatasetGroup.class, collectionId);
 		return collection;
 	}
 	
-	public DocumentCollection addCollection(DocumentCollection collection) {
+	public DatasetGroup addCollection(DatasetGroup collection) {
 		entityManager.persist(collection);
 		return collection;
 	}
 	
-	public DocumentCollection updateCollection(DocumentCollection collection) {
-		DocumentCollection _collection = getCollection(collection.getId());
+	public DatasetGroup updateCollection(DatasetGroup collection) {
+		DatasetGroup _collection = getCollection(collection.getId());
 		_collection.setName(collection.getName());
 		_collection.setDescription(collection.getDescription());
 		return _collection;
 	}
 	
-	public void removeCollection(DocumentCollection collection) {
-		DocumentCollection _collection = getCollection(collection.getId());
+	public void removeCollection(DatasetGroup collection) {
+		DatasetGroup _collection = getCollection(collection.getId());
 		entityManager.remove(_collection);
 	}
 
-	public List<DBObject> getDocuments(DocumentCollection collection) {
+	public List<DBObject> getDocuments(DatasetGroup collection) {
 		try {
 			DB db = mongoClient.getDB("connector");
 			DBCollection dbCollection = db.getCollection(collection.getName());

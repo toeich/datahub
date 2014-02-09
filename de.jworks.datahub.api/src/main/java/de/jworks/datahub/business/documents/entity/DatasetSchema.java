@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "schema")
 @XmlAccessorType(XmlAccessType.NONE)
-public class DocumentSchema {
+public class DatasetSchema {
 
 	@XmlElement(name = "root-element")
 	private Element rootElement = new Element("root-element");

@@ -32,7 +32,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.util.ReflectTools;
 
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.DocumentCollection;
+import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 
 public class DocumentCollectionEditor extends CustomComponent {
@@ -74,7 +74,7 @@ public class DocumentCollectionEditor extends CustomComponent {
 	private BeanItemContainer<ColumnDefinition> columnDefinitions = new BeanItemContainer<ColumnDefinition>(ColumnDefinition.class);
 
 	
-	public DocumentCollectionEditor(final DocumentCollection collection, List<Project> projects) {
+	public DocumentCollectionEditor(final DatasetGroup collection, List<Project> projects) {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -116,7 +116,7 @@ public class DocumentCollectionEditor extends CustomComponent {
 		
 		
 		final FieldGroup fieldGroup = new FieldGroup();
-		fieldGroup.setItemDataSource(new BeanItem<DocumentCollection>(collection));
+		fieldGroup.setItemDataSource(new BeanItem<DatasetGroup>(collection));
 		fieldGroup.bindMemberFields(this);
 		
 		okButton.addClickListener(new ClickListener() {
@@ -202,15 +202,15 @@ public class DocumentCollectionEditor extends CustomComponent {
 
 	public static class SaveEvent extends Event {
 		
-		private DocumentCollection collection;
+		private DatasetGroup collection;
 
-		public SaveEvent(Component source, DocumentCollection collection) {
+		public SaveEvent(Component source, DatasetGroup collection) {
 			super(source);
 			
 			this.collection = collection;
 		}
 		
-		public DocumentCollection getCollection() {
+		public DatasetGroup getCollection() {
 			return collection;
 		}
 		
