@@ -1,3 +1,3 @@
-default.configuration=de.jworks.datahub
+default.configuration=de.jworks.datahub.server
 eclipse.preferences.version=1
 hibernate3.enabled=true

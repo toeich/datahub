@@ -70,7 +70,7 @@ public class AdminViewCollections extends CustomComponent {
 	@PostConstruct
 	public void refreshTable() {
 		collections.removeAllItems();
-		collections.addAll(documentService.getCollections());
+		collections.addAll(documentService.getDatasetGroups());
 	}
 
 	private class NewCollectionHandler implements ClickListener {

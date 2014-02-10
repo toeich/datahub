@@ -46,13 +46,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		<!-- mongoDB -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.11.2</version>
-		</dependency>
-
 		<!-- Hessian 4.0.7-->
 		<dependency>
 			<groupId>com.caucho</groupId>

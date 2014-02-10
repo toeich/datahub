@@ -9,7 +9,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 
-import com.mongodb.DBObject;
+import de.jworks.datahub.business.documents.entity.Dataset;
 
 @Stateless
 public class SearchService {
@@ -38,15 +38,15 @@ public class SearchService {
 		return null;
 	}
 	
-	public void addDocument(DBObject document) {
+	public void addDocument(Dataset document) {
 		
 	}
 	
-	public void updateDocument(DBObject document) {
+	public void updateDocument(Dataset document) {
 		
 	}
 	
-	public void removeDocument(DBObject document) {
+	public void removeDocument(Dataset document) {
 		
 	}
 	

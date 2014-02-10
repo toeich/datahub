@@ -18,7 +18,7 @@ public class UserGroupService {
 	EntityManager entityManager;
 
 	public List<UserGroup> getGroups() {
-		return entityManager.createQuery("SELECT g FROM Group g", UserGroup.class).getResultList();
+		return entityManager.createQuery("SELECT ug FROM UserGroup ug", UserGroup.class).getResultList();
 	}
 
 	public void addGroup(UserGroup group) {

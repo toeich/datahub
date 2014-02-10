@@ -13,7 +13,7 @@ public class Messages {
 
 	public static String getString(String key) {
 		try {
-			return ResourceBundle.getBundle("de.jworks.connector.presentation.messages", VaadinSession.getCurrent().getLocale()).getString(key);
+			return ResourceBundle.getBundle("de.jworks.datahub.presentation.messages", VaadinSession.getCurrent().getLocale()).getString(key);
 		} catch (Exception e) {
 			return "!" + key + "!";
 		}

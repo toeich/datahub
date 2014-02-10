@@ -6,12 +6,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-
+import de.jworks.datahub.business.common.boundary.AccessControlService;
+import de.jworks.datahub.business.documents.entity.Dataset;
 import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 
@@ -22,19 +18,19 @@ public class DatasetService {
 	EntityManager entityManager;
 	
 	@Inject
-	MongoClient mongoClient;
+	AccessControlService accessControlService;
 	
-	public List<DatasetGroup> getCollections() {
+	public List<DatasetGroup> getDatasetGroups() {
 		List<DatasetGroup> result = entityManager
-				.createQuery("SELECT dc FROM DocumentCollection dc", DatasetGroup.class)
+				.createQuery("SELECT dg FROM DatasetGroup dg", DatasetGroup.class)
 				.getResultList();
-		// TODO filter result
+//		accessControlService.filter(result, Permission.READ);
 		return result;
 	}
 
-	public List<DatasetGroup> getCollections(Project project) {
+	public List<DatasetGroup> getDatasetGroups(Project project) {
 		List<DatasetGroup> result = entityManager
-				.createQuery("SELECT dc FROM DocumentCollection dc WHERE dc.project IS NULL OR dc.project = :project", DatasetGroup.class)
+				.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.project IS NULL OR dg.project = :project", DatasetGroup.class)
 				.setParameter("project", project)
 				.getResultList();
 		// TODO filter result
@@ -63,42 +59,30 @@ public class DatasetService {
 		entityManager.remove(_collection);
 	}
 
-	public List<DBObject> getDocuments(DatasetGroup collection) {
+	public List<Dataset> getDatasets(DatasetGroup datasetGroup) {
 		try {
-			DB db = mongoClient.getDB("connector");
-			DBCollection dbCollection = db.getCollection(collection.getName());
-			DBCursor dbCursor = dbCollection.find();
-			return dbCursor.toArray();
+			return null;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void addDocument(DBObject document) {
+	public void addDataset(Dataset dataset) {
 		try {
-			DB db = mongoClient.getDB("connector");
-			DBCollection dbCollection = db.getCollection((String) document.get("_collection"));
-			dbCollection.save(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public void updateDocument(DBObject document) {
+	public void updateDataset(Dataset dataset) {
 		try {
-			DB db = mongoClient.getDB("connector");
-			DBCollection dbCollection = db.getCollection((String) document.get("_collection"));
-			dbCollection.save(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public void removeDocument(DBObject document) {
+	public void removeDataset(Dataset dataset) {
 		try {
-			DB db = mongoClient.getDB("connector");
-			DBCollection dbCollection = db.getCollection((String) document.get("_collection"));
-			dbCollection.remove(document);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

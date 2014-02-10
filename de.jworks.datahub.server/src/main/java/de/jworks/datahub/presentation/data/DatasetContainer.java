@@ -4,24 +4,24 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.mongodb.DBObject;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.util.DBObjectUtil;
+import de.jworks.datahub.business.documents.entity.Dataset;
+import de.jworks.datahub.business.util.XMLUtil;
 
 @SuppressWarnings("rawtypes")
-public class DocumentContainer implements Container {
+public class DatasetContainer implements Container {
 	
-	private List<DBObject> dbObjects;
+	private List<Dataset> datasets;
 	
 	private LinkedHashMap<String, String> properties;
 
-	public DocumentContainer(List<DBObject> dbObjects, List<ColumnDefinition> columns) {
-		this.dbObjects = dbObjects;
+	public DatasetContainer(List<Dataset> datasets, List<ColumnDefinition> columns) {
+		this.datasets = datasets;
 		
 		properties = new LinkedHashMap<String, String>();
 		for (ColumnDefinition column : columns) {
@@ -46,14 +46,14 @@ public class DocumentContainer implements Container {
 	
 	@Override
 	public boolean containsId(Object itemId) {
-		return dbObjects.contains(itemId);
+		return datasets.contains(itemId);
 	}
 	
 	@Override
 	public Property getContainerProperty(Object itemId, Object propertyId) {
-		DBObject dbObject = (DBObject) itemId;
+		Dataset dataset = (Dataset) itemId;
 		String format = properties.get(propertyId);
-		String value = DBObjectUtil.format(dbObject, format);
+		String value = XMLUtil.evaluate(format, XMLUtil.parse(dataset.getContent()));
 		return new ObjectProperty<String>(value, String.class, true);
 	}
 	
@@ -64,12 +64,12 @@ public class DocumentContainer implements Container {
 
 	@Override
 	public Item getItem(Object itemId) {
-		return new DocumentItem((DBObject) itemId, properties);
+		return new DatasetItem((Dataset) itemId, properties);
 	}
 
 	@Override
 	public Collection<?> getItemIds() {
-		return dbObjects;
+		return datasets;
 	}
 	
 	@Override
@@ -94,7 +94,7 @@ public class DocumentContainer implements Container {
 	
 	@Override
 	public int size() {
-		return dbObjects.size();
+		return datasets.size();
 	}
 
 }

@@ -3,22 +3,22 @@ package de.jworks.datahub.presentation.data;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-import com.mongodb.DBObject;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 
-import de.jworks.datahub.business.util.DBObjectUtil;
+import de.jworks.datahub.business.documents.entity.Dataset;
+import de.jworks.datahub.business.util.XMLUtil;
 
 @SuppressWarnings("rawtypes")
-public class DocumentItem implements Item {
+public class DatasetItem implements Item {
 	
-	private DBObject dbObject;
+	private Dataset dataset;
 	
 	private LinkedHashMap<String, String> properties;
 
-	public DocumentItem(DBObject dbObject, LinkedHashMap<String, String> properties) {
-		this.dbObject = dbObject;
+	public DatasetItem(Dataset dataset, LinkedHashMap<String, String> properties) {
+		this.dataset = dataset;
 		this.properties = properties;
 	}
 
@@ -39,7 +39,7 @@ public class DocumentItem implements Item {
 	
 	@Override
 	public Property getItemProperty(Object id) {
-		return new ObjectProperty<Object>(DBObjectUtil.format(dbObject, properties.get(id)), Object.class, true);
+		return new ObjectProperty<Object>(XMLUtil.evaluate(properties.get(id), XMLUtil.parse(dataset.getContent())), Object.class, true);
 	}
 	
 }

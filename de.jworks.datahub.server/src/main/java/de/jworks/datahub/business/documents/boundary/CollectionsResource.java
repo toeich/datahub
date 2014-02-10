@@ -19,12 +19,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.mongodb.DBObject;
-
 import de.jworks.datahub.business.documents.controller.SchemaGenerator;
 import de.jworks.datahub.business.documents.entity.Dataset;
 import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.util.DBObjectUtil;
 
 @Path("collections")
 @Consumes(MediaType.APPLICATION_XML)
@@ -42,7 +39,7 @@ public class CollectionsResource {
 	 */
 	@GET
 	public Response getCollections() {
-		return Response.ok(new DocumentCollections(documentService.getCollections())).build();
+		return Response.ok(new DocumentCollections(documentService.getDatasetGroups())).build();
 	}
 	
 	/*
@@ -132,8 +129,6 @@ public class CollectionsResource {
 	@POST
 	@Path("{id}/documents")
 	public Response addDocument(@PathParam("id") long collectionId, String xml) {
-		DBObject document = DBObjectUtil.parse(xml);
-		documentService.addDocument(document);
 		return Response.ok().build();
 	}
 	

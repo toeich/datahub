@@ -3,18 +3,18 @@ package de.jworks.datahub.business.search.boundary;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mongodb.DBObject;
+import de.jworks.datahub.business.documents.entity.Dataset;
 
-public class SearchResult extends ArrayList<DBObject> {
+public class SearchResult extends ArrayList<Dataset> {
 
-	private List<DBObject> documents;
+	private List<Dataset> datasets;
 	
-	public List<DBObject> getDocuments() {
-		return documents;
+	public List<Dataset> getDocuments() {
+		return datasets;
 	}
 	
-	public void setDocuments(List<DBObject> documents) {
-		this.documents = documents;
+	public void setDocuments(List<Dataset> datasets) {
+		this.datasets = datasets;
 	}
 	
 }

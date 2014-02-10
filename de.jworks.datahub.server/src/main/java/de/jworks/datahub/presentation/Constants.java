@@ -2,7 +2,7 @@ package de.jworks.datahub.presentation;
 
 public interface Constants {
 
-	public String TITLE_PREFIX = "jworks Connector // ";
+	public String TITLE_PREFIX = "Data Hub // ";
 	
 	
 	public String TASKS = "tasks";
@@ -35,7 +35,7 @@ public interface Constants {
 	
 	public String USER_VIEW = "";
 	
-	public String USER_VIEW_CAPTION = "<b>jworks Connector</b>";
+	public String USER_VIEW_CAPTION = "<b>Data Hub</b>";
 	
 	public String USER_VIEW_PREFIX = "/";
 	

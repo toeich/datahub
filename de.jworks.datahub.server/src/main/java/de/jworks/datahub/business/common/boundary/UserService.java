@@ -34,10 +34,14 @@ public class UserService {
 	}
 
 	public User getUser(String name) {
-		return entityManager
-				.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class)
-				.setParameter("name", name)
-				.getSingleResult();
+		try {
+			return entityManager
+					.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class)
+					.setParameter("name", name)
+					.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void addUser(User user) {
