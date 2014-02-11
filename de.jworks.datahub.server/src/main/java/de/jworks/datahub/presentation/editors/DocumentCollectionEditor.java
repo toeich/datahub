@@ -31,6 +31,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.util.ReflectTools;
 
 import de.jworks.datahub.business.documents.entity.ColumnDefinition;
+import de.jworks.datahub.business.documents.entity.Dataset;
 import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 
@@ -73,7 +74,7 @@ public class DocumentCollectionEditor extends CustomComponent {
 	private BeanItemContainer<ColumnDefinition> columnDefinitions = new BeanItemContainer<ColumnDefinition>(ColumnDefinition.class);
 
 	
-	public DocumentCollectionEditor(final DatasetGroup collection, List<Project> projects) {
+	public DocumentCollectionEditor(final DatasetGroup datasetGroup, List<Project> projects) {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -85,10 +86,10 @@ public class DocumentCollectionEditor extends CustomComponent {
 		project.setContainerDataSource(new BeanItemContainer<Project>(Project.class, projects));
 		project.setItemCaptionPropertyId("name");
 
-		schemaEditor.setDocumentSchema(collection.getSchema());
+		schemaEditor.setDocumentSchema(datasetGroup.getSchema());
 		
 		
-		columnDefinitions = new BeanItemContainer<ColumnDefinition>(ColumnDefinition.class, collection.getColumns());
+		columnDefinitions = new BeanItemContainer<ColumnDefinition>(ColumnDefinition.class, datasetGroup.getColumns());
 		
 		columnsTable.addGeneratedColumn("actions", new ColumnsActionsColumn());
 		
@@ -115,7 +116,7 @@ public class DocumentCollectionEditor extends CustomComponent {
 		
 		
 		final FieldGroup fieldGroup = new FieldGroup();
-		fieldGroup.setItemDataSource(new BeanItem<DatasetGroup>(collection));
+		fieldGroup.setItemDataSource(new BeanItem<DatasetGroup>(datasetGroup));
 		fieldGroup.bindMemberFields(this);
 		
 		okButton.addClickListener(new ClickListener() {
@@ -123,9 +124,9 @@ public class DocumentCollectionEditor extends CustomComponent {
 			public void buttonClick(ClickEvent event) {
 				try {
 					fieldGroup.commit();
-					collection.setColumns(columnDefinitions.getItemIds());
-					collection.updateData();
-					fireEvent(new SaveEvent(DocumentCollectionEditor.this, collection));
+					datasetGroup.setColumns(columnDefinitions.getItemIds());
+					datasetGroup.updateData();
+					fireEvent(new SaveEvent(DocumentCollectionEditor.this, datasetGroup));
 				} catch (CommitException e) {
 					Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
 				}
@@ -142,24 +143,28 @@ public class DocumentCollectionEditor extends CustomComponent {
 		testButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				final Window window = new Window(collection.getSchema().getRootElement().getLabel());
+				final Window window = new Window(datasetGroup.getSchema().getRootElement().getLabel());
 				window.setWidth("80%");
 				window.setHeight("80%");
 				window.setModal(true);
 				window.setResizable(false);
 				window.setDraggable(false);
 				
-//				DocumentEditor editor = new DocumentEditor(new BasicDBObject(), collection.getSchema());
-//				editor.addSaveListener(new DocumentEditor.SaveListener() {
-//					@Override
-//					public void save(DocumentEditor.SaveEvent event) {
-//						if (event.getDocument() != null) {
-//							System.out.println(event.getDocument());
-//						}
-//						window.close();
-//					}
-//				});
-//				window.setContent(editor);
+				Dataset dataset = new Dataset();
+				dataset.setContent("<" + datasetGroup.getSchema().getRootElement().getName() + "/>");
+				dataset.setGroup(datasetGroup);
+				
+				DatasetEditor editor = new DatasetEditor(dataset);
+				editor.addSaveListener(new DatasetEditor.SaveListener() {
+					@Override
+					public void save(DatasetEditor.SaveEvent event) {
+						if (event.getDataset() != null) {
+							System.out.println(event.getDataset());
+						}
+						window.close();
+					}
+				});
+				window.setContent(editor);
 				
 				UI.getCurrent().addWindow(window);
 			}

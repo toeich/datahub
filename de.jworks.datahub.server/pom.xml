@@ -134,6 +134,13 @@
 			<artifactId>vaadin-cdi</artifactId>
 			<version>${vaadin.cdi.version}</version>
 		</dependency>
+		
+		<!-- Vaadin FontIcon -->
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>fonticon</artifactId>
+			<version>7.1.1</version>
+		</dependency>
 
 		<!-- SolrJ -->
 		<dependency>

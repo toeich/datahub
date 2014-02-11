@@ -26,7 +26,7 @@ import de.jworks.datahub.business.documents.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.data.DatasetContainer;
-import de.jworks.datahub.presentation.editors.DocumentEditor;
+import de.jworks.datahub.presentation.editors.DatasetEditor;
 
 public class UserViewProject extends CustomComponent {
 
@@ -154,10 +154,10 @@ public class UserViewProject extends CustomComponent {
 				}
 			});
 			
-			DocumentEditor editor = new DocumentEditor(dataset);
-			editor.addSaveListener(new DocumentEditor.SaveListener() {
+			DatasetEditor editor = new DatasetEditor(dataset);
+			editor.addSaveListener(new DatasetEditor.SaveListener() {
 				@Override
-				public void save(DocumentEditor.SaveEvent event) {
+				public void save(DatasetEditor.SaveEvent event) {
 					if (event.getDataset() != null) {
 						datasetService.updateDataset(event.getDataset());
 					}
@@ -228,10 +228,10 @@ public class UserViewProject extends CustomComponent {
 			final Dataset dataset = new Dataset();
 			dataset.setGroup(datasetGroup);
 			
-			DocumentEditor editor = new DocumentEditor(dataset);
-			editor.addSaveListener(new DocumentEditor.SaveListener() {
+			DatasetEditor editor = new DatasetEditor(dataset);
+			editor.addSaveListener(new DatasetEditor.SaveListener() {
 				@Override
-				public void save(DocumentEditor.SaveEvent event) {
+				public void save(DatasetEditor.SaveEvent event) {
 					if (event.getDataset() != null) {
 						datasetService.addDataset(dataset);
 					}
