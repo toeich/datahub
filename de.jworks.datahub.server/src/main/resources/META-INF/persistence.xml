@@ -16,6 +16,8 @@
 		<class>de.jworks.datahub.business.documents.entity.DatasetGroup</class>
 
 		<class>de.jworks.datahub.business.projects.entity.Project</class>
+		
+		<class>de.jworks.datahub.business.queries.entity.Query</class>
 
 		<class>de.jworks.datahub.business.systems.entity.System</class>
 
