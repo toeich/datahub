@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ejb.Asynchronous;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,11 +26,13 @@ public class CamelController {
 	EntityManager entityManager;
 
 	@Inject
-	CdiCamelContext camelContext;
+	Instance<CdiCamelContext> camelContexts;
 
 	@Asynchronous
 	public void updateCamelContext() {
 		try {
+			CdiCamelContext camelContext = camelContexts.iterator().next();
+			
 			String routesDefinition = buildRoutesDefinition();
 
 			System.out.println(routesDefinition);

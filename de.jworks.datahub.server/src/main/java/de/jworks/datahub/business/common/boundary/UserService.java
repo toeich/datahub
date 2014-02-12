@@ -13,7 +13,7 @@ import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
 
 @Stateless
-@RolesAllowed(Role.ADMIN)
+//@RolesAllowed(Role.ADMIN)
 public class UserService {
 
 	@Inject

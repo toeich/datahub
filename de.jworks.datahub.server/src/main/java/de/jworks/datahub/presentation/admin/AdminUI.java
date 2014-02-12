@@ -36,6 +36,7 @@ public class AdminUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		FontAwesome.load();
+		
 		Page.getCurrent().setTitle("Data Hub // Admin");
 		
 		root = new VerticalLayout();

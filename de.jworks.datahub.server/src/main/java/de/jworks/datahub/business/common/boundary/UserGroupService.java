@@ -11,7 +11,7 @@ import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.UserGroup;
 
 @Stateless
-@RolesAllowed({ Role.ADMIN })
+//@RolesAllowed({ Role.ADMIN })
 public class UserGroupService {
 
 	@Inject
