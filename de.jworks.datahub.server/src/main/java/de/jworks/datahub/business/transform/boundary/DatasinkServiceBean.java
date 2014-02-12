@@ -18,6 +18,7 @@ import de.jworks.datahub.business.transform.boundary.DatasinkService;
 import de.jworks.datahub.business.transform.controller.CamelController;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.ItemType;
 
 @Stateless
 public class DatasinkServiceBean implements DatasinkService {
@@ -51,7 +52,7 @@ public class DatasinkServiceBean implements DatasinkService {
     }
 
 	private Input createInput(Element element) {
-		Input output = new Input(element.getLabel(), element.getName(), null);
+		Input output = new Input(element.getLabel(), element.getName(), ItemType.XML_ELEMENT);
 		for (Element e : element.getElements()) {
 			output.addInput(createInput(e));
 		}
@@ -62,7 +63,7 @@ public class DatasinkServiceBean implements DatasinkService {
 	}
     
     private Input createInput(Attribute attribute) {
-    	return new Input(attribute.getLabel(), attribute.getName(), null);
+    	return new Input(attribute.getLabel(), attribute.getName(), ItemType.XML_ELEMENT);
 	}
 
     @Override

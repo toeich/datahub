@@ -22,7 +22,7 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		instance = this;
 		
-		String baseUrl = "http://localhost:18080/de.jworks.connector.server";
+		String baseUrl = "http://localhost:18080/de.jworks.datahub.server";
 		
 		HessianProxyFactory factory = new HessianProxyFactory();
 		DatasourceService datasourceService = (DatasourceService) factory.create(baseUrl + "/DatasourceService");
