@@ -9,7 +9,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 
-import de.jworks.datahub.business.documents.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.Dataset;
 
 @Stateless
 public class SearchService {

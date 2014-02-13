@@ -9,8 +9,8 @@ import javax.persistence.EntityManager;
 
 import de.jworks.datahub.business.common.boundary.AccessControlService;
 import de.jworks.datahub.business.common.entity.Permission;
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.Role;
-import de.jworks.datahub.business.projects.entity.Project;
 
 @Stateless
 public class ProjectService {

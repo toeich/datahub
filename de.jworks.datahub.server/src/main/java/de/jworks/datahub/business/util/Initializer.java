@@ -8,13 +8,13 @@ import javax.persistence.EntityManager;
 
 import de.jworks.datahub.business.common.boundary.UserGroupService;
 import de.jworks.datahub.business.common.boundary.UserService;
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
-import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.documents.entity.Element;
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.entity.Element;
 import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.boundary.DatasinkService;
 import de.jworks.datahub.business.transform.boundary.DatasourceService;

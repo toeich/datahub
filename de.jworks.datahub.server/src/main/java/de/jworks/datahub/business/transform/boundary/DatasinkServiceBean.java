@@ -10,9 +10,9 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.documents.entity.Element;
+import de.jworks.datahub.business.datasets.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.entity.Element;
 import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.boundary.DatasinkService;
 import de.jworks.datahub.business.transform.controller.CamelController;

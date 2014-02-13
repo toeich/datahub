@@ -30,10 +30,10 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.util.ReflectTools;
 
-import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.Dataset;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
+import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
+import de.jworks.datahub.business.datasets.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 public class DocumentCollectionEditor extends CustomComponent {
 	

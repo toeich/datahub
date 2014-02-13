@@ -9,15 +9,14 @@
 		<class>de.jworks.datahub.business.common.entity.AccessControlEntry</class>
 		<class>de.jworks.datahub.business.common.entity.AccessControlList</class>
 		<class>de.jworks.datahub.business.common.entity.Principal</class>
+		<class>de.jworks.datahub.business.common.entity.Project</class>
 		<class>de.jworks.datahub.business.common.entity.User</class>
 		<class>de.jworks.datahub.business.common.entity.UserGroup</class>
 
-		<class>de.jworks.datahub.business.documents.entity.Dataset</class>
-		<class>de.jworks.datahub.business.documents.entity.DatasetGroup</class>
+		<class>de.jworks.datahub.business.datasets.entity.Dataset</class>
+		<class>de.jworks.datahub.business.datasets.entity.DatasetGroup</class>
 
-		<class>de.jworks.datahub.business.projects.entity.Project</class>
-		
-		<class>de.jworks.datahub.business.queries.entity.Query</class>
+		<class>de.jworks.datahub.business.dataflows.entity.Query</class>
 
 		<class>de.jworks.datahub.business.systems.entity.System</class>
 
@@ -26,8 +25,10 @@
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 			<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+<!--
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.format_sql" value="true"/>
+-->
 		</properties>
 		
 	</persistence-unit>

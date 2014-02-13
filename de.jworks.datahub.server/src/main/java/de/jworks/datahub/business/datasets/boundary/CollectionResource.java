@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.boundary;
+package de.jworks.datahub.business.datasets.boundary;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 @Path("collection")
 @Consumes(MediaType.APPLICATION_XML)

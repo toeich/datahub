@@ -19,10 +19,10 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import de.jworks.datahub.business.common.boundary.UserService;
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.Role;
-import de.jworks.datahub.business.documents.boundary.DatasetService;
+import de.jworks.datahub.business.datasets.boundary.DatasetService;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
-import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Constants;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.editors.UserEditor;

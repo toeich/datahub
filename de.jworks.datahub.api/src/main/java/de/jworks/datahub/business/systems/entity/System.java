@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.xml.bind.JAXB;
 
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 
 @Entity
 public class System {

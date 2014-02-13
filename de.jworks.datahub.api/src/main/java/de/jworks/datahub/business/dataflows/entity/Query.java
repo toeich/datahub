@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.queries.entity;
+package de.jworks.datahub.business.dataflows.entity;
 
 import java.io.Serializable;
 import java.io.StringReader;
@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.PrePersist;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,6 +15,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import de.jworks.datahub.business.transform.entity.Datasink;
 
 @Entity
 @XmlRootElement
@@ -30,10 +33,11 @@ public class Query implements Serializable {
 	@XmlAttribute
 	private String name;
 	
-	private String schemaData;
+	@Lob
+	private String datasinkData;
 	
-	private transient QuerySchema schema;
-
+	private transient Datasink datasink;
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,33 +50,33 @@ public class Query implements Serializable {
 		this.name = name;
 	}
 
-	public String getSchemaData() {
-		return schemaData;
+	public String getDatasinkData() {
+		return datasinkData;
 	}
 
-	public void setSchemaData(String schemaData) {
-		this.schemaData = schemaData;
+	public void setDatasinkData(String datasinkData) {
+		this.datasinkData = datasinkData;
 	}
 
 	@XmlElement
-	public QuerySchema getSchema() {
-		if (schema == null) {
+	public Datasink getDatasink() {
+		if (datasink == null) {
 			try {
-				StringReader stringReader = new StringReader(schemaData);
-				schema = JAXB.unmarshal(stringReader, QuerySchema.class);
+				StringReader stringReader = new StringReader(datasinkData);
+				datasink = JAXB.unmarshal(stringReader, Datasink.class);
 			} catch (Exception e) {
-				schema = new QuerySchema();
+				datasink = new Datasink();
 			}
 		}
-		return schema;
+		return datasink;
 	}
 
 	@PrePersist
 	public void updateData() {
-		if (schema != null) {
+		if (datasink != null) {
 			StringWriter stringWriter = new StringWriter();
-			JAXB.marshal(schema, stringWriter);
-			schemaData = stringWriter.toString();
+			JAXB.marshal(datasink, stringWriter);
+			datasinkData = stringWriter.toString();
 		}
 	}
 	

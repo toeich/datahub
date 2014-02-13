@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.boundary;
+package de.jworks.datahub.business.datasets.boundary;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import de.jworks.datahub.business.common.boundary.AccessControlService;
-import de.jworks.datahub.business.documents.entity.Dataset;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
+import de.jworks.datahub.business.datasets.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 @Stateless
 public class DatasetService {

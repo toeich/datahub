@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 
 public class ProjectTest {
 	

@@ -1,7 +1,7 @@
-package de.jworks.datahub.business.documents.controller;
+package de.jworks.datahub.business.datasets.controller;
 
-import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.Element;
+import de.jworks.datahub.business.datasets.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.Element;
 
 
 public class SchemaGenerator {

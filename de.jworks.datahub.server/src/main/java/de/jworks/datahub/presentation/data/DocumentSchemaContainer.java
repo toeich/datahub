@@ -10,9 +10,9 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
 
-import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DatasetSchema;
-import de.jworks.datahub.business.documents.entity.Element;
+import de.jworks.datahub.business.datasets.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.DatasetSchema;
+import de.jworks.datahub.business.datasets.entity.Element;
 
 public class DocumentSchemaContainer implements Container.Hierarchical {
 	
@@ -103,7 +103,7 @@ public class DocumentSchemaContainer implements Container.Hierarchical {
 			return ((Element) itemId).getParent();
 		}
 		if (itemId instanceof Attribute) {
-			return ((de.jworks.datahub.business.documents.entity.Item) itemId).getParent();
+			return ((de.jworks.datahub.business.datasets.entity.Item) itemId).getParent();
 		}
 		return null;
 	}

@@ -9,7 +9,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.jworks.datahub.business.documents.entity.Element;
+import de.jworks.datahub.business.datasets.entity.Element;
 
 public class ElementEditor extends CustomComponent {
 

@@ -25,7 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.util.ReflectTools;
 
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Datasource;

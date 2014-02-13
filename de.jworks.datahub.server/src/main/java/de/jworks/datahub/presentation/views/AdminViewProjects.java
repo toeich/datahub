@@ -21,8 +21,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
-import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.editors.ProjectEditor;
 import de.jworks.datahub.presentation.editors.ProjectEditor.SaveEvent;

@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.entity;
+package de.jworks.datahub.business.datasets.entity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

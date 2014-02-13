@@ -8,7 +8,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.jworks.datahub.business.documents.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.Attribute;
 
 public class AttributeEditor extends CustomComponent {
 

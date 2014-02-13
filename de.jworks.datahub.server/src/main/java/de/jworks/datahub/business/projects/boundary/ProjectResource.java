@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import de.jworks.datahub.business.common.entity.AccessControlList;
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 
 @Path("projects/{projectName}")
 @Consumes({ MediaType.APPLICATION_XML })

@@ -19,11 +19,11 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import de.jworks.datahub.business.documents.boundary.DatasetService;
-import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.Dataset;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
+import de.jworks.datahub.business.datasets.boundary.DatasetService;
+import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
+import de.jworks.datahub.business.datasets.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.data.DatasetContainer;
 import de.jworks.datahub.presentation.editors.DatasetEditor;

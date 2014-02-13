@@ -21,8 +21,8 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.Window.CloseEvent;
 import com.vaadin.ui.Window.CloseListener;
 
-import de.jworks.datahub.business.documents.boundary.DatasetService;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.boundary.DatasetService;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.editors.DocumentCollectionEditor;
 import de.jworks.datahub.presentation.editors.DocumentCollectionEditor.SaveEvent;

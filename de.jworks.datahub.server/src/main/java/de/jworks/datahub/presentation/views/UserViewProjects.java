@@ -15,8 +15,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
-import de.jworks.datahub.business.projects.entity.Project;
 import de.jworks.datahub.presentation.Constants;
 import de.jworks.datahub.presentation.Messages;
 

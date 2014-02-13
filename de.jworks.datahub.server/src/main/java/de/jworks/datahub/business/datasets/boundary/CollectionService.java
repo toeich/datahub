@@ -1,10 +1,10 @@
-package de.jworks.datahub.business.documents.boundary;
+package de.jworks.datahub.business.datasets.boundary;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 @Stateless
 public class CollectionService {

@@ -20,10 +20,10 @@ import com.vaadin.ui.Tree.TreeDragMode;
 import com.vaadin.ui.Tree.TreeTargetDetails;
 import com.vaadin.ui.VerticalLayout;
 
-import de.jworks.datahub.business.documents.entity.Attribute;
-import de.jworks.datahub.business.documents.entity.DatasetSchema;
-import de.jworks.datahub.business.documents.entity.Element;
-import de.jworks.datahub.business.documents.entity.Item;
+import de.jworks.datahub.business.datasets.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.DatasetSchema;
+import de.jworks.datahub.business.datasets.entity.Element;
+import de.jworks.datahub.business.datasets.entity.Item;
 import de.jworks.datahub.presentation.data.DocumentSchemaContainer;
 
 public class DocumentSchemaEditor extends CustomComponent {

@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.entity;
+package de.jworks.datahub.business.datasets.entity;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 
 @Entity
 @XmlRootElement(name = "collection")

@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.boundary;
+package de.jworks.datahub.business.datasets.boundary;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

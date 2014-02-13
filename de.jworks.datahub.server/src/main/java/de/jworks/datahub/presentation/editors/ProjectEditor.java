@@ -20,7 +20,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.util.ReflectTools;
 
-import de.jworks.datahub.business.projects.entity.Project;
+import de.jworks.datahub.business.common.entity.Project;
 
 public class ProjectEditor extends CustomComponent {
 

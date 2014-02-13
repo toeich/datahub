@@ -9,8 +9,8 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 
-import de.jworks.datahub.business.documents.entity.ColumnDefinition;
-import de.jworks.datahub.business.documents.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
+import de.jworks.datahub.business.datasets.entity.Dataset;
 import de.jworks.datahub.business.util.XMLUtil;
 
 @SuppressWarnings("rawtypes")

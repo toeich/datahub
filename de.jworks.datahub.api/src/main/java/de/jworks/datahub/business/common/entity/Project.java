@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.projects.entity;
+package de.jworks.datahub.business.common.entity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToOne;
-
-import de.jworks.datahub.business.common.entity.AccessControlAware;
-import de.jworks.datahub.business.common.entity.AccessControlList;
 
 @Entity
 public class Project implements AccessControlAware {

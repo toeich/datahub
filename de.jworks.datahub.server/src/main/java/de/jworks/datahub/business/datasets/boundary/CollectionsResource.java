@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.documents.boundary;
+package de.jworks.datahub.business.datasets.boundary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.jworks.datahub.business.documents.controller.SchemaGenerator;
-import de.jworks.datahub.business.documents.entity.Dataset;
-import de.jworks.datahub.business.documents.entity.DatasetGroup;
+import de.jworks.datahub.business.datasets.controller.SchemaGenerator;
+import de.jworks.datahub.business.datasets.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 @Path("collections")
 @Consumes(MediaType.APPLICATION_XML)
