@@ -19,9 +19,10 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.User;
+import de.jworks.datahub.presentation.AdminUI;
 
-@CDIView(value = "user-show", supportsParameters = true, uis = { AdminUI.class })
-public class UserShowView extends CustomComponent implements View {
+@CDIView(value = "user-edit", supportsParameters = true, uis = { AdminUI.class })
+public class UserEditView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -49,7 +50,7 @@ public class UserShowView extends CustomComponent implements View {
 	@Inject
 	UserService userService;
 	
-	public UserShowView() {
+	public UserEditView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 

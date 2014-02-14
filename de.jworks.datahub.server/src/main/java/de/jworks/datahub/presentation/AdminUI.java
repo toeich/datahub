@@ -1,4 +1,4 @@
-package de.jworks.datahub.presentation.admin;
+package de.jworks.datahub.presentation;
 
 import javax.inject.Inject;
 
@@ -23,12 +23,13 @@ public class AdminUI extends UI {
 	AccessControl accessControl;
 	
 	@Inject
-	LoginView loginView;
+	AdminLoginView loginView;
 	
 	@Inject
-	Header1 header1;
+	AccountHeader accountHeader;
+	
 	@Inject
-	Header2 header2;
+	AdminHeader adminHeader;
 	
 	@Inject
 	CDIViewProvider provider;
@@ -46,8 +47,8 @@ public class AdminUI extends UI {
 		if (accessControl.isUserSignedIn()) {
 			root.removeAllComponents();
 			
-			root.addComponent(header1);
-			root.addComponent(header2);
+			root.addComponent(accountHeader);
+			root.addComponent(adminHeader);
 			
 			content = new VerticalLayout();
 			content.setSizeFull();
@@ -55,6 +56,7 @@ public class AdminUI extends UI {
 			root.setExpandRatio(content, 1.0f);
 			
 			Navigator navigator = new Navigator(this, content);
+			navigator.setErrorView(AdminErrorView.class);
 			navigator.addProvider(provider);
 		} else {
 			root.removeAllComponents();

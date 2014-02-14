@@ -20,6 +20,8 @@ public class DatasetService {
 	@Inject
 	AccessControlService accessControlService;
 	
+	// ===== DATASET GROUP =====
+	
 	public List<DatasetGroup> getDatasetGroups() {
 		List<DatasetGroup> result = entityManager
 				.createQuery("SELECT dg FROM DatasetGroup dg", DatasetGroup.class)
@@ -37,55 +39,57 @@ public class DatasetService {
 		return result;
 	}
 
-	public DatasetGroup getCollection(long collectionId) {
-		DatasetGroup collection = entityManager.find(DatasetGroup.class, collectionId);
-		return collection;
+	public DatasetGroup getDatasetGroup(long datasetGroupId) {
+		DatasetGroup result = entityManager.find(DatasetGroup.class, datasetGroupId);
+		return result;
 	}
 	
-	public DatasetGroup addCollection(DatasetGroup collection) {
-		entityManager.persist(collection);
-		return collection;
+	public DatasetGroup addDatasetGroup(DatasetGroup datasetGroup) {
+		entityManager.persist(datasetGroup);
+		return datasetGroup;
 	}
 	
-	public DatasetGroup updateCollection(DatasetGroup collection) {
-		DatasetGroup _collection = getCollection(collection.getId());
-		_collection.setName(collection.getName());
-		_collection.setDescription(collection.getDescription());
-		return _collection;
+	public DatasetGroup updateDatasetGroup(DatasetGroup datasetGroup) {
+		DatasetGroup _datasetGroup = getDatasetGroup(datasetGroup.getId());
+		_datasetGroup.setName(datasetGroup.getName());
+		_datasetGroup.setDescription(datasetGroup.getDescription());
+		return _datasetGroup;
 	}
 	
-	public void removeCollection(DatasetGroup collection) {
-		DatasetGroup _collection = getCollection(collection.getId());
-		entityManager.remove(_collection);
+	public void removeDatasetGroup(DatasetGroup datasetGroup) {
+		DatasetGroup _datasetGroup = getDatasetGroup(datasetGroup.getId());
+		entityManager.remove(_datasetGroup);
 	}
 
+	// ===== DATASET =====
+	
 	public List<Dataset> getDatasets(DatasetGroup datasetGroup) {
-		try {
-			return null;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void addDataset(Dataset dataset) {
-		try {
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		List<Dataset> result = entityManager
+				.createQuery("SELECT d FROM Dataset d WHERE d.group = :group", Dataset.class)
+				.setParameter("group", datasetGroup)
+				.getResultList();
+		return result;
 	}
 	
-	public void updateDataset(Dataset dataset) {
-		try {
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public Dataset getDataset(long datasetId) {
+		Dataset result = entityManager.find(Dataset.class, datasetId);
+		return result;
+	}
+
+	public Dataset addDataset(Dataset dataset) {
+		entityManager.persist(dataset);
+		return dataset;
+	}
+	
+	public Dataset updateDataset(Dataset dataset) {
+		Dataset _dataset = getDataset(dataset.getId());
+		_dataset.setContent(dataset.getContent());
+		return _dataset;
 	}
 	
 	public void removeDataset(Dataset dataset) {
-		try {
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		Dataset _dataset = getDataset(dataset.getId());
+		entityManager.remove(_dataset);
 	}
-	
+
 }

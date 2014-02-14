@@ -25,9 +25,10 @@ import de.jworks.datahub.business.datasets.boundary.DatasetService;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.Constants;
 import de.jworks.datahub.presentation.Messages;
+import de.jworks.datahub.presentation.UserUI;
 import de.jworks.datahub.presentation.editors.UserEditor;
 
-@CDIView
+@CDIView(uis = { UserUI.class })
 //@RolesAllowed({ Role.USER })
 public class UserView extends CustomComponent implements View, Constants {
 	

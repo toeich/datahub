@@ -13,6 +13,8 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
+import de.jworks.datahub.presentation.AdminUI;
+
 @CDIView(value = "connectors", uis = { AdminUI.class })
 public class ConnectorsView extends CustomComponent implements View {
 

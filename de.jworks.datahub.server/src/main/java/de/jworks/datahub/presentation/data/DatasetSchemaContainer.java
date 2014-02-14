@@ -14,11 +14,11 @@ import de.jworks.datahub.business.datasets.entity.Attribute;
 import de.jworks.datahub.business.datasets.entity.DatasetSchema;
 import de.jworks.datahub.business.datasets.entity.Element;
 
-public class DocumentSchemaContainer implements Container.Hierarchical {
+public class DatasetSchemaContainer implements Container.Hierarchical {
 	
 	private DatasetSchema documentSchema;
 	
-	public DocumentSchemaContainer(DatasetSchema documentSchema) {
+	public DatasetSchemaContainer(DatasetSchema documentSchema) {
 		this.documentSchema = documentSchema;
 	}
 

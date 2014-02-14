@@ -15,6 +15,8 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Table.ColumnHeaderMode;
 
+import de.jworks.datahub.presentation.AdminUI;
+
 @CDIView(value = "dataflows", uis = { AdminUI.class })
 public class DataflowsView extends CustomComponent implements View {
 

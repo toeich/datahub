@@ -25,6 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
+import de.jworks.datahub.presentation.AdminUI;
 
 @CDIView(value = "project-new", supportsParameters = true, uis = { AdminUI.class })
 public class ProjectNewView extends CustomComponent implements View {

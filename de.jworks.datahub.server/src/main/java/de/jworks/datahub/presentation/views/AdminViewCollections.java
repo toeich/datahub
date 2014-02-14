@@ -95,7 +95,7 @@ public class AdminViewCollections extends CustomComponent {
 				@Override
 				public void save(SaveEvent event) {
 					if (event.getCollection() != null) {
-						documentService.addCollection(event.getCollection());
+						documentService.addDatasetGroup(event.getCollection());
 					}
 					window.close();
 				}
@@ -153,7 +153,7 @@ public class AdminViewCollections extends CustomComponent {
 				@Override
 				public void save(SaveEvent event) {
 					if (event.getCollection() != null) {
-						documentService.updateCollection(event.getCollection());
+						documentService.updateDatasetGroup(event.getCollection());
 					}
 					window.close();
 				}
@@ -180,7 +180,7 @@ public class AdminViewCollections extends CustomComponent {
 		
 		@Override
 		public void buttonClick(ClickEvent event) {
-			documentService.removeCollection(collection);
+			documentService.removeDatasetGroup(collection);
 		}
 		
 	}

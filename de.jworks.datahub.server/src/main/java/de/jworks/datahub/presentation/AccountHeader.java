@@ -1,4 +1,4 @@
-package de.jworks.datahub.presentation.admin;
+package de.jworks.datahub.presentation;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,7 @@ import com.vaadin.ui.MenuBar.MenuItem;
 
 import de.jworks.datahub.business.common.entity.User;
 
-public class Header1 extends CustomComponent {
+public class AccountHeader extends CustomComponent {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -28,7 +28,7 @@ public class Header1 extends CustomComponent {
 	@Inject
 	User user;
 	
-	public Header1() {
+	public AccountHeader() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
