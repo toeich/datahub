@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ResourceBundle;
 
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -42,6 +43,7 @@ public class Messages {
 				if (value != null && !value.startsWith("!")) {
 					try {
 						Label label = Label.class.cast(field.get(customComponent));
+						label.setContentMode(ContentMode.HTML);
 						label.setValue(value);
 					} catch (Exception e) {
 						// ignore
