@@ -27,7 +27,7 @@ import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 
-@CDIView(value = "alldatasetgroups", uis = { UserUI.class })
+@CDIView(value = "datasetgroups#", uis = { UserUI.class })
 public class DatasetGroupsView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -65,13 +65,13 @@ public class DatasetGroupsView extends CustomComponent implements View {
 		label.setValue(Icon.home + " / Dataset Groups");
 		
 		datasetGroupsTab.setMargin(new MarginInfo(true, false, false, false));
-//		datasetGroupsTable.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
+		
 		datasetGroupsTable.setContainerDataSource(datasetGroups, Arrays.asList("name", "description"));
 		datasetGroupsTable.addItemClickListener(new ItemClickListener() {
 			@Override
 			public void itemClick(ItemClickEvent event) {
 				DatasetGroup  datasetGroup = datasetGroups.getItem(event.getItemId()).getBean();
-				UI.getCurrent().getNavigator().navigateTo(String.format("datasetgroup/" + datasetGroup.getId()));
+				UI.getCurrent().getNavigator().navigateTo(String.format("datasetgroup#/" + datasetGroup.getId()));
 			}
 		});
 	}

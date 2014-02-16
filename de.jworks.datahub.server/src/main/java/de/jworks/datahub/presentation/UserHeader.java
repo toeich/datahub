@@ -35,28 +35,27 @@ public class UserHeader extends CustomComponent {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		// TODO add user code here
 		label.setContentMode(ContentMode.HTML);
 		label.setValue(Icon.globe.variant(IconVariant.SIZE_LARGE) + " Data Hub");
 		
 		projectsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("allprojects");
+				UI.getCurrent().getNavigator().navigateTo("projects#");
 			}
 		});
 		
 		datasetsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("alldatasetgroups");
+				UI.getCurrent().getNavigator().navigateTo("datasetgroups#");
 			}
 		});
 		
 		dataflowsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("alldataflows");
+				UI.getCurrent().getNavigator().navigateTo("dataflows#");
 			}
 		});
 	}

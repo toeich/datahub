@@ -89,7 +89,7 @@ public class DatasetSchemaContainer implements Container.Hierarchical {
 
 	@Override
 	public Item getItem(Object itemId) {
-		throw new UnsupportedOperationException("not implemented");
+		return null;
 	}
 
 	@Override
