@@ -1,4 +1,4 @@
-package de.jworks.datahub.presentation.data;
+package de.jworks.datahub.presentation.editors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,12 +16,16 @@ import de.jworks.datahub.business.datasets.entity.Element;
 
 public class DatasetSchemaContainer implements Container.Hierarchical {
 	
-	private DatasetSchema documentSchema;
+	private List<?> rootItemIds;
 	
 	public DatasetSchemaContainer(DatasetSchema documentSchema) {
-		this.documentSchema = documentSchema;
+		this(documentSchema.getRootElement());
 	}
-
+	
+	public DatasetSchemaContainer(Element rootElement) {
+		rootItemIds = Arrays.asList(rootElement);
+	}
+	
 	@Override
 	public boolean addContainerProperty(Object propertyId, Class<?> type, Object defaultValue) throws UnsupportedOperationException {
 		throw new UnsupportedOperationException();
@@ -143,8 +147,7 @@ public class DatasetSchemaContainer implements Container.Hierarchical {
 
 	@Override
 	public java.util.Collection<?> rootItemIds() {
-		List<? extends Object> rootItemIds = Arrays.asList(documentSchema.getRootElement());
-		return Collections.unmodifiableCollection(rootItemIds);
+		return rootItemIds;
 	}
 
 	@Override

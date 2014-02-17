@@ -17,6 +17,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.jworks.datahub.business.transform.entity.Datasink;
+import de.jworks.datahub.business.transform.entity.Datasource;
+import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.ItemType;
+import de.jworks.datahub.business.transform.entity.Transformation;
+import de.jworks.datahub.business.transform.entity.TransformationDefinition;
 
 @Entity
 @XmlRootElement
@@ -34,9 +39,9 @@ public class Query implements Serializable {
 	private String name;
 	
 	@Lob
-	private String datasinkData;
+	private String transformationData;
 	
-	private transient Datasink datasink;
+	private transient Transformation transformation;
 	
 	public Long getId() {
 		return id;
@@ -50,33 +55,44 @@ public class Query implements Serializable {
 		this.name = name;
 	}
 
-	public String getDatasinkData() {
-		return datasinkData;
+	public String getTransformationData() {
+		return transformationData;
 	}
 
-	public void setDatasinkData(String datasinkData) {
-		this.datasinkData = datasinkData;
+	public void setTransformationData(String transformationData) {
+		this.transformationData = transformationData;
 	}
 
 	@XmlElement
-	public Datasink getDatasink() {
-		if (datasink == null) {
+	public Transformation getTransformation() {
+		if (transformation == null) {
 			try {
-				StringReader stringReader = new StringReader(datasinkData);
-				datasink = JAXB.unmarshal(stringReader, Datasink.class);
+				StringReader stringReader = new StringReader(transformationData);
+				transformation = JAXB.unmarshal(stringReader, Transformation.class);
 			} catch (Exception e) {
-				datasink = new Datasink();
+				transformation = new Transformation();
+				
+				TransformationDefinition definition = transformation.getDefinition();
+				
+				Datasource datasource = new Datasource();
+				datasource.setName("params");
+				definition.setDatasource(datasource);
+				
+				Datasink datasink = new Datasink();
+				datasink.setName("result");
+				datasink.getSchema().addInput(new Input("result", "result", ItemType.XML_ELEMENT));
+				definition.setDatasink(datasink);
 			}
 		}
-		return datasink;
+		return transformation;
 	}
 
 	@PrePersist
 	public void updateData() {
-		if (datasink != null) {
+		if (transformation != null) {
 			StringWriter stringWriter = new StringWriter();
-			JAXB.marshal(datasink, stringWriter);
-			datasinkData = stringWriter.toString();
+			JAXB.marshal(transformation, stringWriter);
+			transformationData = stringWriter.toString();
 		}
 	}
 	
