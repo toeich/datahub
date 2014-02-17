@@ -9,7 +9,7 @@ public class AdminErrorView extends CustomComponent implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		UI.getCurrent().getNavigator().navigateTo("users");
+		UI.getCurrent().getNavigator().navigateTo("users!/");
 	}
 
 }

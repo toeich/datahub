@@ -7,4 +7,5 @@ public class ConstantFigure extends ComponentFigure {
 	public ConstantFigure(String name, List<String> inputSpecs, List<String> outputSpecs) {
 		super(name, inputSpecs, outputSpecs);
 	}
+	
 }

@@ -38,7 +38,7 @@ public class DatasourceServiceBean implements DatasourceService {
     			.getResultList();
     	for (System system : systems) {
     		for (Datasource datasource : system.getSchemaDetached().getDatasources()) {
-    			datasource.setName(system.getName() + "::" + datasource.getName());
+    			datasource.setName(system.getName() + "__" + datasource.getName());
     			result.add(datasource);
     		}
     	}
@@ -80,17 +80,17 @@ public class DatasourceServiceBean implements DatasourceService {
 	@Override
     public Datasource findDatasourceByName(String name) {
     	try {
-    		if (StringUtils.contains(name, "::")) {
+    		if (StringUtils.contains(name, "__")) {
     			// system datasource
-    			String systemName = StringUtils.substringBefore(name, "::");
-    			String datasourceName = StringUtils.substringAfter(name, "::");
+    			String systemName = StringUtils.substringBefore(name, "__");
+    			String datasourceName = StringUtils.substringAfter(name, "__");
     			System system = entityManager
     					.createQuery("SELECT s FROM System s WHERE s.name = :name", System.class)
     					.setParameter("name", systemName)
     					.getSingleResult();
     			for (Datasource datasource : system.getSchemaDetached().getDatasources()) {
     				if (StringUtils.equals(datasourceName, datasource.getName())) {
-    					datasource.setName(system.getName() + "::" + datasource.getName());
+    					datasource.setName(system.getName() + "__" + datasource.getName());
     					return datasource;
     				}
     			}

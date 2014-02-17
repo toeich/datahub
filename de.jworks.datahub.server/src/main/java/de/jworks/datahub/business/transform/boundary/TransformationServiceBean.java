@@ -23,21 +23,6 @@ public class TransformationServiceBean implements TransformationService {
     @Inject
     CamelController camelController;
 
-    @PostConstruct
-    public void init() {
-    	try {
-    		System.out.println("###");
-			Enumeration<URL> resources = Thread.currentThread().getContextClassLoader().getResources(".");
-			while (resources.hasMoreElements()) {
-				URL resource = (URL) resources.nextElement();
-				System.out.println(resource);
-			}
-			System.out.println("###");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-    }
-    
     @Override
     public List<Transformation> getTransformations() {
         List<Transformation> transformations = entityManager

@@ -9,6 +9,7 @@ import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TabSheet;
 
 public class Messages {
 
@@ -33,6 +34,10 @@ public class Messages {
 					try {
 						Component component = Component.class.cast(field.get(customComponent));
 						component.setCaption(caption);
+						if (component.getParent() instanceof TabSheet) {
+							TabSheet tabSheet = (TabSheet) component.getParent();
+							tabSheet.getTab(component).setCaption(caption);
+						}
 					} catch (Exception e) {
 						// ignore
 					}

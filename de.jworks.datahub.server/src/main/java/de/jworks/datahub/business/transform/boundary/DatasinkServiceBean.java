@@ -69,9 +69,9 @@ public class DatasinkServiceBean implements DatasinkService {
     @Override
     public Datasink findDatasinkByName(String name) {
     	try {
-    		if (StringUtils.contains(name, "::")) {
-    			String systemName = StringUtils.substringBefore(name, "::");
-    			String datasinkName = StringUtils.substringAfter(name, "::");
+    		if (StringUtils.contains(name, "__")) {
+    			String systemName = StringUtils.substringBefore(name, "__");
+    			String datasinkName = StringUtils.substringAfter(name, "__");
     			System system = entityManager
     					.createQuery("SELECT s FROM System s WHERE s.name = :name", System.class)
     					.setParameter("name", systemName)

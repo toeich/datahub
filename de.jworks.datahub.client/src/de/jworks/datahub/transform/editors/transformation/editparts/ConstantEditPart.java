@@ -20,4 +20,5 @@ public class ConstantEditPart extends TransformationComponentEditPart {
 	protected IFigure createFigure() {
 		return new ConstantFigure(getConstant().getName(), getInputSpecs(), getOutputSpecs());
 	}
+	
 }

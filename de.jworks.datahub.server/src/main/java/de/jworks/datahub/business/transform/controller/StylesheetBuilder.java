@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -26,6 +27,8 @@ import de.jworks.datahub.business.transform.entity.Transformation;
 import de.jworks.datahub.business.transform.entity.TransformationComponent;
 
 public class StylesheetBuilder {
+	
+	private static final Logger logger = Logger.getLogger(StylesheetBuilder.class.getName()); 
 
 	private Transformation transformation;
 
@@ -73,8 +76,7 @@ public class StylesheetBuilder {
 
 		String stylesheet = builder.toString();
 
-		System.out.println(transformation);
-		System.out.println(stylesheet);
+		logger.info("stylesheet of transformation '" + transformation + "':\n" + stylesheet);
 
 		return new StreamSource(new StringReader(stylesheet));
 	}

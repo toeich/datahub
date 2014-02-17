@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.ejb.Asynchronous;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.apache.camel.cdi.CdiCamelContext;
 import org.apache.camel.model.RoutesDefinition;
@@ -21,10 +21,13 @@ import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
 public class CamelController {
-
-	@PersistenceContext
+	
+	@Inject
+	Logger logger;
+	
+	@Inject
 	EntityManager entityManager;
-
+	
 	@Inject
 	Instance<CdiCamelContext> camelContexts;
 
@@ -35,7 +38,7 @@ public class CamelController {
 			
 			String routesDefinition = buildRoutesDefinition();
 
-			System.out.println(routesDefinition);
+			logger.info("new camel routes:\n" + routesDefinition);
 			
 			try {
 				camelContext.stop();

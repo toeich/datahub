@@ -257,7 +257,7 @@ public class Initializer {
 		// Transformation "import cmi24 products"
 		Transformation transformation1 = new Transformation();
 		transformation1.setName("import cmi24 products");
-		transformation1.getDefinition().setDatasource(datasourceService.findDatasourceByName("cmi24::Products"));
+		transformation1.getDefinition().setDatasource(datasourceService.findDatasourceByName("cmi24__Products"));
 		transformation1.getDefinition().setDatasink(datasinkService.findDatasinkByName("cmi24_Products"));
 		entityManager.persist(transformation1);
 		
