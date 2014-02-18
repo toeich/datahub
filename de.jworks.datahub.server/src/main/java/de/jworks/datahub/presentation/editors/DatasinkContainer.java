@@ -1,18 +1,22 @@
 package de.jworks.datahub.presentation.editors;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
 
-import de.jworks.datahub.business.datasets.entity.Attribute;
-import de.jworks.datahub.business.datasets.entity.Element;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Input;
 
 public class DatasinkContainer implements Container.Hierarchical {
 	
 	private Datasink datasink;
+	
+	private final Map<Input, Input> parents = new HashMap<Input, Input>();
 
 	public DatasinkContainer(Datasink datasink) {
 		this.datasink = datasink;
@@ -45,7 +49,12 @@ public class DatasinkContainer implements Container.Hierarchical {
 
 	@Override
 	public java.util.Collection<?> getChildren(Object itemId) {
-		return ((Input) itemId).getInputs();
+		Input parent = (Input) itemId;
+		List<Input> children = parent.getInputs();
+		for (Input child : children) {
+			parents.put(child, parent);
+		}
+		return children;
 	}
 
 	@Override
@@ -73,8 +82,7 @@ public class DatasinkContainer implements Container.Hierarchical {
 
 	@Override
 	public Object getParent(Object itemId) {
-//		return ((Input) itemId).getParent();
-		return null;
+		return parents.get(itemId);
 	}
 
 	@Override

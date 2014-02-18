@@ -231,12 +231,6 @@
       <perspectiveExtension
             targetID="de.jworks.fps.transform.transformations">
          <newWizardShortcut
-               id="de.jworks.fps.transform.datasource">
-         </newWizardShortcut>
-         <newWizardShortcut
-               id="de.jworks.fps.transform.datasink">
-         </newWizardShortcut>
-         <newWizardShortcut
                id="de.jworks.fps.transform.transformation">
          </newWizardShortcut>
          <viewShortcut
@@ -244,7 +238,8 @@
          </viewShortcut>
          <view
                id="de.jworks.fps.transform.transformations"
-               relationship="stack"
+               ratio="0.25"
+               relationship="left"
                relative="org.eclipse.ui.editorss">
          </view>
       </perspectiveExtension>
@@ -260,12 +255,12 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            class="de.jworks.connector.transform.views.TransformationsView"
+            class="de.jworks.datahub.transform.views.TransformationsView"
             id="de.jworks.fps.transform.transformations"
             name="Transformations">
       </view>
       <view
-            class="de.jworks.connector.transform.views.SchemaGeneratorView"
+            class="de.jworks.datahub.transform.views.SchemaGeneratorView"
             id="de.jworks.fps.presentation.transform.views.SchemaGeneratorView"
             name="SchemaGenerator">
       </view>
@@ -273,17 +268,7 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
-            class="de.jworks.connector.transform.wizards.NewDatasourceWizard"
-            id="de.jworks.fps.transform.datasource"
-            name="Datasource">
-      </wizard>
-      <wizard
-            class="de.jworks.connector.transform.wizards.NewDatasinkWizard"
-            id="de.jworks.fps.transform.datasink"
-            name="Datasink">
-      </wizard>
-      <wizard
-            class="de.jworks.connector.transform.wizards.NewTransformationWizard"
+            class="de.jworks.datahub.transform.wizards.NewTransformationWizard"
             id="de.jworks.fps.transform.transformation"
             name="Transformation">
       </wizard>

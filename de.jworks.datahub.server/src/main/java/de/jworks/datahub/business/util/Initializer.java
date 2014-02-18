@@ -9,15 +9,14 @@ import javax.persistence.EntityManager;
 import de.jworks.datahub.business.common.boundary.UserGroupService;
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.Project;
-import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
+import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.datasets.entity.Element;
 import de.jworks.datahub.business.systems.entity.System;
-import de.jworks.datahub.business.transform.boundary.DatasinkService;
-import de.jworks.datahub.business.transform.boundary.DatasourceService;
+import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.controller.CamelController;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Datasource;
@@ -25,6 +24,7 @@ import de.jworks.datahub.business.transform.entity.Input;
 import de.jworks.datahub.business.transform.entity.ItemType;
 import de.jworks.datahub.business.transform.entity.Output;
 import de.jworks.datahub.business.transform.entity.Transformation;
+import de.jworks.datahub.business.transform.entity.TransformationType;
 
 @Singleton
 @Startup
@@ -43,10 +43,7 @@ public class Initializer {
 	UserGroupService userGroupService;
 	
 	@Inject
-	DatasourceService datasourceService;
-	
-	@Inject
-	DatasinkService datasinkService;
+	TransformationService transformationService;
 	
 	@PostConstruct
 	public void init() {
@@ -256,9 +253,10 @@ public class Initializer {
 		
 		// Transformation "import cmi24 products"
 		Transformation transformation1 = new Transformation();
+		transformation1.setType(TransformationType.Import);
 		transformation1.setName("import cmi24 products");
-		transformation1.getDefinition().setDatasource(datasourceService.findDatasourceByName("cmi24__Products"));
-		transformation1.getDefinition().setDatasink(datasinkService.findDatasinkByName("cmi24_Products"));
+		transformation1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__Products"));
+		transformation1.getDefinition().setDatasink(transformationService.findDatasinkByName("cmi24_Products"));
 		entityManager.persist(transformation1);
 		
 //		// Transformation "import sap products"

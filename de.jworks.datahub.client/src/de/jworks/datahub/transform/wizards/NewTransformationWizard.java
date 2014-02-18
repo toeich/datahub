@@ -1,4 +1,4 @@
-package de.jworks.connector.transform.wizards;
+package de.jworks.datahub.transform.wizards;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -6,9 +6,9 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import de.jworks.connector.transform.views.TransformationsView;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.entity.Transformation;
+import de.jworks.datahub.transform.views.TransformationsView;
 
 public class NewTransformationWizard extends Wizard implements INewWizard {
 

@@ -1,7 +1,5 @@
 package de.jworks.datahub.client;
 
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
@@ -11,12 +9,4 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
         super(configurer);
     }
 
-    @Override
-	protected void fillMenuBar(IMenuManager menuBar) {
-    }
-
-    @Override
-	protected void makeActions(IWorkbenchWindow window) {
-    }
-    
 }

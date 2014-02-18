@@ -10,8 +10,11 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Table;
 
 public class Messages {
+	
+	private static final boolean DEBUG = false;
 
 	public static String getString(String key) {
 		try {
@@ -30,7 +33,7 @@ public class Messages {
 			field.setAccessible(true);
 			if (Component.class.isAssignableFrom(field.getType())) {
 				String caption = getString(customComponent, field.getName() + "_caption");
-				if (caption != null && !caption.startsWith("!")) {
+				if ((caption != null && !caption.startsWith("!")) || DEBUG) {
 					try {
 						Component component = Component.class.cast(field.get(customComponent));
 						component.setCaption(caption);
@@ -45,7 +48,7 @@ public class Messages {
 			}
 			if (Label.class.isAssignableFrom(field.getType())) {
 				String value = getString(customComponent, field.getName() + "_value");
-				if (value != null && !value.startsWith("!")) {
+				if ((value != null && !value.startsWith("!")) || DEBUG) {
 					try {
 						Label label = Label.class.cast(field.get(customComponent));
 						label.setContentMode(ContentMode.HTML);
@@ -57,7 +60,7 @@ public class Messages {
 			}
 			if (AbstractTextField.class.isAssignableFrom(field.getType())) {
 				String inputPrompt = getString(customComponent, field.getName() + "_inputPrompt");
-				if (inputPrompt != null && !inputPrompt.startsWith("!")) {
+				if ((inputPrompt != null && !inputPrompt.startsWith("!")) || DEBUG) {
 					try {
 						AbstractTextField abstractTextField = AbstractTextField.class.cast(field.get(customComponent));
 						abstractTextField.setInputPrompt(inputPrompt);
@@ -65,6 +68,19 @@ public class Messages {
 					} catch (Exception e) {
 						// ignore
 					}
+				}
+			}
+			if (Table.class.isAssignableFrom(field.getType())) {
+				try {
+					Table table = Table.class.cast(field.get(customComponent));
+					for (Object propertyId : table.getContainerPropertyIds()) {
+						String header = getString(customComponent, field.getName() + "_" + propertyId);
+						if ((header != null && !header.startsWith("!")) || DEBUG) {
+							table.setColumnHeader(propertyId, header);
+						}
+					}
+				} catch (Exception e) {
+					// ignore
 				}
 			}
 		}

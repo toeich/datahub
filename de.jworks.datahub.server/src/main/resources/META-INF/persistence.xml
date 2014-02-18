@@ -16,8 +16,6 @@
 		<class>de.jworks.datahub.business.datasets.entity.Dataset</class>
 		<class>de.jworks.datahub.business.datasets.entity.DatasetGroup</class>
 
-		<class>de.jworks.datahub.business.dataflows.entity.Query</class>
-
 		<class>de.jworks.datahub.business.systems.entity.System</class>
 
 		<class>de.jworks.datahub.business.transform.entity.Transformation</class>

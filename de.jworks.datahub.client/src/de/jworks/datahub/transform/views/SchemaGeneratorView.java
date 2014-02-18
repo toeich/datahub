@@ -1,4 +1,4 @@
-package de.jworks.connector.transform.views;
+package de.jworks.datahub.transform.views;
 
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -12,8 +12,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
-import de.jworks.connector.transform.tools.SchemaGenerator;
-import de.jworks.connector.transform.tools.SchemaGenerator.SchemaType;
+import de.jworks.datahub.transform.tools.SchemaGenerator;
+import de.jworks.datahub.transform.tools.SchemaGenerator.SchemaType;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 

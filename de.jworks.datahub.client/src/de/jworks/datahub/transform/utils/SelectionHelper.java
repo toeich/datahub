@@ -1,4 +1,4 @@
-package de.jworks.connector.transform.utils;
+package de.jworks.datahub.transform.utils;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

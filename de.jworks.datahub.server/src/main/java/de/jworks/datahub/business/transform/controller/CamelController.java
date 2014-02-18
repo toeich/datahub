@@ -2,6 +2,7 @@ package de.jworks.datahub.business.transform.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Transformation;
+import de.jworks.datahub.business.transform.entity.TransformationType;
 
 public class CamelController {
 	
@@ -63,7 +65,8 @@ public class CamelController {
 		builder.append("<routes xmlns='http://camel.apache.org/schema/spring'>\n\n");
 
 		List<Transformation> transformations = entityManager.createQuery(
-				"select t from Transformation t", Transformation.class)
+				"SELECT t FROM Transformation t WHERE t.type in :types", Transformation.class)
+				.setParameter("types", Arrays.asList(TransformationType.Import, TransformationType.ExternalDataflow))
 				.getResultList();
 		Set<Datasource> datasources = new HashSet<Datasource>();
 		for (Transformation transformation : transformations) {

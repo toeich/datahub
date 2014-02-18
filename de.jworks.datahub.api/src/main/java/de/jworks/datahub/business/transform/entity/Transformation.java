@@ -27,6 +27,8 @@ public class Transformation extends Notifier {
 	
 	private String description;
 	
+	private TransformationType type;
+	
 	@ManyToOne
 	private Project project;
 	
@@ -56,6 +58,14 @@ public class Transformation extends Notifier {
 		this.description = description;
 	}
 	
+	public TransformationType getType() {
+		return type;
+	}
+
+	public void setType(TransformationType type) {
+		this.type = type;
+	}
+
 	public Project getProject() {
 		return project;
 	}

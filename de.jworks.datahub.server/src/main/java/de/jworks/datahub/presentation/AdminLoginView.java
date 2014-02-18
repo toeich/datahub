@@ -47,6 +47,9 @@ public class AdminLoginView extends CustomComponent {
 		setCompositionRoot(mainLayout);
 		
 		Messages.translate(this);
+		
+		usernameField.setValue("admin");
+		passwordField.setValue("passme");
 
 		signInButton.addClickListener(new ClickListener() {
 			@Override

@@ -23,8 +23,12 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import de.jworks.datahub.business.dataflows.boundary.DataflowService;
-import de.jworks.datahub.business.dataflows.entity.Query;
+import de.jworks.datahub.business.transform.boundary.TransformationService;
+import de.jworks.datahub.business.transform.entity.Datasink;
+import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.ItemType;
+import de.jworks.datahub.business.transform.entity.Transformation;
+import de.jworks.datahub.business.transform.entity.TransformationType;
 import de.jworks.datahub.presentation.AdminUI;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.editors.DatasinkEditor;
@@ -60,11 +64,11 @@ public class QueryView extends CustomComponent implements View {
 	private Label label;
 	
 	@Inject
-	DataflowService dataflowService;
+	TransformationService transformationService;
 	
 	private FieldGroup fieldGroup;
 	
-	private Query query;
+	private Transformation query;
 	
 	public QueryView() {
 		buildMainLayout();
@@ -84,9 +88,9 @@ public class QueryView extends CustomComponent implements View {
 				try {
 					fieldGroup.commit();
 					if (query.getId() == null) {
-						dataflowService.addQuery(query);
+						transformationService.addTransformation(query);
 					} else {
-						dataflowService.updateQuery(query);
+						transformationService.updateTransformation(query);
 					}
 					UI.getCurrent().getNavigator().navigateTo("dataflows!/");
 				} catch (CommitException e) {
@@ -108,20 +112,25 @@ public class QueryView extends CustomComponent implements View {
 		try {
 			try {
 				long queryId = Long.parseLong(event.getParameters());
-				query = dataflowService.getQuery(queryId);
+				query = transformationService.getTransformation(queryId);
 			} catch (Exception e) {
-				query = new Query();
+				query = new Transformation();
 				query.setName("New Query");
+				query.setType(TransformationType.Query);
+				Datasink datasink = new Datasink();
+				datasink.setName("QueryResult");
+				datasink.getSchema().addInput(new Input("result", "result", ItemType.XML_ELEMENT));
+				query.getDefinition().setDatasink(datasink);
 			}
 
 			label.setValue("<li class='icon-home'></li> / Dataflows / " + query.getName());
 
 			tabSheet.setSelectedTab(queryTab);
 
-			fieldGroup.setItemDataSource(new BeanItem<Query>(query));
+			fieldGroup.setItemDataSource(new BeanItem<Transformation>(query));
 			fieldGroup.bindMemberFields(this);
 			
-			datasinkEditor.setDatasink(query.getTransformation().getDefinition().getDatasink());
+			datasinkEditor.setDatasink(query.getDefinition().getDatasink());
 		} catch (Exception e) {
 			UI.getCurrent().getNavigator().navigateTo("dataflows!/");
 		}

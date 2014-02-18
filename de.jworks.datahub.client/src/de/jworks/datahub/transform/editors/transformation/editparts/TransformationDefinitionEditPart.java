@@ -10,6 +10,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
+import de.jworks.datahub.business.transform.entity.Datasink;
+import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Transformation;
 import de.jworks.datahub.business.transform.entity.TransformationDefinition;
 import de.jworks.datahub.transform.editors.transformation.editpolicies.TransformationDefinitionLayoutEditPoliy;
@@ -36,8 +38,14 @@ public class TransformationDefinitionEditPart extends AbstractGraphicalEditPart 
 	@Override
 	protected List<?> getModelChildren() {
 		List<Object> children = new ArrayList<Object>();
-		children.add(getModel().getDatasource());
-		children.add(getModel().getDatasink());
+		Datasink datasink = getModel().getDatasink();
+		if (datasink != null) {
+			children.add(datasink);
+		}
+		Datasource datasource = getModel().getDatasource();
+		if (datasource != null) {
+			children.add(datasource);
+		}
 		children.addAll(getModel().getComponents());
 		return children;
 	}

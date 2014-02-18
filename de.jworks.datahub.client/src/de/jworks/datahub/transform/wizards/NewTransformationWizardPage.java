@@ -1,4 +1,4 @@
-package de.jworks.connector.transform.wizards;
+package de.jworks.datahub.transform.wizards;
 
 import org.eclipse.core.databinding.DataBindingContext;
 import org.eclipse.core.databinding.beans.BeanProperties;
@@ -18,8 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
-import de.jworks.datahub.business.transform.boundary.DatasinkService;
-import de.jworks.datahub.business.transform.boundary.DatasourceService;
+import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.entity.Transformation;
 import de.jworks.datahub.business.transform.entity.TransformationDefinition;
 
@@ -86,11 +85,9 @@ public class NewTransformationWizardPage extends WizardPage {
 		
 		m_bindingContext = initDataBindings();
 		
-		DatasourceService datasourceService = (DatasourceService) PlatformUI.getWorkbench().getService(DatasourceService.class);
-		datasourceViewer.setInput(datasourceService.getDatasources());
-		
-		DatasinkService datasinkService = (DatasinkService) PlatformUI.getWorkbench().getService(DatasinkService.class);
-		datasinkViewer.setInput(datasinkService.getDatasinks());
+		TransformationService transformationService = (TransformationService) PlatformUI.getWorkbench().getService(TransformationService.class);
+		datasourceViewer.setInput(transformationService.getDatasources());
+		datasinkViewer.setInput(transformationService.getDatasinks());
 
 		WizardPageSupport.create(this, m_bindingContext);
 	}

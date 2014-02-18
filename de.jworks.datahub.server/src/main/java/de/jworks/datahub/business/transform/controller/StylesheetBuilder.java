@@ -82,7 +82,10 @@ public class StylesheetBuilder {
 	}
 
 	private void collectOutputs() {
-		collectOutputs(transformation.getDefinition().getDatasource());
+		Datasource datasource = transformation.getDefinition().getDatasource();
+		if (datasource != null) {
+			collectOutputs(datasource);
+		}
 		for (TransformationComponent component : transformation.getDefinition().getComponents()) {
 			collectOutputs(component);
 		}
@@ -113,7 +116,10 @@ public class StylesheetBuilder {
 	}
 
 	private void collectInputs() {
-		collectInputs(transformation.getDefinition().getDatasink());
+		Datasink datasink = transformation.getDefinition().getDatasink();
+		if (datasink != null) {
+			collectInputs(datasink);
+		}
 		for (TransformationComponent component : transformation.getDefinition().getComponents()) {
 			collectInputs(component);
 		}
@@ -200,16 +206,12 @@ public class StylesheetBuilder {
 
 		builder.append("<xsl:template match='/'>\n");
 		for (Input i : datasink.getSchema().getInputs()) {
-			if (sources.get(i) != null) {
-				builder.append("<xsl:call-template name='" + templateName(i) + "' />\n");
-			}
+			builder.append("<xsl:call-template name='" + templateName(i) + "' />\n");
 		}
 		builder.append("</xsl:template>\n\n");
 
 		for (Input i : datasink.getSchema().getInputs()) {
-			if (sources.get(i) != null) {
-				processInput(i, null);
-			}
+			processInput(i, null);
 		}
 
 		builder.append("</xsl:stylesheet>\n");
@@ -217,7 +219,10 @@ public class StylesheetBuilder {
 
 	private void processInput(Input input, Output context) {
 		builder.append("<xsl:template name='" + templateName(input) + "'>\n");
-		builder.append("<xsl:for-each select='" + expr(input, context) + "'>\n");
+		
+		if (sources.get(input) != null) {
+			builder.append("<xsl:for-each select='" + expr(input, context) + "'>\n");
+		}
 
 		switch (input.getType()) {
 		case XML_ELEMENT:
@@ -227,7 +232,7 @@ public class StylesheetBuilder {
 			builder.append("<xsl:attribute name='" + attributeName(input) + "'>\n");
 			break;
 		default:
-			// throw new RuntimeException("unsupported type: " + input.getType());
+			throw new RuntimeException("unsupported type: " + input.getType());
 		}
 
 		if (input.getInputs().size() > 0) {
@@ -248,10 +253,13 @@ public class StylesheetBuilder {
 			builder.append("</xsl:attribute>\n");
 			break;
 		default:
-			// throw new RuntimeException("unsupported type: " + input.getType());
+			throw new RuntimeException("unsupported type: " + input.getType());
 		}
 
-		builder.append("</xsl:for-each>\n");
+		if (sources.get(input) != null) {
+			builder.append("</xsl:for-each>\n");
+		}
+		
 		builder.append("</xsl:template>\n\n");
 
 		for (Input i : input.getInputs()) {
@@ -301,8 +309,10 @@ public class StylesheetBuilder {
 		List<Input> functionInputs = function.getSchema().getInputs();
 		Output functionContext = context(functionInputs);
 		StringBuilder builder = new StringBuilder();
-		builder.append(relativePath(functionContext, context));
-		builder.append("/");
+		if (functionContext != null) {
+			builder.append(relativePath(functionContext, context));
+			builder.append("/");
+		}
 		builder.append(function.getXpathFunction());
 		builder.append("(");
 		for (Input i : functionInputs) {
@@ -481,4 +491,5 @@ public class StylesheetBuilder {
 		}
 		return builder.toString();
 	}
+	
 }

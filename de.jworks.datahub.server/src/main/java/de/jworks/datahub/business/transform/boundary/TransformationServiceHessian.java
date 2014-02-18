@@ -8,33 +8,64 @@ import javax.inject.Inject;
 import com.caucho.hessian.server.HessianServlet;
 
 import de.jworks.datahub.business.transform.boundary.TransformationService;
+import de.jworks.datahub.business.transform.entity.Datasink;
+import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
 @Alternative
 public class TransformationServiceHessian extends HessianServlet implements TransformationService {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Inject
-    TransformationService transformationService;
+	TransformationService transformationService;
+
+	@Override
+	public List<Transformation> getTransformations() {
+		return transformationService.getTransformations();
+	}
+
+	@Override
+	public Transformation getTransformation(long transformationId) {
+		return transformationService.getTransformation(transformationId);
+	}
+	
+	@Override
+	public List<Transformation> getQueries() {
+		return transformationService.getQueries();
+	}
+
+	@Override
+	public void addTransformation(Transformation transformation) {
+		transformationService.addTransformation(transformation);
+	}
+
+	@Override
+	public void updateTransformation(Transformation transformation) {
+		transformationService.updateTransformation(transformation);
+	}
+
+	@Override
+	public void removeTransformation(Transformation transformation) {
+		transformationService.removeTransformation(transformation);
+	}
 
     @Override
-    public List<Transformation> getTransformations() {
-        return transformationService.getTransformations();
+    public List<Datasource> getDatasources() {
+        return transformationService.getDatasources();
     }
 
     @Override
-    public void addTransformation(Transformation transformation) {
-        transformationService.addTransformation(transformation);
+    public Datasource findDatasourceByName(String name) {
+        return transformationService.findDatasourceByName(name);
     }
 
     @Override
-    public void updateTransformation(Transformation transformation) {
-        transformationService.updateTransformation(transformation);
+    public List<Datasink> getDatasinks() {
+        return transformationService.getDatasinks();
     }
+
     @Override
-    public void removeTransformation(Transformation transformation) {
-    	transformationService.removeTransformation(transformation);
+    public Datasink findDatasinkByName(String name) {
+        return transformationService.findDatasinkByName(name);
     }
-    
+
 }

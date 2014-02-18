@@ -48,7 +48,9 @@ public class UserLoginView extends CustomComponent {
 
 		Messages.translate(this);
 		
-		signInButton.setClickShortcut(KeyCode.ENTER);
+		usernameField.setValue("admin");
+		passwordField.setValue("passme");
+		
 		signInButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
@@ -60,6 +62,7 @@ public class UserLoginView extends CustomComponent {
 				}
 			}
 		});
+		signInButton.setClickShortcut(KeyCode.ENTER);
 		
 		usernameField.focus();
 	}
