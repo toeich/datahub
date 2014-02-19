@@ -133,11 +133,12 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		toolsGroup.add(new SelectionToolEntry());
 		root.add(toolsGroup);
 		
-		PaletteGroup lookupsGroup = new PaletteGroup("Lookups");
+		PaletteDrawer lookupsDrawer = new PaletteDrawer("Lookups");
 		TransformationService transformationService = (TransformationService) PlatformUI.getWorkbench().getService(TransformationService.class);
 		for (Lookup lookup : transformationService.getLookups()) {
-			lookupsGroup.add(new CombinedTemplateCreationEntry(lookup.getName(), null, new TransformationComponentFactory(lookup), null, null));
+			lookupsDrawer.add(new CombinedTemplateCreationEntry(lookup.getName(), null, new TransformationComponentFactory(lookup), null, null));
 		}
+		root.add(lookupsDrawer);
 		
 		Enumeration<URL> entries = Activator.getDefault().getBundle().findEntries("/", "library.xml", true);
 		/*while*/ if (entries.hasMoreElements()) { 

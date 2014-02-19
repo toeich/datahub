@@ -28,7 +28,7 @@ import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 import de.jworks.datahub.presentation.editors.DatasetEditor;
 
-@CDIView(value = "dataset#", supportsParameters = true, uis = { UserUI.class })
+@CDIView(value = "dataset!", supportsParameters = true, uis = { UserUI.class })
 public class DatasetView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -87,21 +87,19 @@ public class DatasetView extends CustomComponent implements View {
 		saveButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				dataset.updateContent();
-				System.out.println(dataset.getContent());
 				if (dataset.getId() == null) {
 					datasetService.addDataset(dataset);
 				} else {
 					datasetService.updateDataset(dataset);
 				}
-				UI.getCurrent().getNavigator().navigateTo("datasetgroup#/" + dataset.getGroup().getId());
+				UI.getCurrent().getNavigator().navigateTo("datasetgroup!/" + dataset.getGroup().getId());
 			}
 		});
 		
 		cancelButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("datasetgroup#/" + dataset.getGroup().getId());
+				UI.getCurrent().getNavigator().navigateTo("datasetgroup!/" + dataset.getGroup().getId());
 			}
 		});
 		
@@ -132,7 +130,7 @@ public class DatasetView extends CustomComponent implements View {
 
 			datasetEditor.setDataset(dataset);
 		} catch (Exception e) {
-			UI.getCurrent().getNavigator().navigateTo("datasetgroups#");
+			UI.getCurrent().getNavigator().navigateTo("datasetgroups!/");
 		}
 	}
 

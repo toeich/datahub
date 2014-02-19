@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -71,7 +72,8 @@ public class Dataset implements Serializable {
 		return document;
 	}
 	
-	public void updateContent() {
+	@PrePersist
+	public void updateData() {
 		if (document != null) {
 			try {
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();

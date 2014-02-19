@@ -23,7 +23,7 @@ public class UserService {
 	
 	@Produces
 	public User getCurrentUser() {
-		return principal != null ? getUser(principal.getName()) : null;
+		return principal != null ? findUserByName(principal.getName()) : null;
 	}
 
 	public List<User> getUsers() {
@@ -37,7 +37,7 @@ public class UserService {
 				.find(User.class, userId);
 	}
 	
-	public User getUser(String name) {
+	public User findUserByName(String name) {
 		try {
 			return entityManager
 					.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class)
@@ -48,12 +48,13 @@ public class UserService {
 		}
 	}
 
-	public void addUser(User user) {
+	public User addUser(User user) {
 		entityManager.persist(user);
+		return user;
 	}
 	
-	public void updateUser(User user) {
-		entityManager.merge(user);
+	public User updateUser(User user) {
+		return entityManager.merge(user);
 	}
 	
 	public void removeUser(User user) {
@@ -77,8 +78,11 @@ public class UserService {
 	}
 	
 	public UserGroup updateUserGroup(UserGroup userGroup) {
-		UserGroup _userGroup = entityManager.merge(userGroup);
-		return _userGroup;
+		return entityManager.merge(userGroup);
 	}
 	
+	public void removeUserGroup(UserGroup userGroup) {
+		entityManager.remove(entityManager.merge(userGroup));
+	}
+
 }

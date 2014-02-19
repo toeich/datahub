@@ -8,8 +8,10 @@ import javax.persistence.EntityManager;
 
 import de.jworks.datahub.business.common.boundary.AccessControlService;
 import de.jworks.datahub.business.common.entity.Project;
+import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.Dataset;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
+import de.jworks.datahub.business.util.XMLUtil;
 
 @Stateless
 public class DatasetService {
@@ -23,25 +25,21 @@ public class DatasetService {
 	// ===== DATASET GROUP =====
 	
 	public List<DatasetGroup> getDatasetGroups() {
-		List<DatasetGroup> result = entityManager
+		return entityManager
 				.createQuery("SELECT dg FROM DatasetGroup dg", DatasetGroup.class)
 				.getResultList();
-//		accessControlService.filter(result, Permission.READ);
-		return result;
 	}
 
 	public List<DatasetGroup> getDatasetGroups(Project project) {
-		List<DatasetGroup> result = entityManager
+		return entityManager
 				.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.project IS NULL OR dg.project = :project", DatasetGroup.class)
 				.setParameter("project", project)
 				.getResultList();
-		// TODO filter result
-		return result;
 	}
 
 	public DatasetGroup getDatasetGroup(long datasetGroupId) {
-		DatasetGroup result = entityManager.find(DatasetGroup.class, datasetGroupId);
-		return result;
+		return entityManager
+				.find(DatasetGroup.class, datasetGroupId);
 	}
 	
 	public DatasetGroup addDatasetGroup(DatasetGroup datasetGroup) {
@@ -50,46 +48,50 @@ public class DatasetService {
 	}
 	
 	public DatasetGroup updateDatasetGroup(DatasetGroup datasetGroup) {
-		DatasetGroup _datasetGroup = getDatasetGroup(datasetGroup.getId());
-		_datasetGroup.setName(datasetGroup.getName());
-		_datasetGroup.setDescription(datasetGroup.getDescription());
-		return _datasetGroup;
+		datasetGroup.updateData();
+		return entityManager.merge(datasetGroup);
 	}
 	
 	public void removeDatasetGroup(DatasetGroup datasetGroup) {
-		DatasetGroup _datasetGroup = getDatasetGroup(datasetGroup.getId());
-		entityManager.remove(_datasetGroup);
+		entityManager.remove(entityManager.merge(datasetGroup));
 	}
 
 	// ===== DATASET =====
 	
 	public List<Dataset> getDatasets(DatasetGroup datasetGroup) {
-		List<Dataset> result = entityManager
+		return entityManager
 				.createQuery("SELECT d FROM Dataset d WHERE d.group = :group", Dataset.class)
 				.setParameter("group", datasetGroup)
 				.getResultList();
-		return result;
 	}
 	
 	public Dataset getDataset(long datasetId) {
-		Dataset result = entityManager.find(Dataset.class, datasetId);
-		return result;
+		return entityManager
+				.find(Dataset.class, datasetId);
 	}
 
 	public Dataset addDataset(Dataset dataset) {
 		entityManager.persist(dataset);
+		updateSearchIndex(dataset);
 		return dataset;
 	}
 	
 	public Dataset updateDataset(Dataset dataset) {
-		Dataset _dataset = getDataset(dataset.getId());
-		_dataset.setContent(dataset.getContent());
+		dataset.updateData();
+		Dataset _dataset = entityManager.merge(dataset);
+		updateSearchIndex(_dataset);
 		return _dataset;
 	}
 	
 	public void removeDataset(Dataset dataset) {
-		Dataset _dataset = getDataset(dataset.getId());
-		entityManager.remove(_dataset);
+		entityManager.remove(entityManager.merge(dataset));
 	}
 
+	private void updateSearchIndex(Dataset dataset) {
+		DatasetGroup datasetGroup = dataset.getGroup();
+		for (ColumnDefinition column : datasetGroup.getColumns()) {
+			System.out.format("%s : %s\n", column.getName(), XMLUtil.evaluate(column.getFormat(), dataset.getDocument()));
+		}
+	}
+	
 }

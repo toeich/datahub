@@ -6,7 +6,6 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import de.jworks.datahub.business.common.boundary.UserGroupService;
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.Role;
@@ -39,9 +38,6 @@ public class Initializer {
 	@Inject
 	UserService userService;
 
-	@Inject
-	UserGroupService userGroupService;
-	
 	@Inject
 	TransformationService transformationService;
 	
@@ -77,14 +73,14 @@ public class Initializer {
 		users.getRoles().add(Role.USER);
 		users.getUsers().add(admin);
 		users.getUsers().add(te);
-		userGroupService.addGroup(users);
+		userService.addUserGroup(users);
 
 		// Group "admins"
 		UserGroup admins = new UserGroup();
 		admins.setName("Admins");
 		admins.getRoles().add(Role.ADMIN);
 		admins.getUsers().add(admin);
-		userGroupService.addGroup(admins);
+		userService.addUserGroup(admins);
 
 		// Project "Catalogs"
 		{
@@ -196,7 +192,7 @@ public class Initializer {
 		rootElement.setLabel("Kunde");
 		rootElement.addAttribute("firstName").setLabel("Vorname");
 		rootElement.addAttribute("lastName").setLabel("Nachname");
-		collection.getColumns().add(new ColumnDefinition("Name", "{firstName} {lastName}"));
+		collection.getColumns().add(new ColumnDefinition("Name", "concat(/customer/@firstName, ' ', /customer/@lastName)"));
 		entityManager.persist(collection);
 		
 		// Collection "cmi24_Products"
@@ -208,8 +204,7 @@ public class Initializer {
 		cmi24Product.addAttribute("id").setLabel("ID");
 		cmi24Product.addAttribute("name").setLabel("Name");
 		cmi24Product.addAttribute("description").setLabel("Bescheibung");
-		cmi24Products.getColumns().add(new ColumnDefinition("ID", "{id}"));
-		cmi24Products.getColumns().add(new ColumnDefinition("Name", "{name}"));
+		cmi24Products.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
 		entityManager.persist(cmi24Products);
 		
 		// Collection "SAP_Products"
@@ -221,8 +216,7 @@ public class Initializer {
 		sapProduct.addAttribute("id").setLabel("ID");
 		sapProduct.addAttribute("name").setLabel("Name");
 		sapProduct.addAttribute("price").setLabel("Preis");
-		sapProducts.getColumns().add(new ColumnDefinition("ID", "{id}"));
-		sapProducts.getColumns().add(new ColumnDefinition("Name", "{name}"));
+		sapProducts.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
 		entityManager.persist(sapProducts);
 
 		// Collection "Catalogs"
@@ -248,7 +242,7 @@ public class Initializer {
 		product.addAttribute("product").setLabel("Produkt");
 		product.addAttribute("price").setLabel("Preis");
 		product.addAttribute("template").setLabel("Template");
-		catalogs.getColumns().add(new ColumnDefinition("Name", "{name}"));
+		catalogs.getColumns().add(new ColumnDefinition("Name", "/catalog/@name"));
 		entityManager.persist(catalogs);
 		
 		// Transformation "import cmi24 products"

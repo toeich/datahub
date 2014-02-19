@@ -33,7 +33,7 @@ import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 
-@CDIView(value = "project#", supportsParameters = true, uis = { UserUI.class })
+@CDIView(value = "project!", supportsParameters = true, uis = { UserUI.class })
 public class ProjectView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -93,7 +93,7 @@ public class ProjectView extends CustomComponent implements View {
 			@Override
 			public void itemClick(ItemClickEvent event) {
 				DatasetGroup datasetGroup = datasetGroups.getItem(event.getItemId()).getBean();
-				UI.getCurrent().getNavigator().navigateTo("datasetgroup#/" + datasetGroup.getId());
+				UI.getCurrent().getNavigator().navigateTo("datasetgroup!/" + datasetGroup.getId());
 			}
 		});
 		
@@ -114,7 +114,7 @@ public class ProjectView extends CustomComponent implements View {
 			
 			refreshDatasetGroupsTable();
 		} catch (Exception e) {
-			UI.getCurrent().getNavigator().navigateTo("projects#");
+			UI.getCurrent().getNavigator().navigateTo("projects!/");
 		}
 	}
 	

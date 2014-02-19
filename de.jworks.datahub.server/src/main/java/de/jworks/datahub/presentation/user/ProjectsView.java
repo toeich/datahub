@@ -27,7 +27,7 @@ import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 
-@CDIView(value = "projects#", uis = { UserUI.class })
+@CDIView(value = "projects!", uis = { UserUI.class })
 public class ProjectsView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -71,7 +71,7 @@ public class ProjectsView extends CustomComponent implements View {
 			@Override
 			public void itemClick(ItemClickEvent event) {
 				Project project = projects.getItem(event.getItemId()).getBean();
-				UI.getCurrent().getNavigator().navigateTo(String.format("project#/" + project.getId()));
+				UI.getCurrent().getNavigator().navigateTo(String.format("project!/" + project.getId()));
 			}
 		});
 	}

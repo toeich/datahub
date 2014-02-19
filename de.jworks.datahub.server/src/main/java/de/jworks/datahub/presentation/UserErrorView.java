@@ -9,7 +9,7 @@ public class UserErrorView extends CustomComponent implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		UI.getCurrent().getNavigator().navigateTo("projects#");
+		UI.getCurrent().getNavigator().navigateTo("projects!");
 	}
 
 }

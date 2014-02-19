@@ -41,21 +41,21 @@ public class UserHeader extends CustomComponent {
 		projectsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("projects#");
+				UI.getCurrent().getNavigator().navigateTo("projects!");
 			}
 		});
 		
 		datasetsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("datasetgroups#");
+				UI.getCurrent().getNavigator().navigateTo("datasetgroups!");
 			}
 		});
 		
 		dataflowsButton.addClickListener(new ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo("dataflows#");
+				UI.getCurrent().getNavigator().navigateTo("dataflows!");
 			}
 		});
 	}
