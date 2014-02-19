@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config xmlns="http://zanata.org/namespace/config/">
+  <url>http://localhost:38080/zanata/</url>
+  <project>DataHub</project>
+  <project-version>1.0</project-version>
+  <project-type>properties</project-type>
+
+  <locales>
+    <locale>de-DE</locale>
+  </locales>
+
+</config>
