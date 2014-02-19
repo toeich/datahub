@@ -32,42 +32,42 @@ public class Messages {
 		for (Field field : customComponent.getClass().getDeclaredFields()) {
 			field.setAccessible(true);
 			if (Component.class.isAssignableFrom(field.getType())) {
-				String caption = getString(customComponent, field.getName() + "_caption");
-				if ((caption != null && !caption.startsWith("!")) || DEBUG) {
-					try {
-						Component component = Component.class.cast(field.get(customComponent));
+				try {
+					Component component = Component.class.cast(field.get(customComponent));
+					String caption = getString(customComponent, field.getName() + "_caption");
+					if ((caption != null && !caption.startsWith("!")) || DEBUG) {
 						component.setCaption(caption);
 						if (component.getParent() instanceof TabSheet) {
 							TabSheet tabSheet = (TabSheet) component.getParent();
 							tabSheet.getTab(component).setCaption(caption);
 						}
-					} catch (Exception e) {
-						// ignore
 					}
+				} catch (Exception e) {
+					// ignore
 				}
 			}
 			if (Label.class.isAssignableFrom(field.getType())) {
-				String value = getString(customComponent, field.getName() + "_value");
-				if ((value != null && !value.startsWith("!")) || DEBUG) {
-					try {
-						Label label = Label.class.cast(field.get(customComponent));
-						label.setContentMode(ContentMode.HTML);
+				try {
+					Label label = Label.class.cast(field.get(customComponent));
+					label.setContentMode(ContentMode.HTML);
+					String value = getString(customComponent, field.getName() + "_value");
+					if ((value != null && !value.startsWith("!")) || DEBUG) {
 						label.setValue(value);
-					} catch (Exception e) {
-						// ignore
 					}
+				} catch (Exception e) {
+					// ignore
 				}
 			}
 			if (AbstractTextField.class.isAssignableFrom(field.getType())) {
-				String inputPrompt = getString(customComponent, field.getName() + "_inputPrompt");
-				if ((inputPrompt != null && !inputPrompt.startsWith("!")) || DEBUG) {
-					try {
-						AbstractTextField abstractTextField = AbstractTextField.class.cast(field.get(customComponent));
+				try {
+					AbstractTextField abstractTextField = AbstractTextField.class.cast(field.get(customComponent));
+					String inputPrompt = getString(customComponent, field.getName() + "_inputPrompt");
+					if ((inputPrompt != null && !inputPrompt.startsWith("!")) || DEBUG) {
 						abstractTextField.setInputPrompt(inputPrompt);
 						abstractTextField.setNullRepresentation(null);
-					} catch (Exception e) {
-						// ignore
 					}
+				} catch (Exception e) {
+					// ignore
 				}
 			}
 			if (Table.class.isAssignableFrom(field.getType())) {

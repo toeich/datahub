@@ -13,10 +13,10 @@
 		<class>de.jworks.datahub.business.common.entity.User</class>
 		<class>de.jworks.datahub.business.common.entity.UserGroup</class>
 
+		<class>de.jworks.datahub.business.connectors.entity.Connector</class>
+
 		<class>de.jworks.datahub.business.datasets.entity.Dataset</class>
 		<class>de.jworks.datahub.business.datasets.entity.DatasetGroup</class>
-
-		<class>de.jworks.datahub.business.systems.entity.System</class>
 
 		<class>de.jworks.datahub.business.transform.entity.Transformation</class>
 		

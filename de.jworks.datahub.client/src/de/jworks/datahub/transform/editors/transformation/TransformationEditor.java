@@ -37,6 +37,7 @@ import de.jworks.datahub.business.transform.entity.Constant;
 import de.jworks.datahub.business.transform.entity.Filter;
 import de.jworks.datahub.business.transform.entity.Group;
 import de.jworks.datahub.business.transform.entity.Library;
+import de.jworks.datahub.business.transform.entity.Lookup;
 import de.jworks.datahub.business.transform.entity.Transformation;
 import de.jworks.datahub.business.transform.entity.TransformationComponent;
 import de.jworks.datahub.client.Activator;
@@ -132,8 +133,14 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		toolsGroup.add(new SelectionToolEntry());
 		root.add(toolsGroup);
 		
-		Enumeration<URL> entries = Activator.getDefault().getBundle().findEntries("/bin", "library.xml", true);
-		while (entries.hasMoreElements()) {
+		PaletteGroup lookupsGroup = new PaletteGroup("Lookups");
+		TransformationService transformationService = (TransformationService) PlatformUI.getWorkbench().getService(TransformationService.class);
+		for (Lookup lookup : transformationService.getLookups()) {
+			lookupsGroup.add(new CombinedTemplateCreationEntry(lookup.getName(), null, new TransformationComponentFactory(lookup), null, null));
+		}
+		
+		Enumeration<URL> entries = Activator.getDefault().getBundle().findEntries("/", "library.xml", true);
+		/*while*/ if (entries.hasMoreElements()) { 
 			URL entry = (URL) entries.nextElement();
 			try {
 				Library library = JAXB.unmarshal(entry.openStream(), Library.class);

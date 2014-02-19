@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Datasource;
+import de.jworks.datahub.business.transform.entity.Lookup;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
 public interface TransformationService {
@@ -27,5 +28,9 @@ public interface TransformationService {
     public List<Datasink> getDatasinks();
 
     public Datasink findDatasinkByName(String name);
+
+    public List<Lookup> getLookups();
+
+    public Lookup findLookupkByName(String name);
 
 }

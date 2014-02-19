@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.systems.entity;
+package de.jworks.datahub.business.connectors.entity;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -15,7 +15,7 @@ import javax.xml.bind.JAXB;
 import de.jworks.datahub.business.common.entity.Project;
 
 @Entity
-public class System {
+public class Connector {
 
 	@Id
 	@GeneratedValue
@@ -32,7 +32,7 @@ public class System {
 	@Lob
 	private String schemaData;
 	
-	private transient SystemSchema schema;
+	private transient ConnectorSchema schema;
 
 	public Long getId() {
 		return id;
@@ -71,28 +71,28 @@ public class System {
 		this.schema = null;
 	}
 
-	public SystemSchema getSchema() {
+	public ConnectorSchema getSchema() {
 		if (schema == null) {
 			try {
 				StringReader stringReader = new StringReader(schemaData);
-				schema = JAXB.unmarshal(stringReader, SystemSchema.class);
+				schema = JAXB.unmarshal(stringReader, ConnectorSchema.class);
 				schema.resolve();
 			} catch (Exception e) {
-				schema = new SystemSchema();
+				schema = new ConnectorSchema();
 			}
 		}
 		return schema;
 	}
 	
-	public SystemSchema getSchemaDetached() {
+	public ConnectorSchema getSchemaDetached() {
 		updateData();
 		try {
 			StringReader stringReader = new StringReader(schemaData);
-			SystemSchema schema = JAXB.unmarshal(stringReader, SystemSchema.class);
+			ConnectorSchema schema = JAXB.unmarshal(stringReader, ConnectorSchema.class);
 			schema.resolve();
 			return schema;
 		} catch (Exception e) {
-			return new SystemSchema();
+			return new ConnectorSchema();
 		}
 	}
 	

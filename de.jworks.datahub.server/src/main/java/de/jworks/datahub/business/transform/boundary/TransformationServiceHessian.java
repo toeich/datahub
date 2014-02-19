@@ -10,6 +10,7 @@ import com.caucho.hessian.server.HessianServlet;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.entity.Datasink;
 import de.jworks.datahub.business.transform.entity.Datasource;
+import de.jworks.datahub.business.transform.entity.Lookup;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
 @Alternative
@@ -68,4 +69,14 @@ public class TransformationServiceHessian extends HessianServlet implements Tran
         return transformationService.findDatasinkByName(name);
     }
 
+    @Override
+    public List<Lookup> getLookups() {
+    	return transformationService.getLookups();
+    }
+    
+    @Override
+    public Lookup findLookupkByName(String name) {
+    	return transformationService.findLookupkByName(name);
+    }
+    
 }

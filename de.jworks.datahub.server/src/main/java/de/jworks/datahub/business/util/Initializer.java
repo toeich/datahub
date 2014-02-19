@@ -12,10 +12,10 @@ import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
 import de.jworks.datahub.business.common.entity.UserGroup;
+import de.jworks.datahub.business.connectors.entity.Connector;
 import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.datasets.entity.Element;
-import de.jworks.datahub.business.systems.entity.System;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.controller.CamelController;
 import de.jworks.datahub.business.transform.entity.Datasink;
@@ -95,7 +95,7 @@ public class Initializer {
 		
 		// System "cmi24"
 		{
-			System cmi24 = new System();
+			Connector cmi24 = new Connector();
 			cmi24.setName("cmi24");
 			
 			// Datasource "Products"
@@ -149,7 +149,7 @@ public class Initializer {
 		
 		// System "SAP"
 		{
-			System sap = new System();
+			Connector sap = new Connector();
 			sap.setName("SAP");
 			
 			// Datasource "Products"
@@ -171,7 +171,7 @@ public class Initializer {
 		
 		// System "FTP"
 		{
-			System ftp = new System();
+			Connector ftp = new Connector();
 			ftp.setName("FTP");
 			
 			// Datasink "Files"

@@ -142,7 +142,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 			fieldGroup.setItemDataSource(new BeanItem<DatasetGroup>(datasetGroup));
 			fieldGroup.bindMemberFields(this);
 
-			schemaEditor.setDocumentSchema(datasetGroup.getSchema());
+			schemaEditor.setDatasetSchema(datasetGroup.getSchema());
 		} catch (Exception e) {
 			UI.getCurrent().getNavigator().navigateTo("datasetgroups!/");
 		}

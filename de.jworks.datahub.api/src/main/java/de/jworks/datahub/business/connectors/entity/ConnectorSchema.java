@@ -1,4 +1,4 @@
-package de.jworks.datahub.business.systems.entity;
+package de.jworks.datahub.business.connectors.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import de.jworks.datahub.business.transform.entity.Datasource;
 
 @XmlRootElement(name = "system-schema")
 @XmlAccessorType(XmlAccessType.NONE)
-public class SystemSchema {
+public class ConnectorSchema {
 
 	@XmlElement(name = "datasource")
 	@XmlElementWrapper(name = "datasources")

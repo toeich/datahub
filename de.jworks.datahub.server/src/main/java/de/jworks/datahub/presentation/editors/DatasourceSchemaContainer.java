@@ -9,17 +9,17 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
 
-import de.jworks.datahub.business.transform.entity.Datasink;
-import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.ComponentSchema;
+import de.jworks.datahub.business.transform.entity.Output;
 
-public class DatasinkContainer implements Container.Hierarchical {
+public class DatasourceSchemaContainer implements Container.Hierarchical {
 	
-	private Datasink datasink;
+	private ComponentSchema schema;
 	
-	private final Map<Input, Input> parents = new HashMap<Input, Input>();
+	private final Map<Output, Output> parents = new HashMap<Output, Output>();
 
-	public DatasinkContainer(Datasink datasink) {
-		this.datasink = datasink;
+	public DatasourceSchemaContainer(ComponentSchema schema) {
+		this.schema = schema;
 	}
 	
 	@Override
@@ -49,9 +49,9 @@ public class DatasinkContainer implements Container.Hierarchical {
 
 	@Override
 	public java.util.Collection<?> getChildren(Object itemId) {
-		Input parent = (Input) itemId;
-		List<Input> children = parent.getInputs();
-		for (Input child : children) {
+		Output parent = (Output) itemId;
+		List<Output> children = parent.getOutputs();
+		for (Output child : children) {
 			parents.put(child, parent);
 		}
 		return children;
@@ -92,7 +92,7 @@ public class DatasinkContainer implements Container.Hierarchical {
 
 	@Override
 	public boolean hasChildren(Object itemId) {
-		return ((Input) itemId).getInputs().size() > 0;
+		return ((Output) itemId).getOutputs().size() > 0;
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class DatasinkContainer implements Container.Hierarchical {
 
 	@Override
 	public java.util.Collection<?> rootItemIds() {
-		return datasink.getSchema().getInputs();
+		return schema.getOutputs();
 	}
 
 	@Override
