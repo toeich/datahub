@@ -160,8 +160,8 @@ public class LazyLoadingContainer implements Container.Indexed, Container.Sortab
 	// binary search using the real id of the object, and map it to an index in the container
 
 	// id = real id (eg task id)
-	public int getIndexForObjectId(String id) {
-		Item searched = lazyLoadingQuery.loadSingleResult((String) id); 
+	public int getIndexForObjectId(Object itemId) {
+		Item searched = lazyLoadingQuery.loadSingleResult(itemId); 
 		if(searched == null) {
 			return -1;
 		}

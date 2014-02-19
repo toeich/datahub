@@ -216,6 +216,26 @@
 				</executions>
 			</plugin>
 
+				
+			<plugin>
+				<groupId>org.zanata</groupId>
+				<artifactId>zanata-maven-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<userConfig>${basedir}/zanata.ini</userConfig>
+					<srcDir>${basedir}/src/main/resources</srcDir>
+					<transDir>${basedir}/src/main/resources</transDir>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>pull</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 
 		<pluginManagement>
@@ -240,6 +260,19 @@
 											<goal>update-widgetset</goal>
 											<goal>compile-theme</goal>
 											<goal>compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.zanata</groupId>
+										<artifactId>zanata-maven-plugin</artifactId>
+										<versionRange>[3.3.0,)</versionRange>
+										<goals>
+											<goal>pull</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

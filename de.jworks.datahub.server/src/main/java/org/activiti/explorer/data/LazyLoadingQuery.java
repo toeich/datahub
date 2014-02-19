@@ -11,7 +11,7 @@ public interface LazyLoadingQuery extends Serializable {
 
 	public List<Item> loadItems(int start, int count);
 
-	public Item loadSingleResult(String id);
+	public Item loadSingleResult(Object itemId);
 
 	public void setLazyLoadingContainer(LazyLoadingContainer lazyLoadingContainer);
 

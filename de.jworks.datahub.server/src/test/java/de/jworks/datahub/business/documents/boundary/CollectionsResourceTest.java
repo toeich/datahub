@@ -26,7 +26,7 @@ public class CollectionsResourceTest {
 		});
 	}
 	
-	@Test
+//	@Test
 	public void testGetCollections() throws Exception {
 		URL url = new URL(BASE_URL);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -42,7 +42,7 @@ public class CollectionsResourceTest {
 		reader.close();
 	}
 	
-	@Test
+//	@Test
 	public void testAddCollection() throws Exception {
 		URL url = new URL(BASE_URL);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -64,7 +64,7 @@ public class CollectionsResourceTest {
 		reader.close();
 	}
 	
-	@Test
+//	@Test
 	public void testUpdateCollection() throws Exception {
 		URL url = new URL(BASE_URL);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -86,7 +86,7 @@ public class CollectionsResourceTest {
 		reader.close();
 	}
 	
-	@Test
+//	@Test
 	public void testDeleteCollection() throws Exception {
 		URL url = new URL(BASE_URL + "/10");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();

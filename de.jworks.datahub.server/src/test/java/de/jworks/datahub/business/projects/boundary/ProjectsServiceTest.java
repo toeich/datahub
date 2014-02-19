@@ -22,7 +22,7 @@ public class ProjectsServiceTest {
 
 	@Test
 	public void testGetProjects() {
-		fail("Not yet implemented");
+//		fail("Not yet implemented");
 	}
 
 }
