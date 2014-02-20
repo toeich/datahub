@@ -99,7 +99,7 @@ public class CamelController {
 		for (Transformation transformation : transformations) {
 			builder.append("<route id='transformation-" + transformation.getId() + "'>\n");
 			builder.append("<from uri='direct:transformation-" + transformation.getId() + "'/>\n");
-			builder.append("<to uri='xslt:" + transformation.getId() + "?uriResolver=transformURIResolver'/>\n");
+			builder.append("<to uri='xslt:xslt:" + transformation.getId() + "?uriResolver=transformURIResolver'/>\n");
 			builder.append("<to uri='direct:datasink-" + transformation.getDefinition().getDatasink().getName() + "'/>\n");
 			builder.append("</route>\n\n");
 		}

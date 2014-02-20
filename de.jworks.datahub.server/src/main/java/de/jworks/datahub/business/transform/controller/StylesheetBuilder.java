@@ -367,7 +367,7 @@ public class StylesheetBuilder {
 		StringBuilder builder = new StringBuilder();
 		builder.append(relativePath(lookupContext, context));
 		builder.append("/");
-		builder.append("document(concat(\"datasource:" + lookup.getDatasourceSpec() + "\"");
+		builder.append("document(concat(\"lookup:" + lookup.getDatasourceSpec() + "\"");
 		if (inputs.size() > 0) {
 			builder.append(",\"?");
 			for (Input input : inputs) {

@@ -37,19 +37,11 @@
 				<artifactId>zanata-maven-plugin</artifactId>
 				<version>3.3.0</version>
 				<configuration>
-					<userConfig>${basedir}/../de.jworks.datahub/zanata.ini</userConfig>
-					<projectConfig>${basedir}/../de.jworks.datahub/zanata.xml</projectConfig>
+					<userConfig>../de.jworks.datahub/zanata.ini</userConfig>
+					<projectConfig>../de.jworks.datahub/zanata.xml</projectConfig>
 					<srcDir>${basedir}/src/main/resources</srcDir>
 					<transDir>${basedir}/src/main/resources</transDir>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>pull</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 		</plugins>
