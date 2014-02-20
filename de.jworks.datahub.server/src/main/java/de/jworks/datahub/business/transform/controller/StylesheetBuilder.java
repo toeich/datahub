@@ -271,6 +271,7 @@ public class StylesheetBuilder {
 
 	private String expr(Input input, Output context) {
 		Output source = sources.get(input);
+		
 		Component sourceComponent = components.get(source);
 		
 		if (sourceComponent instanceof Datasource) {
@@ -306,8 +307,11 @@ public class StylesheetBuilder {
 
 	private String functionExpr(Output source, Output context) {
 		Function function = (Function) components.get(source);
+		
 		List<Input> functionInputs = function.getSchema().getInputs();
+		
 		Output functionContext = context(functionInputs);
+		
 		StringBuilder builder = new StringBuilder();
 		if (functionContext != null) {
 			builder.append(relativePath(functionContext, context));
@@ -320,7 +324,7 @@ public class StylesheetBuilder {
 			builder.append(expr(i, functionContext) + ",");
 		}
 		builder.deleteCharAt(builder.length() - 1);
-		builder.append(")");
+		builder.append(")");		
 		return builder.toString();
 	}
 	
@@ -365,9 +369,11 @@ public class StylesheetBuilder {
 		Output lookupContext = context(inputs);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append(relativePath(lookupContext, context));
-		builder.append("/");
-		builder.append("document(concat(\"lookup:" + lookup.getDatasourceSpec() + "\"");
+		if (lookupContext != null) {
+			builder.append(relativePath(lookupContext, context));
+			builder.append("/");
+		}
+		builder.append("document(concat(\"\", \"" + lookup.getDatasourceSpec() + "\"");
 		if (inputs.size() > 0) {
 			builder.append(",\"?");
 			for (Input input : inputs) {

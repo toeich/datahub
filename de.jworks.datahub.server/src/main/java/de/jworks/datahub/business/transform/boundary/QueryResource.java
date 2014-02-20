@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -32,6 +33,9 @@ public class QueryResource {
 	
 	@Inject
 	TransformationService transformationService;
+	
+	@Inject
+	URIResolver uriResolver;
 
 	@GET
 	public Response query(@PathParam("queryId") long queryId) {
@@ -42,6 +46,7 @@ public class QueryResource {
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer(stylesheet);
+			transformer.setURIResolver(uriResolver);
 			StringWriter stringWriter = new StringWriter();
 			transformer.transform(new StreamSource(new StringReader("<data/>")), new StreamResult(stringWriter));
 			

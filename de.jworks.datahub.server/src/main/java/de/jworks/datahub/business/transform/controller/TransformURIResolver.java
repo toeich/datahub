@@ -25,8 +25,8 @@ public class TransformURIResolver implements URIResolver {
 
 	@Override
 	public Source resolve(String href, String base) throws TransformerException {
-		String scheme = StringUtils.substringBefore(href, ":");
-		String path = StringUtils.substringAfter(href, ":");
+		String scheme = StringUtils.substringBefore(href, "-");
+		String path = StringUtils.substringAfter(href, "-");
 		if ("xslt".equals(scheme)) {
 			return createXsltSource(path);
 		}
@@ -63,7 +63,7 @@ public class TransformURIResolver implements URIResolver {
 	}
 	
 	private Source createLookupSource(String path) {
-		return null;
+		return new StreamSource(new StringReader("<customer firstName='test'/>"));
 	}
 	
 }

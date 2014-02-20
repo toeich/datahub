@@ -259,9 +259,9 @@ public class TransformationServiceBean implements TransformationService {
     private Lookup createLookup(DatasetGroup datasetGroup) {
     	Lookup lookup = new Lookup();
     	lookup.setName(datasetGroup.getName());
-    	lookup.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
+//    	lookup.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
     	lookup.getSchema().addOutput(createOutput(datasetGroup.getSchema().getRootElement()));
-    	lookup.setDatasourceSpec(""); // TODO
+    	lookup.setDatasourceSpec("lookup-" + datasetGroup.getId()); // TODO
     	return lookup;
     }
 
@@ -277,7 +277,7 @@ public class TransformationServiceBean implements TransformationService {
 	}
 
     private Output createOutput(Attribute attribute) {
-    	return new Output(attribute.getLabel(), attribute.getName(), null);
+    	return new Output(attribute.getLabel(), "@" + attribute.getName(), null);
 	}
 
 	private Input createInput(Element element) {
@@ -292,7 +292,7 @@ public class TransformationServiceBean implements TransformationService {
 	}
     
     private Input createInput(Attribute attribute) {
-    	return new Input(attribute.getLabel(), attribute.getName(), ItemType.XML_ELEMENT);
+    	return new Input(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ELEMENT);
 	}
 
 }

@@ -39,8 +39,9 @@
 				<configuration>
 					<userConfig>../de.jworks.datahub/zanata.ini</userConfig>
 					<projectConfig>../de.jworks.datahub/zanata.xml</projectConfig>
-					<srcDir>${basedir}/src/main/resources</srcDir>
-					<transDir>${basedir}/src/main/resources</transDir>
+					<srcDir>..</srcDir>
+					<transDir>..</transDir>
+					<includes>**/src/main/resources/**/*.properties</includes>
 				</configuration>
 			</plugin>
 
