@@ -1,15 +1,11 @@
 package de.jworks.datahub.business.transform.controller;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
 import de.jworks.datahub.business.transform.entity.Component;
 import de.jworks.datahub.business.transform.entity.Constant;
@@ -25,12 +21,13 @@ import de.jworks.datahub.business.transform.entity.Operation;
 import de.jworks.datahub.business.transform.entity.Output;
 import de.jworks.datahub.business.transform.entity.Transformation;
 import de.jworks.datahub.business.transform.entity.TransformationComponent;
+import de.jworks.datahub.business.transform.entity.TransformationDefinition;
 
 public class StylesheetBuilder {
 	
 	private static final Logger logger = Logger.getLogger(StylesheetBuilder.class.getName()); 
 
-	private Transformation transformation;
+	private TransformationDefinition transformationDefinition;
 
 	// uri -> output
 	private Map<String, Output> outputs = new HashMap<String, Output>();
@@ -55,38 +52,42 @@ public class StylesheetBuilder {
 
 	private StringBuilder builder = new StringBuilder();
 
-	public static Source buildStylesheet(Transformation transformation) {
-		StylesheetBuilder builder = new StylesheetBuilder(transformation);
-		Source stylesheet = builder.buildStylesheet();
+	public static String buildStylesheet(Transformation transformation) {
+		String stylesheet = buildStylesheet(transformation.getDefinition());
+		logger.info("stylesheet of transformation '" + transformation + "':\n" + stylesheet);
+		return stylesheet;
+	}
+	
+	public static String buildStylesheet(TransformationDefinition transformationDefinition) {
+		StylesheetBuilder builder = new StylesheetBuilder(transformationDefinition);
+		String stylesheet = builder.buildStylesheet();
 		return stylesheet;
 	}
 
-	private StylesheetBuilder(Transformation transformation) {
-		this.transformation = transformation;
+	private StylesheetBuilder(TransformationDefinition transformationDefinition) {
+		this.transformationDefinition = transformationDefinition;
 	}
 
-	private Source buildStylesheet() {
+	private String buildStylesheet() {
 		collectOutputs();
 		collectInputs();
 		collectSources();
 		
 		addMissingSources();
 
-		process(transformation.getDefinition().getDatasink());
+		process(transformationDefinition.getDatasink());
 
 		String stylesheet = builder.toString();
 
-		logger.info("stylesheet of transformation '" + transformation + "':\n" + stylesheet);
-
-		return new StreamSource(new StringReader(stylesheet));
+		return stylesheet;
 	}
 
 	private void collectOutputs() {
-		Datasource datasource = transformation.getDefinition().getDatasource();
+		Datasource datasource = transformationDefinition.getDatasource();
 		if (datasource != null) {
 			collectOutputs(datasource);
 		}
-		for (TransformationComponent component : transformation.getDefinition().getComponents()) {
+		for (TransformationComponent component : transformationDefinition.getComponents()) {
 			collectOutputs(component);
 		}
 	}
@@ -116,11 +117,11 @@ public class StylesheetBuilder {
 	}
 
 	private void collectInputs() {
-		Datasink datasink = transformation.getDefinition().getDatasink();
+		Datasink datasink = transformationDefinition.getDatasink();
 		if (datasink != null) {
 			collectInputs(datasink);
 		}
-		for (TransformationComponent component : transformation.getDefinition().getComponents()) {
+		for (TransformationComponent component : transformationDefinition.getComponents()) {
 			collectInputs(component);
 		}
 	}
@@ -149,7 +150,7 @@ public class StylesheetBuilder {
 	}
 
 	private void collectSources() {
-		for (Link link : transformation.getDefinition().getLinks()) {
+		for (Link link : transformationDefinition.getLinks()) {
 			Output output = outputs.get(link.getSource());
 			if (output == null) {
 				throw new RuntimeException("source of link not found: " + link.getSource());
@@ -163,7 +164,7 @@ public class StylesheetBuilder {
 	}
 
 	private void addMissingSources() {
-		addMissingSources(transformation.getDefinition().getDatasink());
+		addMissingSources(transformationDefinition.getDatasink());
 	}
 
 	private void addMissingSources(Datasink datasink) {
@@ -237,9 +238,9 @@ public class StylesheetBuilder {
 
 		if (input.getInputs().size() > 0) {
 			for (Input i : input.getInputs()) {
-				if (sources.get(i) != null) {
+//				if (sources.get(i) != null) {
 					builder.append("<xsl:call-template name='" + templateName(i) + "' />\n");
-				}
+//				}
 			}
 		} else {
 			builder.append("<xsl:value-of select='.' />\n");
@@ -263,9 +264,9 @@ public class StylesheetBuilder {
 		builder.append("</xsl:template>\n\n");
 
 		for (Input i : input.getInputs()) {
-			if (sources.get(i) != null) {
+//			if (sources.get(i) != null) {
 				processInput(i, context(input));
-			}
+//			}
 		}
 	}
 
@@ -273,7 +274,7 @@ public class StylesheetBuilder {
 		Output source = sources.get(input);
 		
 		Component sourceComponent = components.get(source);
-		
+
 		if (sourceComponent instanceof Datasource) {
 			return datasourceExpr(source, context);
 		}
@@ -308,9 +309,7 @@ public class StylesheetBuilder {
 	private String functionExpr(Output source, Output context) {
 		Function function = (Function) components.get(source);
 		
-		List<Input> functionInputs = function.getSchema().getInputs();
-		
-		Output functionContext = context(functionInputs);
+		Output functionContext = context(function.getSchema().getInputs());
 		
 		StringBuilder builder = new StringBuilder();
 		if (functionContext != null) {
@@ -319,7 +318,7 @@ public class StylesheetBuilder {
 		}
 		builder.append(function.getXpathFunction());
 		builder.append("(");
-		for (Input i : functionInputs) {
+		for (Input i : function.getSchema().getInputs()) {
 			if (i.getType() == ItemType.CONTEXT) continue;
 			builder.append(expr(i, functionContext) + ",");
 		}
@@ -331,11 +330,9 @@ public class StylesheetBuilder {
 	private String operationExpr(Output source, Output context) {
 		Operation operation = (Operation) components.get(source);
 		
-		List<Input> inputs = operation.getSchema().getInputs();
-		
 		StringBuilder builder = new StringBuilder();
 		builder.append("(");
-		for (Input input : inputs) {
+		for (Input input : operation.getSchema().getInputs()) {
 			builder.append(expr(input, context));
 			builder.append(" " + operation.getOperator() + " ");
 		}
@@ -348,14 +345,12 @@ public class StylesheetBuilder {
 	private String filterExpr(Output source, Output context) {
 		Filter filter = (Filter) components.get(source);
 		
-		List<Input> inputs = filter.getSchema().getInputs();
-		
-		Output filterContext = context(inputs.get(0));
+		Output filterContext = context(filter.getSchema().getInputs().get(0));
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append(relativePath(filterContext, context));
 		builder.append("[");
-		builder.append(expr(inputs.get(1), filterContext));
+		builder.append(expr(filter.getSchema().getInputs().get(1), filterContext));
 		builder.append("]");
 		
 		return builder.toString();
@@ -364,9 +359,11 @@ public class StylesheetBuilder {
 	private String lookupExpr(Output source, Output context) {
 		Lookup lookup = (Lookup) components.get(source);
 		
-		List<Input> inputs = lookup.getSchema().getInputs();
+		if (components.get(context) == lookup) {
+			return relativePath(source, context);
+		}
 		
-		Output lookupContext = context(inputs);
+		Output lookupContext = context(lookup.getSchema().getInputs());
 		
 		StringBuilder builder = new StringBuilder();
 		if (lookupContext != null) {
@@ -374,9 +371,9 @@ public class StylesheetBuilder {
 			builder.append("/");
 		}
 		builder.append("document(concat(\"\", \"" + lookup.getDatasourceSpec() + "\"");
-		if (inputs.size() > 0) {
+		if (lookup.getSchema().getInputs().size() > 0) {
 			builder.append(",\"?");
-			for (Input input : inputs) {
+			for (Input input : lookup.getSchema().getInputs()) {
 				builder.append(input.getStep());
 				builder.append("=\"");
 				builder.append(",");
@@ -433,8 +430,7 @@ public class StylesheetBuilder {
 			return context(filter.getSchema().getInputs());
 		}
 		if (sourceComponent instanceof Lookup) {
-			Lookup lookup = (Lookup) sourceComponent;
-			return lookup.getSchema().getOutputs().get(0);
+			return source;
 		}
 		return null;
 	}

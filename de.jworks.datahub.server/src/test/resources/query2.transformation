@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<transformation-definition>
+    <datasink name="Sample Query" location="543 150">
+        <schema>
+            <inputs>
+                <input name="Query Result" step="result" type="XML_ELEMENT">
+                    <input name="Person" step="person" type="XML_ELEMENT">
+                        <input name="Name" step="@name" type="XML_ATTRIBUTE"/>
+                    </input>
+                </input>
+            </inputs>
+            <outputs/>
+        </schema>
+    </datasink>
+    <components>
+        <component xsi:type="lookup" datasourceSpec="lookup-9" name="Customers.3" location="107 86" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <schema>
+                <inputs/>
+                <outputs>
+                    <output name="Lookup Result" step="result" type="XML_ELEMENT">
+                        <output name="Kunde" step="customer">
+                            <output name="Vorname" step="@firstName"/>
+                            <output name="Nachname" step="@lastName"/>
+                        </output>
+                    </output>
+                </outputs>
+            </schema>
+        </component>
+        <component xsi:type="function" xpathFunction="string-join" name="string-join.2" location="328 216" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <schema>
+                <inputs>
+                    <input name="context" step="context" type="CONTEXT"/>
+                    <input name="values" step="values"/>
+                    <input name="separator" step="separator"/>
+                </inputs>
+                <outputs>
+                    <output name="result" step="result"/>
+                </outputs>
+            </schema>
+        </component>
+        <component xsi:type="constant" value="&quot;,&quot; " name="constant.3" location="131 303" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <schema>
+                <inputs/>
+                <outputs>
+                    <output name="&quot;,&quot; " step="value"/>
+                </outputs>
+            </schema>
+        </component>
+    </components>
+    <links>
+        <link source="Customers.3:/result" target="string-join.2:/context"/>
+        <link source="Customers.3:/result/customer/@firstName" target="string-join.2:/values"/>
+        <link source="constant.3:/value" target="string-join.2:/separator"/>
+        <link source="string-join.2:/result" target="Sample Query:/result/person/@name"/>
+    </links>
+</transformation-definition>

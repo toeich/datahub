@@ -48,7 +48,7 @@ import de.jworks.datahub.transform.editors.transformation.requests.Transformatio
 
 public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 
-	public static final String ID = "de.jworks.fps.transform.transformation";
+	public static final String ID = "de.jworks.datahub.transform.transformation";
 
 	private Transformation transformation;
 	
@@ -80,8 +80,8 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 					new ActionHandler(getActionRegistry().getAction(actionFactory.getId())));
 		}
 
-		handlerService.activateHandler("de.jworks.fps.transform.addConstant", new AddConstantHandler());
-		handlerService.activateHandler("de.jworks.fps.transform.addFilter", new AddFilterHandler());
+		handlerService.activateHandler("de.jworks.datahub.transform.addConstant", new AddConstantHandler());
+		handlerService.activateHandler("de.jworks.datahub.transform.addFilter", new AddFilterHandler());
 	}
 
 	@Override

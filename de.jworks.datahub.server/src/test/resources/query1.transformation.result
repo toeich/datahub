@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+<xsl:output method='xml' omit-xml-declaration='yes' indent='yes' />
+
+<xsl:template match='/'>
+<xsl:call-template name='Sample_Query__result' />
+</xsl:template>
+
+<xsl:template name='Sample_Query__result'>
+<xsl:element name='result'>
+<xsl:call-template name='Sample_Query__result_person' />
+</xsl:element>
+</xsl:template>
+
+<xsl:template name='Sample_Query__result_person'>
+<xsl:for-each select='document(concat("", "lookup-9"))/result/customer'>
+<xsl:element name='person'>
+<xsl:call-template name='Sample_Query__result_person__name' />
+</xsl:element>
+</xsl:for-each>
+</xsl:template>
+
+<xsl:template name='Sample_Query__result_person__name'>
+<xsl:for-each select='@firstName/concat(.,../@lastName)'>
+<xsl:attribute name='name'>
+<xsl:value-of select='.' />
+</xsl:attribute>
+</xsl:for-each>
+</xsl:template>
+
+</xsl:stylesheet>

@@ -245,18 +245,26 @@ public class Initializer {
 		catalogs.getColumns().add(new ColumnDefinition("Name", "/catalog/@name"));
 		entityManager.persist(catalogs);
 		
-		// Transformation "import cmi24 products"
-		Transformation transformation1 = new Transformation();
-		transformation1.setType(TransformationType.Import);
-		transformation1.setName("import cmi24 products");
-		transformation1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__Products"));
-		transformation1.getDefinition().setDatasink(transformationService.findDatasinkByName("cmi24_Products"));
-		entityManager.persist(transformation1);
+		// Import "Import cmi24 Products"
+		Transformation import1 = new Transformation();
+		import1.setType(TransformationType.Import);
+		import1.setName("Import cmi24 Products");
+		import1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__Products"));
+		import1.getDefinition().setDatasink(transformationService.findDatasinkByName("cmi24_Products"));
+		entityManager.persist(import1);
 		
-//		// Transformation "import sap products"
-//		Transformation transformation2 = new Transformation();
-//		transformation2.setName("import sap products");
-//		entityManager.persist(transformation2);
+		// Query "Sample Query"
+		Transformation query1 = new Transformation();
+		query1.setType(TransformationType.Query);
+		query1.setName("Sample Query");
+		Datasink query1Datasink = new Datasink();
+		query1Datasink.setName("Sample Query");
+		query1Datasink.getSchema().addInput(
+				new Input("Query Result", "result", ItemType.XML_ELEMENT,
+						new Input("Person", "person", ItemType.XML_ELEMENT,
+								new Input("Name", "@name", ItemType.XML_ATTRIBUTE))));
+		query1.getDefinition().setDatasink(query1Datasink);
+		entityManager.persist(query1);
 	}
 
 }

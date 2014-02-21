@@ -23,7 +23,7 @@ import de.jworks.datahub.transform.utils.SelectionHelper;
 
 public class TransformationsView extends ViewPart {
 	
-	public static final String ID = "de.jworks.fps.transform.transformations";
+	public static final String ID = "de.jworks.datahub.transform.transformations";
 	
 	private ListViewer viewer;
 
@@ -39,7 +39,7 @@ public class TransformationsView extends ViewPart {
 	
 	private void registerHandlers() {
 		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
-		handlerService.activateHandler("de.jworks.fps.transform.open", new OpenHandler());
+		handlerService.activateHandler("de.jworks.datahub.transform.open", new OpenHandler());
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class TransformationsView extends ViewPart {
 		viewer = new ListViewer(parent);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new LabelProvider());
+		getSite().setSelectionProvider(viewer);
 
 		MenuManager menuManager = new MenuManager();
 		Menu menu = menuManager.createContextMenu(viewer.getControl());

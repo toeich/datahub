@@ -57,7 +57,7 @@ public class TransformURIResolver implements URIResolver {
 
 			Transformation transformation = transformationService.getTransformation(transformationId);
 
-			Source stylesheet = StylesheetBuilder.buildStylesheet(transformation);
+			Source stylesheet = new StreamSource(new StringReader(StylesheetBuilder.buildStylesheet(transformation)));
 
 			return stylesheet;
 		} catch (Exception e) {

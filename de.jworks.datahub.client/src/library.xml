@@ -80,6 +80,7 @@
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
 					<input name="values" step="values" />
+					<input name="separator" step="separator" />
 				</inputs>
 				<outputs>
 					<output name="result" step="result" />

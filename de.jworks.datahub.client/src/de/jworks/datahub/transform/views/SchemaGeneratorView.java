@@ -20,7 +20,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 public class SchemaGeneratorView extends ViewPart {
 
-	public static final String ID = "de.jworks.fps.presentation.transform.views.SchemaGeneratorView"; //$NON-NLS-1$
+	public static final String ID = "de.jworks.datahub.presentation.transform.views.SchemaGeneratorView"; //$NON-NLS-1$
 
 	private Button btnDatasource;
 	private Button btnDatasink;

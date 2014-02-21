@@ -32,11 +32,11 @@ public class Transformation extends Notifier {
 	@ManyToOne
 	private Project project;
 	
-	@Transient
-	private TransformationDefinition definition;
-
 	@Lob
 	private String definitionData;
+	
+	@Transient
+	private TransformationDefinition definition;
 
 	public Long getId() {
 		return id;
@@ -74,6 +74,14 @@ public class Transformation extends Notifier {
 		this.project = project;
 	}
 	
+	public String getDefinitionData() {
+		return definitionData;
+	}
+
+	public void setDefinitionData(String definitionData) {
+		this.definitionData = definitionData;
+	}
+
 	public TransformationDefinition getDefinition() {
 		if (definition == null) {
 			try {
@@ -96,7 +104,33 @@ public class Transformation extends Notifier {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Transformation other = (Transformation) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "Transformation [id=" + id + ", name=" + name + "]";
 	}
+	
 }

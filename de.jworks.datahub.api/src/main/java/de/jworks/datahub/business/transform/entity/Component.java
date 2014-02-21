@@ -15,7 +15,7 @@ public abstract class Component extends Notifier {
 	@XmlAttribute
 	protected String name;
 	
-    @XmlElement
+    @XmlAttribute
 	protected int[] location = { 100, 100 };
 
 	@XmlElement

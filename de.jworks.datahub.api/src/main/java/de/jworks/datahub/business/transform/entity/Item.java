@@ -55,4 +55,9 @@ public abstract class Item extends Notifier {
         firePropertyChange("valueType", this.valueType, this.valueType = valueType);
     }
 
+	@Override
+	public String toString() {
+		return "Item [name=" + name + ", step=" + step + ", type=" + type + "]";
+	}
+    
 }

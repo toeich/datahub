@@ -13,7 +13,7 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
 	@Override
 	public String getInitialWindowPerspectiveId() {
-		return "de.jworks.fps.transform.transformations";
+		return "de.jworks.datahub.transform.transformations";
 	}
 	
 }

@@ -13,7 +13,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
@@ -42,10 +41,10 @@ public class QueryResource {
 		try {
 			Transformation query = transformationService.getTransformation(queryId);
 			
-			Source stylesheet = StylesheetBuilder.buildStylesheet(query);
+			String stylesheet = StylesheetBuilder.buildStylesheet(query);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer(stylesheet);
+			Transformer transformer = transformerFactory.newTransformer(new StreamSource(new StringReader(stylesheet)));
 			transformer.setURIResolver(uriResolver);
 			StringWriter stringWriter = new StringWriter();
 			transformer.transform(new StreamSource(new StringReader("<data/>")), new StreamResult(stringWriter));

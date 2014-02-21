@@ -16,7 +16,7 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="de.jworks.connector.client.application"
-            name="Connector">
+            name="DataHub">
          <property
                name="windowImages"
                value="icons/alt_window_16.gif,icons/alt_window_32.gif">
@@ -37,7 +37,7 @@
                </dynamic>
             </menu>
             <command
-                  commandId="de.jworks.fps.transform.open">
+                  commandId="de.jworks.datahub.transform.open">
             </command>
             <separator
                   name="separator1"
@@ -147,9 +147,9 @@
       </menuContribution>
       <menuContribution
             allPopups="true"
-            locationURI="popup:de.jworks.fps.transform.transformations">
+            locationURI="popup:de.jworks.datahub.transform.transformations">
          <command
-               commandId="de.jworks.fps.transform.open">
+               commandId="de.jworks.datahub.transform.open">
          </command>
          <separator
                name="separator1"
@@ -174,12 +174,12 @@
       </menuContribution>
       <menuContribution
             allPopups="true"
-            locationURI="popup:de.jworks.fps.transform.transformation">
+            locationURI="popup:de.jworks.datahub.transform.transformation">
          <command
-               commandId="de.jworks.fps.transform.addConstant">
+               commandId="de.jworks.datahub.transform.addConstant">
          </command>
          <command
-               commandId="de.jworks.fps.transform.addFilter">
+               commandId="de.jworks.datahub.transform.addFilter">
          </command>
          <separator
                name="separator1"
@@ -206,15 +206,15 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            id="de.jworks.fps.transform.open"
+            id="de.jworks.datahub.transform.open"
             name="Open">
       </command>
       <command
-            id="de.jworks.fps.transform.addConstant"
+            id="de.jworks.datahub.transform.addConstant"
             name="Add Constant">
       </command>
       <command
-            id="de.jworks.fps.transform.addFilter"
+            id="de.jworks.datahub.transform.addFilter"
             name="Add Filter">
       </command>
    </extension>
@@ -223,21 +223,21 @@
       <perspective
             name="Transformations"
             class="de.jworks.datahub.transform.perspectives.TransformationsPerspective"
-            id="de.jworks.fps.transform.transformations">
+            id="de.jworks.datahub.transform.transformations">
       </perspective>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="de.jworks.fps.transform.transformations">
+            targetID="de.jworks.datahub.transform.transformations">
          <newWizardShortcut
-               id="de.jworks.fps.transform.transformation">
+               id="de.jworks.datahub.transform.transformation">
          </newWizardShortcut>
          <viewShortcut
-               id="de.jworks.fps.transform.transformations">
+               id="de.jworks.datahub.transform.transformations">
          </viewShortcut>
          <view
-               id="de.jworks.fps.transform.transformations"
+               id="de.jworks.datahub.transform.transformations"
                ratio="0.25"
                relationship="left"
                relative="org.eclipse.ui.editorss">
@@ -248,7 +248,7 @@
          point="org.eclipse.ui.editors">
       <editor
             class="de.jworks.datahub.transform.editors.transformation.TransformationEditor"
-            id="de.jworks.fps.transform.transformation"
+            id="de.jworks.datahub.transform.transformation"
             name="Transformation">
       </editor>
    </extension>
@@ -256,12 +256,12 @@
          point="org.eclipse.ui.views">
       <view
             class="de.jworks.datahub.transform.views.TransformationsView"
-            id="de.jworks.fps.transform.transformations"
+            id="de.jworks.datahub.transform.transformations"
             name="Transformations">
       </view>
       <view
             class="de.jworks.datahub.transform.views.SchemaGeneratorView"
-            id="de.jworks.fps.presentation.transform.views.SchemaGeneratorView"
+            id="de.jworks.datahub.presentation.transform.views.SchemaGeneratorView"
             name="SchemaGenerator">
       </view>
    </extension>
@@ -269,7 +269,15 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             class="de.jworks.datahub.transform.wizards.NewTransformationWizard"
-            id="de.jworks.fps.transform.transformation"
+            id="de.jworks.datahub.transform.transformation"
+            name="Transformation">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            class="de.jworks.datahub.transform.wizards.ExportTransformationWizard"
+            id="de.jworks.datahub.transform.transformation"
             name="Transformation">
       </wizard>
    </extension>
