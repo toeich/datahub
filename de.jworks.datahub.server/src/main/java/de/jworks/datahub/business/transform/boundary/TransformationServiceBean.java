@@ -260,7 +260,7 @@ public class TransformationServiceBean implements TransformationService {
     	Lookup lookup = new Lookup();
     	lookup.setName(datasetGroup.getName());
 //    	lookup.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
-    	lookup.getSchema().addOutput(createOutput(datasetGroup.getSchema().getRootElement()));
+    	lookup.getSchema().addOutput(new Output("Lookup Result", "result", ItemType.XML_ELEMENT, createOutput(datasetGroup.getSchema().getRootElement())));
     	lookup.setDatasourceSpec("lookup-" + datasetGroup.getId()); // TODO
     	return lookup;
     }
