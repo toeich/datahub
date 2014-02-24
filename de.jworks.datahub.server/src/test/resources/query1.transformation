@@ -42,8 +42,8 @@
         <link source="Customers.1:/result/customer/@firstName" target="concat.2:/s1"/>
         <link source="Customers.1:/result/customer/@lastName" target="concat.2:/s2"/>
         <link source="concat.2:/result" target="Sample Query:/result/person/@name"/>
-<!--
         <link source="Customers.1:/result/customer" target="Sample Query:/result/person"/>
+<!--
 -->
     </links>
 </transformation-definition>

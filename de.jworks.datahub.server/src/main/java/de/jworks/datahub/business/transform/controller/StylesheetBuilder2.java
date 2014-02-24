@@ -1,5 +1,5 @@
-package de.jworks.datahub.business.transform.controller;
 
+package de.jworks.datahub.business.transform.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -181,8 +181,12 @@ public class StylesheetBuilder2 {
 	}
 
 	private void processInput(Input input, List<Output> context, int indent) {
-		String prefix = ""; for (int i = 0; i < indent; i++) { prefix+=" "; }
+		List<Output> newContext = new ArrayList<Output>(context);
 		
+		logger.info("processing Input '" + inputUris.get(input) + dump(newContext));
+		
+		String prefix = ""; for (int i = 0; i < indent; i++) { prefix+=" "; }
+
 		if (input.getType() != null) {
 			switch (input.getType()) {
 			case XML_ELEMENT:
@@ -199,15 +203,14 @@ public class StylesheetBuilder2 {
 		String xpath = null;
 		Output output = sources.get(input);
 		if (output != null) {
-			xpath = processOutput(output, context, indent+1);
+			xpath = processOutput(output, newContext, indent+1);
 			if (xpath != null) {
 				builder.append(prefix + " <xsl:for-each select='" + xpath + "'>\n");
 			}
-			context.add(output);
+			newContext.add(output);
 		}
 		if (input.getInputs().size() > 0) {
 			for (Input i : input.getInputs()) {
-				List<Output> newContext = new ArrayList<Output>(context);
 				processInput(i, newContext, indent+1);
 			} 
 		} else {
@@ -231,7 +234,20 @@ public class StylesheetBuilder2 {
 		}
 	}
 	
+	private String dump(List<Output> context) {
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < context.size(); i++) {
+			String outputUri = outputUris.get(context.get(i));
+			if (outputUri != null) {
+				buffer.append("\n\t" + outputUri);
+			}
+		}
+		return buffer.toString();
+	}
+	
 	private String processOutput(Output output, List<Output> context, int indent) {
+		logger.info("processing Output '" + outputUris.get(output) + " of " + components.get(output).getClass().getSimpleName() + dump(context));
+		
 		Component component = components.get(output);
 		if (component instanceof Datasource) {
 			return processDatasourceOutput(output, context);
@@ -248,11 +264,14 @@ public class StylesheetBuilder2 {
 		if (component instanceof Operation) {
 			return processOperationOutput(output, context);
 		}
+		if (component instanceof Filter) {
+			return processFilterOutput(output, context);
+		}
 		throw new RuntimeException();
 	}
 	
 	private String processDatasourceOutput(Output output, List<Output> context) {
-		return relativePath(output, context);
+		return path(output, context);
 	}
 	
 	private String processConstantOutput(Output output, List<Output> context) {
@@ -265,21 +284,23 @@ public class StylesheetBuilder2 {
 		
 		StringBuilder builder = new StringBuilder(); 
 		
-		Output functionOutput = context(function.getSchema().getInputs());
-		List<Output> functionContext = new ArrayList<Output>(context);
-		functionContext.add(functionOutput);
-		
-		builder.append(relativePath(functionOutput, context));
-		builder.append("/");
+		Output baseOutput = context(function.getSchema().getInputs());
+		logger.info("\tbase Output '"+outputUris.get(baseOutput)+"'");
+		if (baseOutput != null) {
+			builder.append(processOutput(baseOutput, context, 0));
+			builder.append("/");
+			context.add(0, baseOutput);
+		}
 	
 		builder.append(function.getXpathFunction());
 		builder.append("(");
 		for (Input i : function.getSchema().getInputs()) {
 			if (i.getType() == ItemType.CONTEXT) continue;
-			builder.append(relativePath(sources.get(i), functionContext) + ",");
+			builder.append(processOutput(sources.get(i), context, 0) + ",");
 		}
 		builder.deleteCharAt(builder.length() - 1);
-		builder.append(")");		
+		builder.append(")");
+		
 		return builder.toString();
 	}
 	
@@ -299,7 +320,7 @@ public class StylesheetBuilder2 {
 		return builder.toString();
 	}
 	
-	private String filterExpr(Output source, List<Output> context) {
+	private String processFilterOutput(Output source, List<Output> context) {
 		Filter filter = (Filter) components.get(source);
 		
 		Output filterContext = context(filter.getSchema().getInputs().get(0));
@@ -316,17 +337,20 @@ public class StylesheetBuilder2 {
 	private String processLookupOutput(Output output, List<Output> context) {
 		Lookup lookup = (Lookup) components.get(output);
 		
-		StringBuilder builder = new StringBuilder();
-		
-		Output context2 = context(lookup.getSchema().getInputs());
-		
-		if (context2 != null) {
-			builder.append(processOutput(context2, context, 0));
-			builder.append("/");
+		String relativePath = relativePath(output, context);
+		if (relativePath != null) {
+			return relativePath;
 		}
 		
-		List<Output> lookupContext = new ArrayList<Output>(context);
-		lookupContext.add(context2);
+		StringBuilder builder = new StringBuilder();
+		
+		Output base = context(lookup.getSchema().getInputs());
+		logger.info("\tbase Output '" + outputUris.get(base) + "'");
+		if (base != null) {
+			builder.append(processOutput(base, context, 0));
+			builder.append("/");
+			context.add(0, base);
+		}
 
 		builder.append("document(concat(\"\", \"" + lookup.getDatasourceSpec() + "\"");
 		if (lookup.getSchema().getInputs().size() > 0) {
@@ -335,12 +359,13 @@ public class StylesheetBuilder2 {
 				builder.append(input.getStep());
 				builder.append("=\"");
 				builder.append(",");
-				builder.append(processOutput(sources.get(input), lookupContext, 0));
+				builder.append(processOutput(sources.get(input), context, 0));
 				builder.append(",\"&\"");
 			}
 			builder.delete(builder.length() - 4, builder.length());
 		}
 		builder.append("))");
+		
 		builder.append(absolutePath(output));
 		
 		return builder.toString();
@@ -401,6 +426,14 @@ public class StylesheetBuilder2 {
 		return normalize(input.getStep().replace("@", ""));
 	}
 
+	private String path(Output output, List<Output> context) {
+		String relativePath = relativePath(output, context);
+		if (relativePath != null) {
+			return relativePath;
+		}
+		return absolutePath(output);
+	}
+	
 	private String relativePath(Output output, List<Output> context) {
 		for (Output c : context) {
 			String relativePath = relativePath(output, c);
@@ -408,21 +441,20 @@ public class StylesheetBuilder2 {
 				return relativePath;
 			}
 		}
-		
-		return absolutePath(output);
+		return null;
 	}
 	
-	private String relativePath(Output output, Output context) {
-		if (components.get(output) != components.get(context)) {
+	private String relativePath(Output output, Output base) {
+		if (components.get(output) != components.get(base)) {
 			return null;
 		}
 		
-		if (output == context) {
+		if (output == base) {
 			return ".";
 		}
 
 		List<String> outputPath = new ArrayList<String>(Arrays.asList(outputUris.get(output).split("/")));
-		List<String> contextPath = new ArrayList<String>(Arrays.asList(outputUris.get(context).split("/")));
+		List<String> contextPath = new ArrayList<String>(Arrays.asList(outputUris.get(base).split("/")));
 		while (outputPath.size() > 0 && contextPath.size() > 0 && outputPath.get(0).equals(contextPath.get(0))) {
 			outputPath.remove(0);
 			contextPath.remove(0);
