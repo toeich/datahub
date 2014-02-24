@@ -2,6 +2,7 @@ package de.jworks.datahub.transform.editors.transformation.requests;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.UUID;
 
 import javax.xml.bind.JAXB;
 
@@ -11,8 +12,6 @@ import de.jworks.datahub.business.transform.entity.TransformationComponent;
 
 public class TransformationComponentFactory implements CreationFactory {
 
-	public static long nextId = 1;
-	
 	private TransformationComponent prototype;
 	
 	public TransformationComponentFactory(TransformationComponent prototype) {
@@ -27,7 +26,7 @@ public class TransformationComponentFactory implements CreationFactory {
 	@Override
 	public Object getNewObject() {
 		TransformationComponent component = copy(prototype);
-		component.setName(component.getName() + "." + nextId++);
+		component.setName(UUID.randomUUID().toString());
 		return component;
 	}
 	

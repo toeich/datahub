@@ -97,7 +97,8 @@ public class Initializer {
 			// Datasource "Products"
 			{
 				Datasource cmi24Products = new Datasource();
-				cmi24Products.setName("Products");
+				cmi24Products.setName("products");
+				cmi24Products.setLabel("Products");
 				cmi24Products.getSchema().addOutput(
 						new Output("products", "products", ItemType.XML_ELEMENT,
 								new Output("product", "product", ItemType.XML_ELEMENT,
@@ -111,7 +112,8 @@ public class Initializer {
 			// Datasink "Publications"
 			{
 				Datasink cmi24Publications = new Datasink();
-				cmi24Publications.setName("Publications");
+				cmi24Publications.setName("publications");
+				cmi24Publications.setLabel("Publications");
 				cmi24Publications.getSchema().addInput(
 						new Input("Publication", "publication", ItemType.XML_ELEMENT,
 								new Input("Key", "@_key", ItemType.XML_ATTRIBUTE),
@@ -131,7 +133,8 @@ public class Initializer {
 			// Datasource "Publications"
 			{
 				Datasource cmi24Publications = new Datasource();
-				cmi24Publications.setName("Publications");
+				cmi24Publications.setName("publications");
+				cmi24Publications.setLabel("Publications");
 				cmi24Publications.getSchema().addOutput(
 						new Output("Publication", "publication", ItemType.XML_ELEMENT,
 								new Output("Name", "@name", ItemType.XML_ATTRIBUTE),
@@ -151,7 +154,8 @@ public class Initializer {
 			// Datasource "Products"
 			{
 				Datasource sapProducts = new Datasource();
-				sapProducts.setName("Products");
+				sapProducts.setName("products");
+				sapProducts.setLabel("Products");
 				sapProducts.getSchema().addOutput(
 						new Output("products", "products", ItemType.XML_ELEMENT,
 								new Output("product", "product", ItemType.XML_ELEMENT,
@@ -173,7 +177,8 @@ public class Initializer {
 			// Datasink "Files"
 			{
 				Datasink files = new Datasink();
-				files.setName("Files");
+				files.setName("files");
+				files.setLabel("Files");
 				files.getSchema().addInput(
 						new Input("File", "file", ItemType.XML_ELEMENT,
 								new Input("URL", "@url", ItemType.XML_ATTRIBUTE)));
@@ -249,7 +254,7 @@ public class Initializer {
 		Transformation import1 = new Transformation();
 		import1.setType(TransformationType.Import);
 		import1.setName("Import cmi24 Products");
-		import1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__Products"));
+		import1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__products"));
 		import1.getDefinition().setDatasink(transformationService.findDatasinkByName("cmi24_Products"));
 		entityManager.persist(import1);
 		
@@ -258,7 +263,8 @@ public class Initializer {
 		query1.setType(TransformationType.Query);
 		query1.setName("Sample Query");
 		Datasink query1Datasink = new Datasink();
-		query1Datasink.setName("Sample Query");
+		query1Datasink.setName("sample_query");
+		query1Datasink.setLabel("Sample Query");
 		query1Datasink.getSchema().addInput(
 				new Input("Query Result", "result", ItemType.XML_ELEMENT,
 						new Input("Person", "person", ItemType.XML_ELEMENT,

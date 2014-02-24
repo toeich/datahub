@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.EventObject;
+import java.util.UUID;
 
 import javax.xml.bind.JAXB;
 
@@ -11,8 +12,10 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
@@ -22,9 +25,16 @@ import org.eclipse.gef.palette.SelectionToolEntry;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuDetectEvent;
 import org.eclipse.swt.events.MenuDetectListener;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -123,6 +133,24 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(transformation.getDefinition());
+
+
+		// export as jpeg
+		try {
+			Control figureCanvas = viewer.getControl();
+
+			Image img = new Image(Display.getDefault(), 600, 600);
+			
+			GC imgGC = new GC(img);
+			figureCanvas.print(imgGC);
+
+			ImageLoader imgLoader = new ImageLoader();
+			imgLoader.data = new ImageData[] { img.getImageData() };
+			imgLoader.save("/home/te/temp/temp.jpg", SWT.IMAGE_JPEG);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -175,7 +203,8 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		@Override
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			Constant constant = new Constant();
-			constant.setName("constant." + TransformationComponentFactory.nextId++);
+			constant.setName(UUID.randomUUID().toString());
+			constant.setLabel("Constant");
 			
 			ConstantDialog dialog = new ConstantDialog(getSite().getShell());
 			dialog.setTitle("Add Constant");
@@ -197,7 +226,8 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		@Override
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			Filter filter = new Filter();
-			filter.setName("filter." + TransformationComponentFactory.nextId++);
+			filter.setName(UUID.randomUUID().toString());
+			filter.setLabel("Filter");
 			
 			TransformationComponentAddCommand command = new TransformationComponentAddCommand();
 			command.setTransformation(transformation);

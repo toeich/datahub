@@ -24,6 +24,6 @@ public class DatasourceEditPart extends ComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		return new DatasourceFigure(getModel().getName(), getInputSpecs(), getOutputSpecs());
+		return new DatasourceFigure(getModel().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 }

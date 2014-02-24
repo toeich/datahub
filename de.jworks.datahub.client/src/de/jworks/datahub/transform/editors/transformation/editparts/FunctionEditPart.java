@@ -14,7 +14,7 @@ public class FunctionEditPart extends TransformationComponentEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-		return new FunctionFigure(getModel().getName(), getInputSpecs(), getOutputSpecs());
+		return new FunctionFigure(getModel().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 
 }

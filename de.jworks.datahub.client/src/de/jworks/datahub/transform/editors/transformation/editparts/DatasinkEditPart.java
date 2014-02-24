@@ -24,6 +24,6 @@ public class DatasinkEditPart extends ComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		return new DatasinkFigure(getModel().getName(), getInputSpecs(), getOutputSpecs());
+		return new DatasinkFigure(getModel().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 }

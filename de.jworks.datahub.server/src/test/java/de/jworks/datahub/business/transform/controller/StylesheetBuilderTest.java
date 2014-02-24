@@ -8,8 +8,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.custommonkey.xmlunit.XMLAssert.*;
-
 import de.jworks.datahub.business.transform.entity.TransformationDefinition;
 
 public class StylesheetBuilderTest {
@@ -27,11 +25,11 @@ public class StylesheetBuilderTest {
 //		assertXMLEqual(expected, actual);
 	}
 
-//	@Test
+	@Test
 	public void testBuildStylesheetTransformationDefinition2() throws Exception {
 		String expected = IOUtils.toString(getResource("/query2.transformation.result"));
 		TransformationDefinition transformationDefinition = JAXB.unmarshal(getResource("/query2.transformation"), TransformationDefinition.class);
-		String actual = StylesheetBuilder.buildStylesheet(transformationDefinition);
+		String actual = StylesheetBuilder2.buildStylesheet(transformationDefinition);
 		System.out.println(actual);
 //		assertXMLEqual(expected, actual);
 	}

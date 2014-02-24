@@ -18,7 +18,7 @@ public class ConstantEditPart extends TransformationComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		return new ConstantFigure(getConstant().getName(), getInputSpecs(), getOutputSpecs());
+		return new ConstantFigure(getConstant().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 	
 }

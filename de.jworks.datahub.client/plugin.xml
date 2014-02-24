@@ -15,11 +15,15 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="de.jworks.connector.client.application"
+            application="de.jworks.datahub.client.application"
             name="DataHub">
          <property
                name="windowImages"
                value="icons/alt_window_16.gif,icons/alt_window_32.gif">
+         </property>
+         <property
+               name="appName"
+               value="DataHub">
          </property>
       </product>
    </extension>
@@ -122,6 +126,9 @@
                      id="viewsShortlist">
                </dynamic>
             </menu>
+            <command
+                  commandId="org.eclipse.ui.window.customizePerspective">
+            </command>
          </menu>
          <menu
                label="&amp;Help">
@@ -131,9 +138,10 @@
          </menu>
       </menuContribution>
       <menuContribution
-            locationURI="toolbar:org.eclipse.ui.main.toolbar?before=additions">
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
          <toolbar
-               id="file">
+               id="file"
+               label="File">
             <command
                   commandId="org.eclipse.ui.newWizard">
             </command>
@@ -142,6 +150,17 @@
             </command>
             <command
                   commandId="org.eclipse.ui.file.saveAll">
+            </command>
+         </toolbar>
+         <toolbar
+               id="transformation"
+               label="Transformation">
+            <command
+                  commandId="org.eclipse.ui.file.save">
+            </command>
+            <command
+                  commandId="de.jworks.datahub.transform.addConstant"
+                  icon="icons/alt_window_16.gif">
             </command>
          </toolbar>
       </menuContribution>

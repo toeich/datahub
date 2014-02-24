@@ -15,6 +15,9 @@ public abstract class Component extends Notifier {
 	@XmlAttribute
 	protected String name;
 	
+	@XmlAttribute
+	protected String label;
+	
     @XmlAttribute
 	protected int[] location = { 100, 100 };
 
@@ -29,6 +32,14 @@ public abstract class Component extends Notifier {
 		firePropertyChange("name", this.name, this.name = name);
 	}
 
+	public String getLabel() {
+		return label;
+	}
+	
+	public void setLabel(String label) {
+		firePropertyChange("label", this.label, this.label = label);
+	}
+	
     public int[] getLocation() {
         return location;
     }

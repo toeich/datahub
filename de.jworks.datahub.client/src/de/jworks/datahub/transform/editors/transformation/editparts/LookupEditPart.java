@@ -14,6 +14,6 @@ public class LookupEditPart extends TransformationComponentEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-		return new LookupFigure(getModel().getName(), getInputSpecs(), getOutputSpecs());
+		return new LookupFigure(getModel().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 }

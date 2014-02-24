@@ -28,6 +28,9 @@ public class TransformationComponentAddCommand extends Command {
 	
 	@Override
 	public void execute() {
+		if (location == null) {
+			location = new Point(100, 100);
+		}
 		component.setLocation(new int[] { location.x, location.y });
 		transformation.getDefinition().addComponent(component);
 	}

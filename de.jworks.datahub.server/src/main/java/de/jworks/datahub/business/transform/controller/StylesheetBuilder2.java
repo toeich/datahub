@@ -53,13 +53,13 @@ public class StylesheetBuilder2 {
 	private StringBuilder builder = new StringBuilder();
 
 	public static String buildStylesheet(Transformation transformation) {
-		String stylesheet = buildStylesheet(transformation.getDefinition());
-		return stylesheet;
+		return buildStylesheet(transformation.getDefinition());
 	}
 	
 	public static String buildStylesheet(TransformationDefinition transformationDefinition) {
 		StylesheetBuilder2 builder = new StylesheetBuilder2(transformationDefinition);
 		String stylesheet = builder.buildStylesheet();
+		System.out.println(stylesheet);
 		return stylesheet;
 	}
 
@@ -217,7 +217,7 @@ public class StylesheetBuilder2 {
 			builder.append(prefix + "  <xsl:value-of select='.' />\n");
 		}
 		if (xpath != null) {
-			builder.append(prefix + " </xsl:for-each select>\n");
+			builder.append(prefix + " </xsl:for-each>\n");
 		}
 		
 		if (input.getType() != null) {

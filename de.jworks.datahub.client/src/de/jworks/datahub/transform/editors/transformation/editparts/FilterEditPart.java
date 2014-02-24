@@ -18,6 +18,6 @@ public class FilterEditPart extends TransformationComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		return new FilterFigure(getFilter().getName(), getInputSpecs(), getOutputSpecs());
+		return new FilterFigure(getFilter().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 }

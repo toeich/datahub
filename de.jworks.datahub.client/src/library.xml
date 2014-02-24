@@ -3,7 +3,7 @@
 
 	<group name="core - aggregates">
 
-		<component name="min" xpathFunction="min" xsi:type="function">
+		<component name="min" label="min" xpathFunction="min" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -15,7 +15,7 @@
 			</schema>
 		</component>
 
-		<component name="max" xpathFunction="max" xsi:type="function">
+		<component name="max" label="max" xpathFunction="max" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -27,7 +27,7 @@
 			</schema>
 		</component>
 
-		<component name="count" xpathFunction="count" xsi:type="function">
+		<component name="count" label="count" xpathFunction="count" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -39,7 +39,7 @@
 			</schema>
 		</component>
 
-		<component name="sum" xpathFunction="sum" xsi:type="function">
+		<component name="sum" label="sum" xpathFunction="sum" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -51,7 +51,7 @@
 			</schema>
 		</component>
 
-		<component name="avg" xpathFunction="avg" xsi:type="function">
+		<component name="avg" label="avg" xpathFunction="avg" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -63,7 +63,7 @@
 			</schema>
 		</component>
 
-		<component name="concat" xpathFunction="concat" xsi:type="function">
+		<component name="concat" label="concat" xpathFunction="concat" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="s1" step="s1" />
@@ -75,7 +75,7 @@
 			</schema>
 		</component>
 
-		<component name="string-join" xpathFunction="string-join" xsi:type="function">
+		<component name="string-join" label="string-join" xpathFunction="string-join" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="context" step="context" type="CONTEXT" />
@@ -92,7 +92,7 @@
 
 	<group name="core - conversion functions">
 
-		<component name="boolean" xpathFunction="boolean" xsi:type="function">
+		<component name="boolean" label="boolean" xpathFunction="boolean" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="value" step="value" />
@@ -103,7 +103,7 @@
 			</schema>
 		</component>
 
-		<component name="number" xpathFunction="number" xsi:type="function">
+		<component name="number" label="number" xpathFunction="number" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="value" step="value" />
@@ -114,7 +114,7 @@
 			</schema>
 		</component>
 
-		<component name="string" xpathFunction="string" xsi:type="function">
+		<component name="string" label="string" xpathFunction="string" xsi:type="function">
 			<schema>
 				<inputs>
 					<input name="value" step="value" />
@@ -129,7 +129,7 @@
 
 	<group name="core - logical functions">
 
-		<component name="equal" operator="=" xsi:type="operation">
+		<component name="equal" label="equal" operator="=" xsi:type="operation">
 			<schema>
 				<inputs>
 					<input name="a" step="a" />
@@ -141,7 +141,7 @@
 			</schema>
 		</component>
 
-		<component name="not-equal" operator="!=" xsi:type="operation">
+		<component name="not-equal" label="not-equal" operator="!=" xsi:type="operation">
 			<schema>
 				<inputs>
 					<input name="a" step="a" />

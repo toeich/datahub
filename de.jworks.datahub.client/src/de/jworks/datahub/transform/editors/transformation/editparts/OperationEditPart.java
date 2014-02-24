@@ -14,6 +14,6 @@ public class OperationEditPart extends TransformationComponentEditPart {
 
 	@Override
 	protected IFigure createFigure() {
-		return new OperationFigure(getModel().getName(), getInputSpecs(), getOutputSpecs());
+		return new OperationFigure(getModel().getLabel(), getInputSpecs(), getOutputSpecs());
 	}
 }

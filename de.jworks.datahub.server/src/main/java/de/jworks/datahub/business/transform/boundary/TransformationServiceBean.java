@@ -139,6 +139,7 @@ public class TransformationServiceBean implements TransformationService {
     private Datasource createDatasource(DatasetGroup datasetGroup) {
     	Datasource datasource = new Datasource();
     	datasource.setName(datasetGroup.getName());
+    	datasource.setLabel(datasetGroup.getName());
     	datasource.getSchema().addOutput(createOutput(datasetGroup.getSchema().getRootElement()));
     	datasource.setRouteSpec("<from uri='file:/home/te/temp/connector-work/collections/" + datasetGroup.getName() + "/datasource' />");
     	return datasource;
@@ -199,6 +200,7 @@ public class TransformationServiceBean implements TransformationService {
     private Datasink createDatasink(DatasetGroup datasetGroup) {
     	Datasink datasink = new Datasink();
     	datasink.setName(datasetGroup.getName());
+    	datasink.setLabel(datasetGroup.getName());
     	datasink.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
     	datasink.setRouteSpec("<to uri='file:/home/te/temp/connector-work/collections/" + datasetGroup.getName() + "/datasink' />");
     	return datasink;
@@ -266,7 +268,7 @@ public class TransformationServiceBean implements TransformationService {
     }
 
 	private Output createOutput(Element element) {
-		Output output = new Output(element.getLabel(), element.getName(), null);
+		Output output = new Output(element.getLabel(), element.getName(), ItemType.XML_ELEMENT);
 		for (Element e : element.getElements()) {
 			output.addOutput(createOutput(e));
 		}
@@ -277,7 +279,7 @@ public class TransformationServiceBean implements TransformationService {
 	}
 
     private Output createOutput(Attribute attribute) {
-    	return new Output(attribute.getLabel(), "@" + attribute.getName(), null);
+    	return new Output(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ATTRIBUTE);
 	}
 
 	private Input createInput(Element element) {
@@ -292,7 +294,7 @@ public class TransformationServiceBean implements TransformationService {
 	}
     
     private Input createInput(Attribute attribute) {
-    	return new Input(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ELEMENT);
+    	return new Input(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ATTRIBUTE);
 	}
 
 }
