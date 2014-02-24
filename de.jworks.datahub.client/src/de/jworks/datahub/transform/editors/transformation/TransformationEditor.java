@@ -1,5 +1,6 @@
 package de.jworks.datahub.transform.editors.transformation;
 
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -12,10 +13,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.palette.PaletteDrawer;
@@ -33,8 +32,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -92,6 +91,7 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 
 		handlerService.activateHandler("de.jworks.datahub.transform.addConstant", new AddConstantHandler());
 		handlerService.activateHandler("de.jworks.datahub.transform.addFilter", new AddFilterHandler());
+		handlerService.activateHandler("de.jworks.datahub.transform.exportTransformation", new ExportTransformationHandler());
 	}
 
 	@Override
@@ -133,24 +133,6 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(transformation.getDefinition());
-
-
-		// export as jpeg
-		try {
-			Control figureCanvas = viewer.getControl();
-
-			Image img = new Image(Display.getDefault(), 600, 600);
-			
-			GC imgGC = new GC(img);
-			figureCanvas.print(imgGC);
-
-			ImageLoader imgLoader = new ImageLoader();
-			imgLoader.data = new ImageData[] { img.getImageData() };
-			imgLoader.save("/home/te/temp/temp.jpg", SWT.IMAGE_JPEG);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
@@ -238,4 +220,38 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 			return null;
 		}
 	}
+	
+	private class ExportTransformationHandler extends AbstractHandler {
+
+		@Override
+		public Object execute(ExecutionEvent event) throws ExecutionException {
+			try {
+				FileDialog fileDialog = new FileDialog(getEditorSite().getShell(), SWT.SAVE);
+				fileDialog.setFileName(transformation.getName());
+				
+				String filePath = fileDialog.open();
+				if (filePath != null) {
+					transformation.updateData();
+					FileWriter fileWriter = new FileWriter(filePath + ".transformation");
+					fileWriter.write(transformation.getDefinitionData());
+					fileWriter.close();
+					
+					Image img = new Image(Display.getDefault(), getGraphicalControl().getBounds());
+					GC imgGC = new GC(img);
+					getGraphicalControl().print(imgGC);
+					ImageLoader imgLoader = new ImageLoader();
+					imgLoader.data = new ImageData[] { img.getImageData() };
+					imgLoader.save(filePath + ".jpeg", SWT.IMAGE_JPEG);
+					imgGC.dispose();
+					img.dispose();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+	}
+	
 }

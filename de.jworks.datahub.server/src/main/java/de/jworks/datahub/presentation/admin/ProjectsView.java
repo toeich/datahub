@@ -91,8 +91,6 @@ public class ProjectsView extends CustomComponent implements View {
 			}
 		});
 		projectsTable.setContainerDataSource(projects, Arrays.asList("id", "name", "description", "actions"));
-		projectsTable.setColumnHeader("name", Messages.getString(this, "name"));
-		projectsTable.setColumnHeader("description", Messages.getString(this, "description"));
 		projectsTable.setColumnExpandRatio("name", 1.0f);
 		projectsTable.setColumnExpandRatio("description", 1.0f);
 		

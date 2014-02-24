@@ -156,10 +156,7 @@
                id="transformation"
                label="Transformation">
             <command
-                  commandId="org.eclipse.ui.file.save">
-            </command>
-            <command
-                  commandId="de.jworks.datahub.transform.addConstant"
+                  commandId="de.jworks.datahub.transform.exportTransformation"
                   icon="icons/alt_window_16.gif">
             </command>
          </toolbar>
@@ -235,6 +232,10 @@
       <command
             id="de.jworks.datahub.transform.addFilter"
             name="Add Filter">
+      </command>
+      <command
+            id="de.jworks.datahub.transform.exportTransformation"
+            name="Export Transformation">
       </command>
    </extension>
    <extension
