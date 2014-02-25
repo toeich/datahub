@@ -74,8 +74,6 @@ public class DatasetGroupView extends CustomComponent implements View {
 	public DatasetGroupView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		
-		Messages.translate(this);
 
 		label.setContentMode(ContentMode.HTML);
 		
@@ -97,7 +95,9 @@ public class DatasetGroupView extends CustomComponent implements View {
 			}
 		});
 		
-		aboutText.setContentMode(ContentMode.HTML);
+		aboutTab.setMargin(new MarginInfo(true, false, false, false));
+		
+		Messages.translate(this);
 	}
 	
 	@Override
@@ -105,7 +105,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 		try {
 			long datasetGroupId = Long.parseLong(event.getParameters());
 			datasetGroup = datasetService.getDatasetGroup(datasetGroupId);
-			label.setValue("<li class='icon-home'></li> / Dataset Groups / " + datasetGroup.getName());
+			label.setValue(Messages.format(this, "label_value", datasetGroup.getName()));
 
 			datasetGroupName.setValue(datasetGroup.getName());
 			datasetGroupDescription.setValue(StringUtils.abbreviate(datasetGroup.getDescription(), 100));
