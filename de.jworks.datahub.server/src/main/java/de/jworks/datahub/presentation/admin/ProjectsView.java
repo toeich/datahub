@@ -55,8 +55,6 @@ public class ProjectsView extends CustomComponent implements View {
 	public ProjectsView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		
-		Messages.translate(this);
 
 		projectsTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -100,6 +98,8 @@ public class ProjectsView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("project!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override

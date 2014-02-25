@@ -38,10 +38,10 @@ public class ProcessesView extends CustomComponent implements View {
 	public ProcessesView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		Messages.translate(this);
 		
 		processesTab.setMargin(new MarginInfo(true, false, false, false));
+
+		Messages.translate(this);
 	}
 
 	@Override

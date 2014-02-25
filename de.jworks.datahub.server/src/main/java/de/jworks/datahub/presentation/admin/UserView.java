@@ -68,8 +68,6 @@ public class UserView extends CustomComponent implements View {
 	public UserView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		
-		Messages.translate(this);
 
 		userTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -98,6 +96,8 @@ public class UserView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("users!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class UserView extends CustomComponent implements View {
 				user.setName("New User");
 			}
 			
-			label.setValue("<li class='icon-home'></li> / Users / " + user.getName());
+			label.setValue(Messages.format(this, "label_value", user.getName()));
 			
 			fieldGroup.setItemDataSource(new BeanItem<User>(user));
 			fieldGroup.bindMemberFields(this);

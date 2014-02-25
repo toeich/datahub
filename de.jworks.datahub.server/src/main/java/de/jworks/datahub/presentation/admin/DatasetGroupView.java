@@ -95,8 +95,6 @@ public class DatasetGroupView extends CustomComponent implements View {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		Messages.translate(this);
-		
 		datasetGroupTab.setMargin(new MarginInfo(true, false, false, false));
 		
 		fieldGroup = new FieldGroup();
@@ -119,7 +117,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 			}
 		});
 		
-		columnsTab.setMargin(new MarginInfo(true, false, false, false));
+		columnsTab.setMargin(new MarginInfo(true, false, true, false));
 		
 		columnsTable.addGeneratedColumn("actions", new ColumnGenerator() {
 			@Override
@@ -181,6 +179,8 @@ public class DatasetGroupView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("datasetgroups!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override
@@ -194,7 +194,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 				datasetGroup.setName("New Dataset Group");
 			}
 
-			label.setValue("<li class='icon-home'></li> / Dataset Groups / " + datasetGroup.getName());
+			label.setValue(Messages.format(this, "label_value", datasetGroup.getName()));
 
 			tabSheet.setSelectedTab(datasetGroupTab);
 

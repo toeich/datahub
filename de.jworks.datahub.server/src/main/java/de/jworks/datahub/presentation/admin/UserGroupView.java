@@ -9,7 +9,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -25,6 +24,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.jworks.datahub.business.common.boundary.UserService;
 import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.presentation.AdminUI;
+import de.jworks.datahub.presentation.Messages;
 
 @CDIView(value = "usergroup!", supportsParameters = true, uis = { AdminUI.class })
 public class UserGroupView extends CustomComponent implements View {
@@ -65,13 +65,11 @@ public class UserGroupView extends CustomComponent implements View {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		label.setContentMode(ContentMode.HTML);
-		
 		userGroupTab.setMargin(new MarginInfo(true, false, false, false));
 		
-		usersTab.setMargin(new MarginInfo(true, false, false, false));
-		
 		fieldGroup = new FieldGroup();
+		
+		usersTab.setMargin(new MarginInfo(true, false, false, false));
 		
 		saveButton.addClickListener(new ClickListener() {
 			@Override
@@ -96,6 +94,8 @@ public class UserGroupView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("users!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class UserGroupView extends CustomComponent implements View {
 				userGroup.setName("New User Group");
 			}
 			
-			label.setValue("<li class='icon-home'></li> / Users / " + userGroup.getName());
+			label.setValue(Messages.format(this, "label_value", userGroup.getName()));
 			
 			fieldGroup.setItemDataSource(new BeanItem<UserGroup>(userGroup));
 			fieldGroup.bindMemberFields(this);

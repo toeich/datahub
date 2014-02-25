@@ -55,8 +55,6 @@ public class DatasetGroupsView extends CustomComponent implements View {
 	public DatasetGroupsView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		Messages.translate(this);
 		
 		datasetGroupsTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -91,9 +89,6 @@ public class DatasetGroupsView extends CustomComponent implements View {
 			}
 		});
 		datasetGroupsTable.setContainerDataSource(datasetGroups, Arrays.asList("id", "name", "description", "actions"));
-		datasetGroupsTable.setColumnHeader("name", Messages.getString(this, "name"));
-		datasetGroupsTable.setColumnHeader("description", Messages.getString(this, "description"));
-		datasetGroupsTable.setColumnHeader("actions", Messages.getString("actions"));
 		datasetGroupsTable.setColumnExpandRatio("name", 1.0f);
 		datasetGroupsTable.setColumnExpandRatio("description", 1.0f);
 		
@@ -103,6 +98,8 @@ public class DatasetGroupsView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("datasetgroup!/");
 			}
 		});
+
+		Messages.translate(this);
 	}
 
 	@Override

@@ -54,8 +54,6 @@ public class ConnectorsView extends CustomComponent implements View {
 	public ConnectorsView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		Messages.translate(this);
 		
 		connectorsTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -98,6 +96,8 @@ public class ConnectorsView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("connector!/");
 			}
 		});
+
+		Messages.translate(this);
 	}
 
 	@Override

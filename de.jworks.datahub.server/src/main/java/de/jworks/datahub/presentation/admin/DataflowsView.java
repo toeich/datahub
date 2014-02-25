@@ -79,8 +79,6 @@ public class DataflowsView extends CustomComponent implements View {
 	public DataflowsView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		
-		Messages.translate(this);
 
 		importsTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -131,6 +129,8 @@ public class DataflowsView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("query!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override

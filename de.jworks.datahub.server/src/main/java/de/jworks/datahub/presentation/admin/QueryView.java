@@ -73,8 +73,6 @@ public class QueryView extends CustomComponent implements View {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		Messages.translate(this);
-		
 		queryTab.setMargin(new MarginInfo(true, false, false, false));
 		
 		datasinkSchemaTab.setMargin(new MarginInfo(true, false, false, false));
@@ -104,6 +102,8 @@ public class QueryView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("dataflows!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override

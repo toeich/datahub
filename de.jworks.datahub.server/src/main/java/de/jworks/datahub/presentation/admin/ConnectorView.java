@@ -88,8 +88,6 @@ public class ConnectorView extends CustomComponent implements View {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		Messages.translate(this);
-		
 		connectorTab.setMargin(new MarginInfo(true, false, false, false));
 		
 		fieldGroup = new FieldGroup();
@@ -143,6 +141,8 @@ public class ConnectorView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("connectors!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override

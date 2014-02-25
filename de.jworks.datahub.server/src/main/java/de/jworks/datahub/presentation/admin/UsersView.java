@@ -65,8 +65,6 @@ public class UsersView extends CustomComponent implements View {
 	public UsersView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		
-		Messages.translate(this);
 
 		usersTab.setMargin(new MarginInfo(true, false, false, false));
 		
@@ -101,10 +99,6 @@ public class UsersView extends CustomComponent implements View {
 			}
 		});
 		usersTable.setContainerDataSource(users, Arrays.asList("id", "name", "fullName", "email", "actions"));
-		usersTable.setColumnHeader("name", Messages.getString(this, "name"));
-		usersTable.setColumnHeader("fullName", Messages.getString(this, "fullName"));
-		usersTable.setColumnHeader("email", Messages.getString(this, "email"));
-		usersTable.setColumnHeader("actions", Messages.getString("actions"));
 		usersTable.setColumnExpandRatio("name", 1.0f);
 		usersTable.setColumnExpandRatio("fullName", 1.0f);
 		usersTable.setColumnExpandRatio("email", 1.0f);
@@ -149,8 +143,6 @@ public class UsersView extends CustomComponent implements View {
 			}
 		});
 		userGroupsTable.setContainerDataSource(userGroups, Arrays.asList("id", "name", "actions"));
-		userGroupsTable.setColumnHeader("name", Messages.getString(this, "name"));
-		userGroupsTable.setColumnHeader("actions", Messages.getString("actions"));
 		userGroupsTable.setColumnExpandRatio("name", 1.0f);
 		
 		addUserGroupButton.addClickListener(new ClickListener() {
@@ -159,6 +151,8 @@ public class UsersView extends CustomComponent implements View {
 				UI.getCurrent().getNavigator().navigateTo("usergroup!/");
 			}
 		});
+		
+		Messages.translate(this);
 	}
 
 	@Override

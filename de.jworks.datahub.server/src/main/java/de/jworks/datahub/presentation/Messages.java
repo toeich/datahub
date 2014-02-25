@@ -1,6 +1,7 @@
 package de.jworks.datahub.presentation;
 
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import com.vaadin.server.VaadinSession;
@@ -25,7 +26,15 @@ public class Messages {
 	}
 
 	public static String format(String key, Object... args) {
-		return String.format(getString(key), args);
+		return MessageFormat.format(getString(key), args);
+	}
+
+	public static String getString(CustomComponent customComponent, String key) {
+		return getString(customComponent.getClass().getSimpleName() + "_" + key);
+	}
+
+	public static String format(CustomComponent customComponent, String key, Object... args) {
+		return MessageFormat.format(getString(customComponent.getClass().getSimpleName() + "_" + key), args);
 	}
 
 	public static void translate(CustomComponent customComponent) {
@@ -73,7 +82,7 @@ public class Messages {
 			if (Table.class.isAssignableFrom(field.getType())) {
 				try {
 					Table table = Table.class.cast(field.get(customComponent));
-					for (Object propertyId : table.getContainerPropertyIds()) {
+					for (Object propertyId : table.getVisibleColumns()) {
 						String header = getString(customComponent, field.getName() + "_" + propertyId);
 						if ((header != null && !header.startsWith("!")) || DEBUG) {
 							table.setColumnHeader(propertyId, header);
@@ -86,8 +95,4 @@ public class Messages {
 		}
 	}
 	
-	public static String getString(CustomComponent customComponent, String key) {
-		return getString(customComponent.getClass().getSimpleName() + "_" + key);
-	}
-
 }
