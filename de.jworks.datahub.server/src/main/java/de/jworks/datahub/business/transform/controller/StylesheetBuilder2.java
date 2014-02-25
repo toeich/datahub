@@ -14,6 +14,7 @@ import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Filter;
 import de.jworks.datahub.business.transform.entity.Function;
 import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.Item;
 import de.jworks.datahub.business.transform.entity.ItemType;
 import de.jworks.datahub.business.transform.entity.Link;
 import de.jworks.datahub.business.transform.entity.Lookup;
@@ -97,7 +98,7 @@ public class StylesheetBuilder2 {
 	}
 
 	private void collectOutputs(Output output, Component component, String parentUri) {
-		String step = output.getStep();
+		String step = step(output);
 		if (step.startsWith("{")) {
 			String namespaceUri = step.substring(1, step.indexOf("}"));
 			if (!namespaceUris.contains(namespaceUri)) {
@@ -131,7 +132,7 @@ public class StylesheetBuilder2 {
 	}
 
 	private void collectInputs(Input input, String parentUri) {
-		String step = input.getStep();
+		String step = step(input);
 		if (step.startsWith("{")) {
 			String namespaceUri = step.substring(1, step.indexOf("}"));
 			if (!namespaceUris.contains(namespaceUri)) {
@@ -173,7 +174,7 @@ public class StylesheetBuilder2 {
 
 		builder.append(" <xsl:template match='/'>\n");
 		for (Input i : datasink.getSchema().getInputs()) {
-			processInput(i, Arrays.asList((Output) null), 2);
+			processInput(i, Arrays.asList((Output) null), 1);
 		}
 		builder.append(" </xsl:template>\n");
 
@@ -187,28 +188,29 @@ public class StylesheetBuilder2 {
 		
 		String prefix = ""; for (int i = 0; i < indent; i++) { prefix+=" "; }
 
-		if (input.getType() != null) {
-			switch (input.getType()) {
-			case XML_ELEMENT:
-				builder.append(prefix + "<xsl:element name='" + elementName(input) + "'>\n");
-				break;
-			case XML_ATTRIBUTE:
-				builder.append(prefix + "<xsl:attribute name='" + attributeName(input) + "'>\n");
-				break;
-			default:
-				throw new RuntimeException("unsupported type: " + input.getType());
-			}
-		}
-
 		String xpath = null;
 		Output output = sources.get(input);
 		if (output != null) {
 			xpath = processOutput(output, newContext, indent+1);
 			if (xpath != null) {
-				builder.append(prefix + " <xsl:for-each select='" + xpath + "'>\n");
+				builder.append(prefix + "<xsl:for-each select='" + xpath + "'>\n");
 			}
 			newContext.add(output);
 		}
+		
+		if (input.getType() != null) {
+			switch (input.getType()) {
+			case XML_ELEMENT:
+				builder.append(prefix + " <xsl:element name='" + elementName(input) + "'>\n");
+				break;
+			case XML_ATTRIBUTE:
+				builder.append(prefix + " <xsl:attribute name='" + attributeName(input) + "'>\n");
+				break;
+			default:
+				throw new RuntimeException("unsupported type: " + input.getType());
+			}
+		}
+		
 		if (input.getInputs().size() > 0) {
 			for (Input i : input.getInputs()) {
 				processInput(i, newContext, indent+1);
@@ -216,21 +218,22 @@ public class StylesheetBuilder2 {
 		} else {
 			builder.append(prefix + "  <xsl:value-of select='.' />\n");
 		}
-		if (xpath != null) {
-			builder.append(prefix + " </xsl:for-each>\n");
-		}
 		
 		if (input.getType() != null) {
 			switch (input.getType()) {
 			case XML_ELEMENT:
-				builder.append(prefix + "</xsl:element>\n");
+				builder.append(prefix + " </xsl:element>\n");
 				break;
 			case XML_ATTRIBUTE:
-				builder.append(prefix + "</xsl:attribute>\n");
+				builder.append(prefix + " </xsl:attribute>\n");
 				break;
 			default:
 				throw new RuntimeException("unsupported type: " + input.getType());
 			}
+		}
+		
+		if (xpath != null) {
+			builder.append(prefix + "</xsl:for-each>\n");
 		}
 	}
 	
@@ -356,7 +359,7 @@ public class StylesheetBuilder2 {
 		if (lookup.getSchema().getInputs().size() > 0) {
 			builder.append(",\"?");
 			for (Input input : lookup.getSchema().getInputs()) {
-				builder.append(input.getStep());
+				builder.append(step(input));
 				builder.append("=\"");
 				builder.append(",");
 				builder.append(processOutput(sources.get(input), context, 0));
@@ -419,11 +422,25 @@ public class StylesheetBuilder2 {
 	}
 
 	private String elementName(Input input) {
-		return normalize(input.getStep());
+		return normalize(input.getName());
 	}
 
 	private String attributeName(Input input) {
-		return normalize(input.getStep().replace("@", ""));
+		return normalize(input.getName());
+	}
+
+	private String step(Item item) {
+		if (item.getType() != null) {
+			switch (item.getType()) {
+			case XML_ELEMENT:
+				return item.getName();
+			case XML_ATTRIBUTE:
+				return "@" + item.getName();
+			default:
+				return item.getName();
+			}
+		}
+		return item.getName();
 	}
 
 	private String path(Output output, List<Output> context) {

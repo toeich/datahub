@@ -48,8 +48,6 @@ public class DatasinkSchemaEditor extends CustomComponent {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		Messages.translate(this);
-		
 		schemaTree.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		schemaTree.setItemCaptionPropertyId("name");
 		
@@ -82,9 +80,9 @@ public class DatasinkSchemaEditor extends CustomComponent {
 				if (target instanceof Input) {
 					Input input = (Input) target;
 					if (action == addElement) {
-						input.addInput(new Input("new element", "new_element", ItemType.XML_ELEMENT));
+						input.addInput(new Input("new_element", ItemType.XML_ELEMENT));
 					} else if (action == addAttribute) {
-						input.addInput(new Input("new attribute", "@new_attribute", ItemType.XML_ATTRIBUTE));
+						input.addInput(new Input("new_attribute", ItemType.XML_ATTRIBUTE));
 					} else if (action == delete) {
 						DatasinkSchemaContainer container = (DatasinkSchemaContainer) ((Tree) sender).getContainerDataSource();
 						Input parent = (Input) container.getParent(target);
@@ -173,6 +171,8 @@ public class DatasinkSchemaEditor extends CustomComponent {
 		});
 
 		schemaTree.setNullSelectionAllowed(false);
+		
+		Messages.translate(this);
 	}
 	
 	public void setSchema(ComponentSchema schema) {

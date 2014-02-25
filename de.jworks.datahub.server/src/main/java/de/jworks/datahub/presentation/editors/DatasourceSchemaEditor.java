@@ -48,8 +48,6 @@ public class DatasourceSchemaEditor extends CustomComponent {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		Messages.translate(this);
-		
 		schemaTree.setItemCaptionMode(ItemCaptionMode.PROPERTY);
 		schemaTree.setItemCaptionPropertyId("name");
 		
@@ -82,9 +80,9 @@ public class DatasourceSchemaEditor extends CustomComponent {
 				if (target instanceof Output) {
 					Output output = (Output) target;
 					if (action == addElement) {
-						output.addOutput(new Output("new element", "new_element", ItemType.XML_ELEMENT));
+						output.addOutput(new Output("new_element", ItemType.XML_ELEMENT));
 					} else if (action == addAttribute) {
-						output.addOutput(new Output("new attribute", "@new_attribute", ItemType.XML_ATTRIBUTE));
+						output.addOutput(new Output("new_attribute", ItemType.XML_ATTRIBUTE));
 					} else if (action == delete) {
 						DatasourceSchemaContainer container = (DatasourceSchemaContainer) ((Tree) sender).getContainerDataSource();
 						Output parent = (Output) container.getParent(target);
@@ -173,6 +171,8 @@ public class DatasourceSchemaEditor extends CustomComponent {
 		});
 
 		schemaTree.setNullSelectionAllowed(false);
+		
+		Messages.translate(this);
 	}
 	
 	public void setSchema(ComponentSchema schema) {

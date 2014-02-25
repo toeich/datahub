@@ -14,6 +14,7 @@ import de.jworks.datahub.business.transform.entity.Datasource;
 import de.jworks.datahub.business.transform.entity.Filter;
 import de.jworks.datahub.business.transform.entity.Function;
 import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.Item;
 import de.jworks.datahub.business.transform.entity.ItemType;
 import de.jworks.datahub.business.transform.entity.Link;
 import de.jworks.datahub.business.transform.entity.Lookup;
@@ -100,7 +101,7 @@ public class StylesheetBuilder {
 	}
 
 	private void collectOutputs(Output output, Component component, String parentUri) {
-		String step = output.getStep();
+		String step = step(output);
 		if (step.startsWith("{")) {
 			String namespaceUri = step.substring(1, step.indexOf("}"));
 			if (!namespaceUris.contains(namespaceUri)) {
@@ -134,7 +135,7 @@ public class StylesheetBuilder {
 	}
 
 	private void collectInputs(Input input, String parentUri) {
-		String step = input.getStep();
+		String step = step(input);
 		if (step.startsWith("{")) {
 			String namespaceUri = step.substring(1, step.indexOf("}"));
 			if (!namespaceUris.contains(namespaceUri)) {
@@ -374,7 +375,7 @@ public class StylesheetBuilder {
 		if (lookup.getSchema().getInputs().size() > 0) {
 			builder.append(",\"?");
 			for (Input input : lookup.getSchema().getInputs()) {
-				builder.append(input.getStep());
+				builder.append(step(input));
 				builder.append("=\"");
 				builder.append(",");
 				builder.append(expr(input, lookupContext));
@@ -475,11 +476,25 @@ public class StylesheetBuilder {
 	}
 
 	private String elementName(Input input) {
-		return normalize(input.getStep());
+		return normalize(input.getName());
 	}
 
 	private String attributeName(Input input) {
-		return normalize(input.getStep().replace("@", ""));
+		return normalize(input.getName());
+	}
+	
+	private String step(Item item) {
+		if (item.getType() != null) {
+			switch (item.getType()) {
+			case XML_ELEMENT:
+				return item.getName();
+			case XML_ATTRIBUTE:
+				return "@" + item.getName();
+			default:
+				return item.getName();
+			}
+		}
+		return item.getName();
 	}
 
 	private String normalize(String s) {

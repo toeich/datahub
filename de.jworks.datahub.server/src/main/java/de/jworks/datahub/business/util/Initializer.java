@@ -15,6 +15,7 @@ import de.jworks.datahub.business.connectors.entity.Connector;
 import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.datasets.entity.Element;
+import de.jworks.datahub.business.datasets.entity.AttributeType;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.controller.CamelController;
 import de.jworks.datahub.business.transform.entity.Datasink;
@@ -86,13 +87,15 @@ public class Initializer {
 		{
 			Project catalogs = new Project();
 			catalogs.setName("Catalogs");
+			catalogs.setDescription("Description of Catalogs");
 			entityManager.persist(catalogs);
 		}
 		
-		// System "cmi24"
+		// Connector "cmi24"
 		{
 			Connector cmi24 = new Connector();
 			cmi24.setName("cmi24");
+			cmi24.setDescription("Description of cmi24");
 			
 			// Datasource "Products"
 			{
@@ -100,11 +103,11 @@ public class Initializer {
 				cmi24Products.setName("products");
 				cmi24Products.setLabel("Products");
 				cmi24Products.getSchema().addOutput(
-						new Output("products", "products", ItemType.XML_ELEMENT,
-								new Output("product", "product", ItemType.XML_ELEMENT,
-										new Output("ean", "@ean", ItemType.XML_ATTRIBUTE),
-										new Output("name", "@name", ItemType.XML_ATTRIBUTE),
-										new Output("description", "@description", ItemType.XML_ATTRIBUTE))));
+						new Output("products", ItemType.XML_ELEMENT,
+								new Output("product", ItemType.XML_ELEMENT,
+										new Output("ean", ItemType.XML_ATTRIBUTE),
+										new Output("name", ItemType.XML_ATTRIBUTE),
+										new Output("description", ItemType.XML_ATTRIBUTE))));
 				cmi24Products.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/cmi24/datasources/Products' />");
 				cmi24.getSchema().getDatasources().add(cmi24Products);
 			}
@@ -115,17 +118,17 @@ public class Initializer {
 				cmi24Publications.setName("publications");
 				cmi24Publications.setLabel("Publications");
 				cmi24Publications.getSchema().addInput(
-						new Input("Publication", "publication", ItemType.XML_ELEMENT,
-								new Input("Key", "@_key", ItemType.XML_ATTRIBUTE),
-								new Input("Name", "@_name", ItemType.XML_ATTRIBUTE),
-								new Input("Chapter", "chapter", ItemType.XML_ELEMENT,
-										new Input("Key", "@_key", ItemType.XML_ATTRIBUTE),
-										new Input("Name", "@_name", ItemType.XML_ATTRIBUTE),
-										new Input("Product", "product", ItemType.XML_ELEMENT,
-												new Input("Key", "@_key", ItemType.XML_ATTRIBUTE),
-												new Input("Name", "@_name", ItemType.XML_ATTRIBUTE),
-												new Input("Master", "@_master", ItemType.XML_ATTRIBUTE),
-												new Input("Price", "@price", ItemType.XML_ATTRIBUTE)))));
+						new Input("publication", ItemType.XML_ELEMENT,
+								new Input("_key", ItemType.XML_ATTRIBUTE),
+								new Input("_name", ItemType.XML_ATTRIBUTE),
+								new Input("chapter", ItemType.XML_ELEMENT,
+										new Input("_key", ItemType.XML_ATTRIBUTE),
+										new Input("_name", ItemType.XML_ATTRIBUTE),
+										new Input("product", ItemType.XML_ELEMENT,
+												new Input("_key", ItemType.XML_ATTRIBUTE),
+												new Input("_name", ItemType.XML_ATTRIBUTE),
+												new Input("_master", ItemType.XML_ATTRIBUTE),
+												new Input("price", ItemType.XML_ATTRIBUTE)))));
 				cmi24Publications.setRouteSpec("<to uri='file:/home/te/temp/connector-work/systems/cmi24/datasinks/Publications' />");
 				cmi24.getSchema().getDatasinks().add(cmi24Publications);
 			}
@@ -136,9 +139,9 @@ public class Initializer {
 				cmi24Publications.setName("publications");
 				cmi24Publications.setLabel("Publications");
 				cmi24Publications.getSchema().addOutput(
-						new Output("Publication", "publication", ItemType.XML_ELEMENT,
-								new Output("Name", "@name", ItemType.XML_ATTRIBUTE),
-								new Output("URL", "@url", ItemType.XML_ATTRIBUTE)));
+						new Output("publication", ItemType.XML_ELEMENT,
+								new Output("name", ItemType.XML_ATTRIBUTE),
+								new Output("url", ItemType.XML_ATTRIBUTE)));
 				cmi24Publications.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/cmi24/datasources/Publications' />");
 				cmi24.getSchema().getDatasources().add(cmi24Publications);
 			}
@@ -146,7 +149,7 @@ public class Initializer {
 			entityManager.persist(cmi24);
 		}
 		
-		// System "SAP"
+		// Connector "SAP"
 		{
 			Connector sap = new Connector();
 			sap.setName("SAP");
@@ -157,11 +160,11 @@ public class Initializer {
 				sapProducts.setName("products");
 				sapProducts.setLabel("Products");
 				sapProducts.getSchema().addOutput(
-						new Output("products", "products", ItemType.XML_ELEMENT,
-								new Output("product", "product", ItemType.XML_ELEMENT,
-										new Output("ean", "@ean", ItemType.XML_ATTRIBUTE),
-										new Output("name", "@name", ItemType.XML_ATTRIBUTE),
-										new Output("price", "@price", ItemType.XML_ATTRIBUTE))));
+						new Output("products", ItemType.XML_ELEMENT,
+								new Output("product", ItemType.XML_ELEMENT,
+										new Output("ean", ItemType.XML_ATTRIBUTE),
+										new Output("name", ItemType.XML_ATTRIBUTE),
+										new Output("price", ItemType.XML_ATTRIBUTE))));
 				sapProducts.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/SAP/datasources/Products' />");
 				sap.getSchema().getDatasources().add(sapProducts);
 			}
@@ -169,7 +172,7 @@ public class Initializer {
 			entityManager.persist(sap);
 		}
 		
-		// System "FTP"
+		// Connector "FTP"
 		{
 			Connector ftp = new Connector();
 			ftp.setName("FTP");
@@ -180,8 +183,8 @@ public class Initializer {
 				files.setName("files");
 				files.setLabel("Files");
 				files.getSchema().addInput(
-						new Input("File", "file", ItemType.XML_ELEMENT,
-								new Input("URL", "@url", ItemType.XML_ATTRIBUTE)));
+						new Input("file", ItemType.XML_ELEMENT,
+								new Input("url", ItemType.XML_ATTRIBUTE)));
 				files.setRouteSpec("<to uri='file:/home/te/temp/connector-work/systems/FTP/datasinks/Files' />");
 				ftp.getSchema().getDatasinks().add(files);
 			}
@@ -189,87 +192,79 @@ public class Initializer {
 			entityManager.persist(ftp);
 		}
 
-		// Collection "Customers"
-		DatasetGroup collection = new DatasetGroup();
-		collection.setName("Customers");
-		Element rootElement = collection.getSchema().getRootElement();
+		// Dataset Group "Customers"
+		DatasetGroup customers = new DatasetGroup();
+		customers.setName("Customers");
+		customers.setDescription("Description of Customers");
+		Element rootElement = customers.getSchema().getRootElement();
 		rootElement.setName("customer");
 		rootElement.setLabel("Kunde");
-		rootElement.addAttribute("firstName").setLabel("Vorname");
-		rootElement.addAttribute("lastName").setLabel("Nachname");
-		collection.getColumns().add(new ColumnDefinition("Name", "concat(/customer/@firstName, ' ', /customer/@lastName)"));
-		entityManager.persist(collection);
+		rootElement.addAttribute("firstName", AttributeType.STRING, null).setLabel("Vorname");
+		rootElement.addAttribute("lastName", AttributeType.STRING, null).setLabel("Nachname");
+		customers.getColumns().add(new ColumnDefinition("Name", "concat(/customer/@firstName, ' ', /customer/@lastName)"));
+		entityManager.persist(customers);
 		
-		// Collection "cmi24_Products"
+		// Dataset Group "cmi24_Products"
 		DatasetGroup cmi24Products = new DatasetGroup();
-		cmi24Products.setName("cmi24_Products");
 		Element cmi24Product = cmi24Products.getSchema().getRootElement();
+		cmi24Products.setName("cmi24_Products");
 		cmi24Product.setName("product");
 		cmi24Product.setLabel("Produkt");
-		cmi24Product.addAttribute("id").setLabel("ID");
-		cmi24Product.addAttribute("name").setLabel("Name");
-		cmi24Product.addAttribute("description").setLabel("Bescheibung");
+		cmi24Product.addAttribute("id", AttributeType.STRING, null).setLabel("ID");
+		cmi24Product.addAttribute("name", AttributeType.STRING, null).setLabel("Name");
+		cmi24Product.addAttribute("description", AttributeType.STRING, null).setLabel("Bescheibung");
 		cmi24Products.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
 		entityManager.persist(cmi24Products);
 		
-		// Collection "SAP_Products"
+		// Dataset Group "SAP_Products"
 		DatasetGroup sapProducts = new DatasetGroup();
 		sapProducts.setName("SAP_Products");
 		Element sapProduct = sapProducts.getSchema().getRootElement();
 		sapProduct.setName("product");
 		sapProduct.setLabel("Produkt");
-		sapProduct.addAttribute("id").setLabel("ID");
-		sapProduct.addAttribute("name").setLabel("Name");
-		sapProduct.addAttribute("price").setLabel("Preis");
+		sapProduct.addAttribute("id", AttributeType.STRING, null).setLabel("ID");
+		sapProduct.addAttribute("name", AttributeType.STRING, null).setLabel("Name");
+		sapProduct.addAttribute("price", AttributeType.STRING, null).setLabel("Preis");
 		sapProducts.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
 		entityManager.persist(sapProducts);
 
-		// Collection "Catalogs"
+		// Dataset Group "Catalogs"
 		DatasetGroup catalogs = new DatasetGroup();
 		catalogs.setName("Catalogs");
 		Element catalog = catalogs.getSchema().getRootElement();
 		catalog.setName("catalog");
 		catalog.setLabel("Katalog");
-		catalog.addAttribute("name").setLabel("Name");
-		catalog.addAttribute("customer").setLabel("Kunde");
-		catalog.addAttribute("template").setLabel("Template");
+		catalog.addAttribute("name", AttributeType.STRING, null).setLabel("Name");
+		catalog.addAttribute("customer", AttributeType.STRING, null).setLabel("Kunde");
+		catalog.addAttribute("template", AttributeType.STRING, null).setLabel("Template");
 		Element chapter = catalog.addElement("chapter");
 		chapter.setLabel("Kapitel");
 		chapter.setPluralLabel("Kapitel");
 		chapter.setMinOccurs(null); // 0
 		chapter.setMaxOccurs(null); // unbounded
-		chapter.addAttribute("title").setLabel("Titel");
+		chapter.addAttribute("title", AttributeType.STRING, null).setLabel("Titel");
 		Element product = chapter.addElement("product");
 		product.setLabel("Produkt");
 		product.setPluralLabel("Produkte");
 		product.setMinOccurs(null); // 0
 		product.setMaxOccurs(null); // unbounded
-		product.addAttribute("product").setLabel("Produkt");
-		product.addAttribute("price").setLabel("Preis");
-		product.addAttribute("template").setLabel("Template");
+		product.addAttribute("product", AttributeType.STRING, null).setLabel("Produkt");
+		product.addAttribute("price", AttributeType.STRING, null).setLabel("Preis");
+		product.addAttribute("template", AttributeType.STRING, null).setLabel("Template");
 		catalogs.getColumns().add(new ColumnDefinition("Name", "/catalog/@name"));
 		entityManager.persist(catalogs);
 		
 		// Import "Import cmi24 Products"
-		Transformation import1 = new Transformation();
-		import1.setType(TransformationType.Import);
-		import1.setName("Import cmi24 Products");
-		import1.getDefinition().setDatasource(transformationService.findDatasourceByName("cmi24__products"));
-		import1.getDefinition().setDatasink(transformationService.findDatasinkByName("cmi24_Products"));
+		Transformation import1 = Transformation.createImport("Import cmi24 Products", 
+				transformationService.findDatasourceByName("cmi24__products"),
+				transformationService.findDatasinkByName("cmi24_Products"));
 		entityManager.persist(import1);
 		
 		// Query "Sample Query"
-		Transformation query1 = new Transformation();
-		query1.setType(TransformationType.Query);
-		query1.setName("Sample Query");
-		Datasink query1Datasink = new Datasink();
-		query1Datasink.setName("sample_query");
-		query1Datasink.setLabel("Sample Query");
-		query1Datasink.getSchema().addInput(
-				new Input("Query Result", "result", ItemType.XML_ELEMENT,
-						new Input("Person", "person", ItemType.XML_ELEMENT,
-								new Input("Name", "@name", ItemType.XML_ATTRIBUTE))));
-		query1.getDefinition().setDatasink(query1Datasink);
+		Transformation query1 = Transformation.createQuery("Sample Query");
+		query1.getDefinition().getDatasink().getSchema().getInputs().get(0).addInput(
+						new Input("person", ItemType.XML_ELEMENT,
+								new Input("name", ItemType.XML_ATTRIBUTE)));
 		entityManager.persist(query1);
 	}
 

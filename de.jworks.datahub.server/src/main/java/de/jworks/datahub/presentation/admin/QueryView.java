@@ -24,11 +24,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.transform.boundary.TransformationService;
-import de.jworks.datahub.business.transform.entity.Datasink;
-import de.jworks.datahub.business.transform.entity.Input;
-import de.jworks.datahub.business.transform.entity.ItemType;
 import de.jworks.datahub.business.transform.entity.Transformation;
-import de.jworks.datahub.business.transform.entity.TransformationType;
 import de.jworks.datahub.presentation.AdminUI;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.editors.DatasinkSchemaEditor;
@@ -84,6 +80,7 @@ public class QueryView extends CustomComponent implements View {
 			public void buttonClick(ClickEvent event) {
 				try {
 					fieldGroup.commit();
+					query.getDefinition().getDatasink().setLabel(query.getName());
 					if (query.getId() == null) {
 						transformationService.addTransformation(query);
 					} else {
@@ -113,13 +110,7 @@ public class QueryView extends CustomComponent implements View {
 				long queryId = Long.parseLong(event.getParameters());
 				query = transformationService.getTransformation(queryId);
 			} catch (Exception e) {
-				query = new Transformation();
-				query.setName("New Query");
-				query.setType(TransformationType.Query);
-				Datasink datasink = new Datasink();
-				datasink.setName("QueryResult");
-				datasink.getSchema().addInput(new Input("result", "result", ItemType.XML_ELEMENT));
-				query.getDefinition().setDatasink(datasink);
+				query = Transformation.createQuery("New Query");
 			}
 
 			label.setValue("<li class='icon-home'></li> / Dataflows / " + query.getName());

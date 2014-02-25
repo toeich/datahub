@@ -1,5 +1,7 @@
 package de.jworks.datahub.transform.editors.transformation.editparts;
 
+import java.util.Arrays;
+
 import org.eclipse.draw2d.IFigure;
 
 import de.jworks.datahub.business.transform.entity.Constant;
@@ -18,7 +20,8 @@ public class ConstantEditPart extends TransformationComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		return new ConstantFigure(getConstant().getLabel(), getInputSpecs(), getOutputSpecs());
+		String outputSpec = getModel().getName() + ":" + "/value#0#" + getConstant().getValue();
+		return new ConstantFigure(getModel().getLabel(), getInputSpecs(), Arrays.asList(outputSpec));
 	}
 	
 }

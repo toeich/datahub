@@ -137,11 +137,16 @@ public class DatasetGroupView extends CustomComponent implements View {
 				return actions;
 			}
 		});
+		
 		columnsTable.setContainerDataSource(columns, Arrays.asList("name", "format", "actions"));
+		columnsTable.setColumnExpandRatio("name", 1.0f);
+		columnsTable.setColumnExpandRatio("format", 1.0f);
+		
 		columnsTable.setTableFieldFactory(new TableFieldFactory() {
 			@Override
 			public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
 				Field<?> field = DefaultFieldFactory.get().createField(container, itemId, propertyId, uiContext);
+				field.setStyleName("borderless");
 				field.setSizeFull();
 				return field;
 			}

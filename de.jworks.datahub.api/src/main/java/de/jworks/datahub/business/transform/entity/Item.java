@@ -15,28 +15,14 @@ public abstract class Item extends Notifier {
     protected String name;
     
     @XmlAttribute
-    protected String step;
-    
-    @XmlAttribute
     protected ItemType type;
     
-    @XmlAttribute
-    protected String valueType;
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         firePropertyChange("name", this.name, this.name = name);
-    }
-
-    public String getStep() {
-        return step;
-    }
-
-    public void setStep(String step) {
-        firePropertyChange("path", this.step, this.step = step);
     }
 
     public ItemType getType() {
@@ -47,17 +33,9 @@ public abstract class Item extends Notifier {
         firePropertyChange("type", this.type, this.type = type);
     }
 
-    public String getValueType() {
-        return valueType;
-    }
-
-    public void setValueType(String valueType) {
-        firePropertyChange("valueType", this.valueType, this.valueType = valueType);
-    }
-
 	@Override
 	public String toString() {
-		return "Item [name=" + name + ", step=" + step + ", type=" + type + "]";
+		return "Item [name=" + name + ", type=" + type + "]";
 	}
     
 }

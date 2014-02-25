@@ -21,6 +21,7 @@ import com.vaadin.ui.Tree.TreeTargetDetails;
 import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.datasets.entity.Attribute;
+import de.jworks.datahub.business.datasets.entity.AttributeType;
 import de.jworks.datahub.business.datasets.entity.DatasetSchema;
 import de.jworks.datahub.business.datasets.entity.Element;
 import de.jworks.datahub.business.datasets.entity.Item;
@@ -82,7 +83,7 @@ public class DatasetSchemaEditor extends CustomComponent {
 				if (action == addElement) {
 					((Element) target).addElement("new element");
 				} else if (action == addAttribute) {
-					((Element) target).addAttribute("new attribute");
+					((Element) target).addAttribute("new attribute", AttributeType.STRING, null);
 				} else if (action == delete) {
 					DatasetSchemaContainer container = (DatasetSchemaContainer) ((Tree) sender).getContainerDataSource();
 					Object parentItemId = container.getParent(target);

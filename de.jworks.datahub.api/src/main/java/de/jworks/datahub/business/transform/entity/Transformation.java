@@ -23,11 +23,11 @@ public class Transformation extends Notifier {
 	@GeneratedValue
 	private Long id;
 	
+	private TransformationType type;
+	
 	private String name;
 	
 	private String description;
-	
-	private TransformationType type;
 	
 	@ManyToOne
 	private Project project;
@@ -38,10 +38,38 @@ public class Transformation extends Notifier {
 	@Transient
 	private TransformationDefinition definition;
 
+	public static Transformation createImport(String name, Datasource datasource, Datasink datasink) {
+		Transformation transformation = new Transformation();
+		transformation.setType(TransformationType.Import);
+		transformation.setName(name);
+		transformation.getDefinition().setDatasource(datasource);
+		transformation.getDefinition().setDatasink(datasink);
+		return transformation;
+	}
+	
+	public static Transformation createQuery(String name) {
+		Transformation transformation = new Transformation();
+		transformation.setType(TransformationType.Query);
+		transformation.setName(name);
+		Datasink datasink = new Datasink();
+		datasink.setName("query");
+		datasink.getSchema().addInput(new Input("result", ItemType.XML_ELEMENT));
+		transformation.getDefinition().setDatasink(datasink);
+		return transformation;
+	}
+	
 	public Long getId() {
 		return id;
 	}
 
+	public TransformationType getType() {
+		return type;
+	}
+	
+	public void setType(TransformationType type) {
+		this.type = type;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -58,14 +86,6 @@ public class Transformation extends Notifier {
 		this.description = description;
 	}
 	
-	public TransformationType getType() {
-		return type;
-	}
-
-	public void setType(TransformationType type) {
-		this.type = type;
-	}
-
 	public Project getProject() {
 		return project;
 	}

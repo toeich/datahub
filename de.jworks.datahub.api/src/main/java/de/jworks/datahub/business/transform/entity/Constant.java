@@ -26,7 +26,7 @@ public class Constant extends TransformationComponent {
     public ComponentSchema getSchema() {
     	if (schema == null) {
     		schema = new ComponentSchema();
-    		schema.addOutput(new Output(value, "value", null));
+    		schema.addOutput(new Output("value", null));
     	}
     	return schema;
     }
@@ -35,4 +35,5 @@ public class Constant extends TransformationComponent {
     public String toString() {
         return "Constant [name=" + name + ", value=" + value + "]";
     }
+    
 }

@@ -22,9 +22,8 @@ public class Input extends Item {
     public Input() {
     }
 
-    public Input(String name, String step, ItemType type, Input... inputs) {
+    public Input(String name, ItemType type, Input... inputs) {
         this.name = name;
-        this.step = step;
         this.type = type;
         this.inputs.addAll(Arrays.asList(inputs));
     }
@@ -46,8 +45,4 @@ public class Input extends Item {
         }
     }
 
-	public void resolve() {
-		// TODO
-	}
-	
 }

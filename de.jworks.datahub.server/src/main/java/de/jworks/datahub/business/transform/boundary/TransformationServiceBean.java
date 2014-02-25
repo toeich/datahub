@@ -261,14 +261,15 @@ public class TransformationServiceBean implements TransformationService {
     private Lookup createLookup(DatasetGroup datasetGroup) {
     	Lookup lookup = new Lookup();
     	lookup.setName(datasetGroup.getName());
+    	lookup.setLabel(datasetGroup.getName());
 //    	lookup.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
-    	lookup.getSchema().addOutput(new Output("Lookup Result", "result", ItemType.XML_ELEMENT, createOutput(datasetGroup.getSchema().getRootElement())));
+    	lookup.getSchema().addOutput(new Output("result", ItemType.XML_ELEMENT, createOutput(datasetGroup.getSchema().getRootElement())));
     	lookup.setDatasourceSpec("lookup-" + datasetGroup.getId()); // TODO
     	return lookup;
     }
 
 	private Output createOutput(Element element) {
-		Output output = new Output(element.getLabel(), element.getName(), ItemType.XML_ELEMENT);
+		Output output = new Output(element.getName(), ItemType.XML_ELEMENT);
 		for (Element e : element.getElements()) {
 			output.addOutput(createOutput(e));
 		}
@@ -279,11 +280,11 @@ public class TransformationServiceBean implements TransformationService {
 	}
 
     private Output createOutput(Attribute attribute) {
-    	return new Output(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ATTRIBUTE);
+    	return new Output(attribute.getName(), ItemType.XML_ATTRIBUTE);
 	}
 
 	private Input createInput(Element element) {
-		Input output = new Input(element.getLabel(), element.getName(), ItemType.XML_ELEMENT);
+		Input output = new Input(element.getName(), ItemType.XML_ELEMENT);
 		for (Element e : element.getElements()) {
 			output.addInput(createInput(e));
 		}
@@ -294,7 +295,7 @@ public class TransformationServiceBean implements TransformationService {
 	}
     
     private Input createInput(Attribute attribute) {
-    	return new Input(attribute.getLabel(), "@" + attribute.getName(), ItemType.XML_ATTRIBUTE);
+    	return new Input(attribute.getName(), ItemType.XML_ATTRIBUTE);
 	}
 
 }

@@ -67,8 +67,8 @@ public class Element extends Item {
 		return Collections.unmodifiableList(attributes);
 	}
 	
-	public Attribute addAttribute(String name) {
-		Attribute attribute = new Attribute(name);
+	public Attribute addAttribute(String name, AttributeType valueType, String valueConstraint) {
+		Attribute attribute = new Attribute(name, valueType, valueConstraint);
 		attribute.setParent(this);
 		attributes.add(attribute);
 		return attribute;

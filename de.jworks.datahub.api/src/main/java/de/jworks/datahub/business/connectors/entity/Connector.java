@@ -76,7 +76,6 @@ public class Connector {
 			try {
 				StringReader stringReader = new StringReader(schemaData);
 				schema = JAXB.unmarshal(stringReader, ConnectorSchema.class);
-				schema.resolve();
 			} catch (Exception e) {
 				schema = new ConnectorSchema();
 			}
@@ -89,7 +88,6 @@ public class Connector {
 		try {
 			StringReader stringReader = new StringReader(schemaData);
 			ConnectorSchema schema = JAXB.unmarshal(stringReader, ConnectorSchema.class);
-			schema.resolve();
 			return schema;
 		} catch (Exception e) {
 			return new ConnectorSchema();

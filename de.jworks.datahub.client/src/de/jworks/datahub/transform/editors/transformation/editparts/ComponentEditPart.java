@@ -21,6 +21,7 @@ import org.eclipse.gef.tools.ConnectionDragCreationTool;
 
 import de.jworks.datahub.business.transform.entity.Component;
 import de.jworks.datahub.business.transform.entity.Input;
+import de.jworks.datahub.business.transform.entity.Item;
 import de.jworks.datahub.business.transform.entity.Link;
 import de.jworks.datahub.business.transform.entity.Output;
 import de.jworks.datahub.business.transform.entity.Transformation;
@@ -163,7 +164,7 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	}
 
 	private void collectInputSpecs(Input input, String parentPath, int indent, List<String> inputSpecs) {
-		String inputPath = parentPath + "/" + input.getStep();
+		String inputPath = parentPath + "/" + step(input);
 		inputSpecs.add(inputPath + "#" + indent + "#" + input.getName());
 		for (Input i : input.getInputs()) {
 			collectInputSpecs(i, inputPath, indent + 1, inputSpecs);
@@ -180,10 +181,25 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	}
 
 	private void collectOutputSpecs(Output output, String parentPath, int indent, List<String> outputSpecs) {
-		String outputPath = parentPath + "/" + output.getStep();
+		String outputPath = parentPath + "/" + step(output);
 		outputSpecs.add(outputPath + "#" + indent + "#" + output.getName());
 		for (Output o : output.getOutputs()) {
 			collectOutputSpecs(o, outputPath, indent + 1, outputSpecs);
 		}
 	}
+
+	private String step(Item item) {
+		if (item.getType() != null) {
+			switch (item.getType()) {
+			case XML_ELEMENT:
+				return item.getName();
+			case XML_ATTRIBUTE:
+				return "@" + item.getName();
+			default:
+				return item.getName();
+			}
+		}
+		return item.getName();
+	}
+
 }

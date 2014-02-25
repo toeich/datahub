@@ -12,10 +12,10 @@ public class Filter extends TransformationComponent {
 	public ComponentSchema getSchema() {
 		if (schema == null) {
 			schema = new ComponentSchema();
-			schema.addInput(new Input("node", "node", ItemType.CONTEXT));
-			schema.addInput(new Input("bool", "bool", null));
-			schema.addOutput(new Output("on-true", "on-true", null));
-			schema.addOutput(new Output("on-false", "on-false", null));
+			schema.addInput(new Input("node", ItemType.CONTEXT));
+			schema.addInput(new Input("bool", null));
+			schema.addOutput(new Output("on-true", null));
+			schema.addOutput(new Output("on-false", null));
 		}
 		return schema;
 	}

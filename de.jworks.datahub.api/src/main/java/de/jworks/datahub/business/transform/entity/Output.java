@@ -24,9 +24,8 @@ public class Output extends Item {
     public Output() {
     }
 
-    public Output(String name, String step, ItemType type, Output... outputs) {
+    public Output(String name, ItemType type, Output... outputs) {
         this.name = name;
-        this.step = step;
         this.type = type;
         this.outputs.addAll(Arrays.asList(outputs));
     }

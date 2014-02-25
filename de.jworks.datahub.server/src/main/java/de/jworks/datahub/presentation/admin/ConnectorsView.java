@@ -87,8 +87,10 @@ public class ConnectorsView extends CustomComponent implements View {
 				return actions;
 			}
 		});
-		connectorsTable.setContainerDataSource(connectors, Arrays.asList("id", "name", "actions"));
+		
+		connectorsTable.setContainerDataSource(connectors, Arrays.asList("id", "name", "description", "actions"));
 		connectorsTable.setColumnExpandRatio("name", 1.0f);
+		connectorsTable.setColumnExpandRatio("description", 1.0f);
 		
 		addConnectorButton.addClickListener(new ClickListener() {
 			@Override

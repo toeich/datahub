@@ -6,8 +6,8 @@
 		<component name="min" label="min" xpathFunction="min" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="values" step="values" />
+					<input name="context" type="CONTEXT" />
+					<input name="values" />
 				</inputs>
 				<outputs>
 					<output name="result" step="result" />
@@ -18,11 +18,11 @@
 		<component name="max" label="max" xpathFunction="max" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="values" step="values" />
+					<input name="context" type="CONTEXT" />
+					<input name="values" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -30,11 +30,11 @@
 		<component name="count" label="count" xpathFunction="count" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="nodes" step="nodes" />
+					<input name="context" type="CONTEXT" />
+					<input name="nodes" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -42,11 +42,11 @@
 		<component name="sum" label="sum" xpathFunction="sum" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="values" step="values" />
+					<input name="context" type="CONTEXT" />
+					<input name="values" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -54,11 +54,11 @@
 		<component name="avg" label="avg" xpathFunction="avg" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="values" step="values" />
+					<input name="context" type="CONTEXT" />
+					<input name="values" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -66,11 +66,11 @@
 		<component name="concat" label="concat" xpathFunction="concat" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="s1" step="s1" />
-					<input name="s2" step="s2" />
+					<input name="s1" />
+					<input name="s2" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -78,12 +78,12 @@
 		<component name="string-join" label="string-join" xpathFunction="string-join" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="context" step="context" type="CONTEXT" />
-					<input name="values" step="values" />
-					<input name="separator" step="separator" />
+					<input name="context" type="CONTEXT" />
+					<input name="values" />
+					<input name="separator" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -95,10 +95,10 @@
 		<component name="boolean" label="boolean" xpathFunction="boolean" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="value" step="value" />
+					<input name="value" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -106,10 +106,10 @@
 		<component name="number" label="number" xpathFunction="number" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="value" step="value" />
+					<input name="value" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -117,10 +117,10 @@
 		<component name="string" label="string" xpathFunction="string" xsi:type="function">
 			<schema>
 				<inputs>
-					<input name="value" step="value" />
+					<input name="value" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -132,11 +132,11 @@
 		<component name="equal" label="equal" operator="=" xsi:type="operation">
 			<schema>
 				<inputs>
-					<input name="a" step="a" />
-					<input name="b" step="b" />
+					<input name="a" />
+					<input name="b" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>
@@ -144,11 +144,11 @@
 		<component name="not-equal" label="not-equal" operator="!=" xsi:type="operation">
 			<schema>
 				<inputs>
-					<input name="a" step="a" />
-					<input name="b" step="b" />
+					<input name="a" />
+					<input name="b" />
 				</inputs>
 				<outputs>
-					<output name="result" step="result" />
+					<output name="result" />
 				</outputs>
 			</schema>
 		</component>

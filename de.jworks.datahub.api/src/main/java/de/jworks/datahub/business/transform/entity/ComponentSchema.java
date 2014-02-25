@@ -57,13 +57,4 @@ public class ComponentSchema extends Notifier implements Serializable {
         firePropertyChange("outputs", null, null);
     }
 
-	public void resolve() {
-		for (Output output : outputs) {
-			output.resolve();
-		}
-		for (Input input : inputs) {
-			input.resolve();
-		}
-	}
-	
 }

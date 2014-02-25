@@ -70,10 +70,10 @@ public class Messages {
 			if (AbstractTextField.class.isAssignableFrom(field.getType())) {
 				try {
 					AbstractTextField abstractTextField = AbstractTextField.class.cast(field.get(customComponent));
+					abstractTextField.setNullRepresentation(null);
 					String inputPrompt = getString(customComponent, field.getName() + "_inputPrompt");
 					if ((inputPrompt != null && !inputPrompt.startsWith("!")) || DEBUG) {
 						abstractTextField.setInputPrompt(inputPrompt);
-						abstractTextField.setNullRepresentation(null);
 					}
 				} catch (Exception e) {
 					// ignore

@@ -40,13 +40,4 @@ public class ConnectorSchema {
 		this.datasinks = datasinks;
 	}
 	
-	public void resolve() {
-		for (Datasource datasource : datasources) {
-			datasource.resolve();
-		}
-		for (Datasink datasink : datasinks) {
-			datasink.resolve();
-		}
-	}
-
 }

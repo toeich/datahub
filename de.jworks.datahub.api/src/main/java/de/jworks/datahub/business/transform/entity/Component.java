@@ -59,10 +59,6 @@ public abstract class Component extends Notifier {
 		firePropertyChange("schema", this.schema, this.schema = schema);
 	}
 
-    public void resolve() {
-    	getSchema().resolve();
-    }
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
