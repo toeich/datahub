@@ -184,7 +184,7 @@ public class StylesheetBuilder2 {
 	private void processInput(Input input, List<Output> context, int indent) {
 		List<Output> newContext = new ArrayList<Output>(context);
 		
-		logger.info("processing Input '" + inputUris.get(input) + dump(newContext));
+		logger.fine("processing Input '" + inputUris.get(input) + dump(newContext));
 		
 		String prefix = ""; for (int i = 0; i < indent; i++) { prefix+=" "; }
 

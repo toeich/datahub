@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -16,7 +15,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory;
 
 import de.jworks.datahub.business.datasets.boundary.DatasetService;
@@ -25,7 +24,6 @@ import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
-@Stateless
 @Named
 public class TransformURIResolver implements URIResolver {
 

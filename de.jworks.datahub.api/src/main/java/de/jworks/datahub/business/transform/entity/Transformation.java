@@ -47,6 +47,32 @@ public class Transformation extends Notifier {
 		return transformation;
 	}
 	
+	public static Transformation createExport(String name, Datasink datasink) {
+		Transformation transformation = new Transformation();
+		transformation.setType(TransformationType.Export);
+		transformation.setName(name);
+		transformation.getDefinition().setDatasink(datasink);
+		return transformation;
+	}
+	
+	public static Transformation createExternalDataflow(String name, Datasource datasource, Datasink datasink) {
+		Transformation transformation = new Transformation();
+		transformation.setType(TransformationType.ExternalDataflow);
+		transformation.setName(name);
+		transformation.getDefinition().setDatasource(datasource);
+		transformation.getDefinition().setDatasink(datasink);
+		return transformation;
+	}
+	
+	public static Transformation createInternalDataflow(String name, Datasource datasource, Datasink datasink) {
+		Transformation transformation = new Transformation();
+		transformation.setType(TransformationType.InternalDataflow);
+		transformation.setName(name);
+		transformation.getDefinition().setDatasource(datasource);
+		transformation.getDefinition().setDatasink(datasink);
+		return transformation;
+	}
+	
 	public static Transformation createQuery(String name) {
 		Transformation transformation = new Transformation();
 		transformation.setType(TransformationType.Query);

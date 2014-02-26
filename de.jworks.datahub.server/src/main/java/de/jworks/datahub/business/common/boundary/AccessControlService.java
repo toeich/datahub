@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang.ObjectUtils;
 
 import de.jworks.datahub.business.common.entity.AccessControlAware;
 import de.jworks.datahub.business.common.entity.AccessControlEntry;

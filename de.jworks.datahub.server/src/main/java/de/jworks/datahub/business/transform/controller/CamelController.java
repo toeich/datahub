@@ -73,12 +73,12 @@ public class CamelController {
 			datasources.add(transformation.getDefinition().getDatasource());
 		}
 		for (Datasource datasource : datasources) {
-			builder.append("<route id='datasource-" + datasource.getName() + "'>\n");
+			builder.append("<route id='datasource:" + datasource.getName() + "'>\n");
 			builder.append(datasource.getRouteSpec() + "\n");
 			builder.append("<multicast>\n");
 			for (Transformation transformation : transformations) {
 				if (datasource.equals(transformation.getDefinition().getDatasource())) {
-					builder.append("<to uri='direct:transformation-" + transformation.getId() + "'/>\n");
+					builder.append("<to uri='direct:transformation:" + transformation.getId() + "'/>\n");
 				}
 			}
 			builder.append("</multicast>\n");
@@ -90,17 +90,17 @@ public class CamelController {
 			datasinks.add(transformation.getDefinition().getDatasink());
 		}
 		for (Datasink datasink : datasinks) {
-			builder.append("<route id='datasink-" + datasink.getName() + "'>\n");
-			builder.append("<from uri='direct:datasink-" + datasink.getName() + "'/>\n");
+			builder.append("<route id='datasink:" + datasink.getName() + "'>\n");
+			builder.append("<from uri='direct:datasink:" + datasink.getName() + "'/>\n");
 			builder.append(datasink.getRouteSpec() + "\n");
 			builder.append("</route>\n\n");
 		}
 
 		for (Transformation transformation : transformations) {
-			builder.append("<route id='transformation-" + transformation.getId() + "'>\n");
-			builder.append("<from uri='direct:transformation-" + transformation.getId() + "'/>\n");
+			builder.append("<route id='transformation:" + transformation.getId() + "'>\n");
+			builder.append("<from uri='direct:transformation:" + transformation.getId() + "'/>\n");
 			builder.append("<to uri='xslt:xslt-" + transformation.getId() + "?uriResolver=transformURIResolver'/>\n");
-			builder.append("<to uri='direct:datasink-" + transformation.getDefinition().getDatasink().getName() + "'/>\n");
+			builder.append("<to uri='direct:datasink:" + transformation.getDefinition().getDatasink().getName() + "'/>\n");
 			builder.append("</route>\n\n");
 		}
 

@@ -12,10 +12,10 @@ import de.jworks.datahub.business.common.entity.Role;
 import de.jworks.datahub.business.common.entity.User;
 import de.jworks.datahub.business.common.entity.UserGroup;
 import de.jworks.datahub.business.connectors.entity.Connector;
+import de.jworks.datahub.business.datasets.entity.AttributeType;
 import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.datasets.entity.Element;
-import de.jworks.datahub.business.datasets.entity.AttributeType;
 import de.jworks.datahub.business.transform.boundary.TransformationService;
 import de.jworks.datahub.business.transform.controller.CamelController;
 import de.jworks.datahub.business.transform.entity.Datasink;
@@ -24,7 +24,6 @@ import de.jworks.datahub.business.transform.entity.Input;
 import de.jworks.datahub.business.transform.entity.ItemType;
 import de.jworks.datahub.business.transform.entity.Output;
 import de.jworks.datahub.business.transform.entity.Transformation;
-import de.jworks.datahub.business.transform.entity.TransformationType;
 
 @Singleton
 @Startup
@@ -97,7 +96,7 @@ public class Initializer {
 			cmi24.setName("cmi24");
 			cmi24.setDescription("Description of cmi24");
 			
-			// Datasource "Products"
+			// Datasource "products (cmi24)"
 			{
 				Datasource cmi24Products = new Datasource();
 				cmi24Products.setName("products");
@@ -108,11 +107,11 @@ public class Initializer {
 										new Output("ean", ItemType.XML_ATTRIBUTE),
 										new Output("name", ItemType.XML_ATTRIBUTE),
 										new Output("description", ItemType.XML_ATTRIBUTE))));
-				cmi24Products.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/cmi24/datasources/Products' />");
+				cmi24Products.setRouteSpec("<from uri='file:/home/te/temp/datahub-work/cmi24/products' />");
 				cmi24.getSchema().getDatasources().add(cmi24Products);
 			}
 			
-			// Datasink "Publications"
+			// Datasink "publications (cmi24)"
 			{
 				Datasink cmi24Publications = new Datasink();
 				cmi24Publications.setName("publications");
@@ -129,11 +128,11 @@ public class Initializer {
 												new Input("_name", ItemType.XML_ATTRIBUTE),
 												new Input("_master", ItemType.XML_ATTRIBUTE),
 												new Input("price", ItemType.XML_ATTRIBUTE)))));
-				cmi24Publications.setRouteSpec("<to uri='file:/home/te/temp/connector-work/systems/cmi24/datasinks/Publications' />");
+				cmi24Publications.setRouteSpec("<to uri='file:/home/te/temp/datahub-work/cmi24/publications-1' />");
 				cmi24.getSchema().getDatasinks().add(cmi24Publications);
 			}
 			
-			// Datasource "Publications"
+			// Datasource "publications (cmi24)"
 			{
 				Datasource cmi24Publications = new Datasource();
 				cmi24Publications.setName("publications");
@@ -142,7 +141,7 @@ public class Initializer {
 						new Output("publication", ItemType.XML_ELEMENT,
 								new Output("name", ItemType.XML_ATTRIBUTE),
 								new Output("url", ItemType.XML_ATTRIBUTE)));
-				cmi24Publications.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/cmi24/datasources/Publications' />");
+				cmi24Publications.setRouteSpec("<from uri='file:/home/te/temp/datahub-work/cmi24/publications-2' />");
 				cmi24.getSchema().getDatasources().add(cmi24Publications);
 			}
 			
@@ -153,8 +152,9 @@ public class Initializer {
 		{
 			Connector sap = new Connector();
 			sap.setName("SAP");
+			sap.setDescription("Description of SAP");
 			
-			// Datasource "Products"
+			// Datasource "products (SAP)"
 			{
 				Datasource sapProducts = new Datasource();
 				sapProducts.setName("products");
@@ -165,7 +165,7 @@ public class Initializer {
 										new Output("ean", ItemType.XML_ATTRIBUTE),
 										new Output("name", ItemType.XML_ATTRIBUTE),
 										new Output("price", ItemType.XML_ATTRIBUTE))));
-				sapProducts.setRouteSpec("<from uri='file:/home/te/temp/connector-work/systems/SAP/datasources/Products' />");
+				sapProducts.setRouteSpec("<from uri='file:/home/te/temp/datahub-work/SAP/products' />");
 				sap.getSchema().getDatasources().add(sapProducts);
 			}
 			
@@ -176,8 +176,9 @@ public class Initializer {
 		{
 			Connector ftp = new Connector();
 			ftp.setName("FTP");
+			ftp.setDescription("Description of FTP");
 			
-			// Datasink "Files"
+			// Datasink "files (FTP)"
 			{
 				Datasink files = new Datasink();
 				files.setName("files");
@@ -185,7 +186,7 @@ public class Initializer {
 				files.getSchema().addInput(
 						new Input("file", ItemType.XML_ELEMENT,
 								new Input("url", ItemType.XML_ATTRIBUTE)));
-				files.setRouteSpec("<to uri='file:/home/te/temp/connector-work/systems/FTP/datasinks/Files' />");
+				files.setRouteSpec("<to uri='file:/home/te/temp/datahub-work/FTP/files' />");
 				ftp.getSchema().getDatasinks().add(files);
 			}
 			
@@ -202,23 +203,27 @@ public class Initializer {
 		rootElement.addAttribute("firstName", AttributeType.STRING, null).setLabel("Vorname");
 		rootElement.addAttribute("lastName", AttributeType.STRING, null).setLabel("Nachname");
 		customers.getColumns().add(new ColumnDefinition("Name", "concat(/customer/@firstName, ' ', /customer/@lastName)"));
+		customers.getColumns().add(new ColumnDefinition("Description", "concat('Description of ', /customer/@firstName, ' ', /customer/@lastName)"));
 		entityManager.persist(customers);
 		
 		// Dataset Group "cmi24_Products"
 		DatasetGroup cmi24Products = new DatasetGroup();
 		Element cmi24Product = cmi24Products.getSchema().getRootElement();
-		cmi24Products.setName("cmi24_Products");
+		cmi24Products.setName("cmi24 Products");
+		cmi24Products.setDescription("Description of cmi24 Products");
 		cmi24Product.setName("product");
 		cmi24Product.setLabel("Produkt");
 		cmi24Product.addAttribute("id", AttributeType.STRING, null).setLabel("ID");
 		cmi24Product.addAttribute("name", AttributeType.STRING, null).setLabel("Name");
 		cmi24Product.addAttribute("description", AttributeType.STRING, null).setLabel("Bescheibung");
 		cmi24Products.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
+		cmi24Products.getColumns().add(new ColumnDefinition("Description", "/product/@description"));
 		entityManager.persist(cmi24Products);
 		
 		// Dataset Group "SAP_Products"
 		DatasetGroup sapProducts = new DatasetGroup();
-		sapProducts.setName("SAP_Products");
+		sapProducts.setName("SAP Products");
+		sapProducts.setDescription("Description of SAP Products");
 		Element sapProduct = sapProducts.getSchema().getRootElement();
 		sapProduct.setName("product");
 		sapProduct.setLabel("Produkt");
@@ -226,11 +231,13 @@ public class Initializer {
 		sapProduct.addAttribute("name", AttributeType.STRING, null).setLabel("Name");
 		sapProduct.addAttribute("price", AttributeType.STRING, null).setLabel("Preis");
 		sapProducts.getColumns().add(new ColumnDefinition("Name", "/product/@name"));
+		sapProducts.getColumns().add(new ColumnDefinition("Description", "concat('Description of ', /product/@description)"));
 		entityManager.persist(sapProducts);
 
 		// Dataset Group "Catalogs"
 		DatasetGroup catalogs = new DatasetGroup();
 		catalogs.setName("Catalogs");
+		catalogs.setDescription("Description of Catalogs");
 		Element catalog = catalogs.getSchema().getRootElement();
 		catalog.setName("catalog");
 		catalog.setLabel("Katalog");
@@ -240,32 +247,46 @@ public class Initializer {
 		Element chapter = catalog.addElement("chapter");
 		chapter.setLabel("Kapitel");
 		chapter.setPluralLabel("Kapitel");
-		chapter.setMinOccurs(null); // 0
-		chapter.setMaxOccurs(null); // unbounded
 		chapter.addAttribute("title", AttributeType.STRING, null).setLabel("Titel");
 		Element product = chapter.addElement("product");
 		product.setLabel("Produkt");
 		product.setPluralLabel("Produkte");
-		product.setMinOccurs(null); // 0
-		product.setMaxOccurs(null); // unbounded
 		product.addAttribute("product", AttributeType.STRING, null).setLabel("Produkt");
 		product.addAttribute("price", AttributeType.STRING, null).setLabel("Preis");
 		product.addAttribute("template", AttributeType.STRING, null).setLabel("Template");
 		catalogs.getColumns().add(new ColumnDefinition("Name", "/catalog/@name"));
+		catalogs.getColumns().add(new ColumnDefinition("Description", "concat('Description of ', /catalog/@name)"));
 		entityManager.persist(catalogs);
 		
 		// Import "Import cmi24 Products"
-		Transformation import1 = Transformation.createImport("Import cmi24 Products", 
-				transformationService.findDatasourceByName("cmi24__products"),
-				transformationService.findDatasinkByName("cmi24_Products"));
-		entityManager.persist(import1);
+		Transformation importCmi24Products = Transformation.createImport("Import cmi24 Products", 
+				transformationService.findDatasourceByName("products (cmi24)"),
+				transformationService.findDatasinkByName("cmi24 Products"));
+		entityManager.persist(importCmi24Products);
+		
+		// Import "Import SAP Products"
+		Transformation importSapProducts = Transformation.createImport("Import SAP Products", 
+				transformationService.findDatasourceByName("products (SAP)"),
+				transformationService.findDatasinkByName("SAP Products"));
+		entityManager.persist(importSapProducts);
+		
+		// Export "Export Catalogs"
+		Transformation exportCatalogs = Transformation.createExport("Export Catalogs",
+				transformationService.findDatasinkByName("publications (cmi24)"));
+		entityManager.persist(exportCatalogs);
+		
+		// External Dataflow "Publish Publications"
+		Transformation publishPublications = Transformation.createExternalDataflow("Publish Publications",
+				transformationService.findDatasourceByName("publications (cmi24)"),
+				transformationService.findDatasinkByName("files (FTP)"));
+		entityManager.persist(publishPublications);
 		
 		// Query "Sample Query"
-		Transformation query1 = Transformation.createQuery("Sample Query");
-		query1.getDefinition().getDatasink().getSchema().getInputs().get(0).addInput(
+		Transformation sampleQuery = Transformation.createQuery("Sample Query");
+		sampleQuery.getDefinition().getDatasink().getSchema().getInputs().get(0).addInput(
 						new Input("person", ItemType.XML_ELEMENT,
 								new Input("name", ItemType.XML_ATTRIBUTE)));
-		entityManager.persist(query1);
+		entityManager.persist(sampleQuery);
 	}
 
 }

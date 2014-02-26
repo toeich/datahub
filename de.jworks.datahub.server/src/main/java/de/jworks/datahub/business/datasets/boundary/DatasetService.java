@@ -72,7 +72,14 @@ public class DatasetService {
 
 	public Dataset addDataset(Dataset dataset) {
 		entityManager.persist(dataset);
+		
+		// sync id into the content as attribute "_id"
+		dataset.getDocument().getDocumentElement().setAttribute("_id", String.valueOf(dataset.getId()));
+		dataset.updateData();
+		entityManager.persist(dataset);
+		
 		updateSearchIndex(dataset);
+		
 		return dataset;
 	}
 	

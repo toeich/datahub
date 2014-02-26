@@ -120,8 +120,9 @@ public class DataflowsView extends CustomComponent implements View {
 				return actions;
 			}
 		});
-		queriesTable.setContainerDataSource(queries, Arrays.asList("id", "name", "actions"));
+		queriesTable.setContainerDataSource(queries, Arrays.asList("id", "name", "description", "actions"));
 		queriesTable.setColumnExpandRatio("name", 1.0f);
+		queriesTable.setColumnExpandRatio("description", 1.0f);
 		
 		addQueryButton.addClickListener(new ClickListener() {
 			@Override

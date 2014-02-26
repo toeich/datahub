@@ -1,8 +1,8 @@
 package de.jworks.datahub.presentation;
 
 import javax.inject.Inject;
-
 import com.porotype.iconfont.FontAwesome;
+import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.cdi.access.AccessControl;
@@ -13,6 +13,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @CDIUI
+@Theme("datahub")
 public class UserUI extends UI {
 
 	private VerticalLayout root;

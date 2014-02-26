@@ -8,8 +8,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.jworks.datahub.business.connectors.entity.Connector;
 import de.jworks.datahub.business.datasets.entity.Attribute;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
@@ -89,7 +87,8 @@ public class TransformationServiceBean implements TransformationService {
     			.getResultList();
     	for (Connector connector : connectors) {
     		for (Datasource datasource : connector.getSchemaDetached().getDatasources()) {
-    			datasource.setName(connector.getName() + "__" + datasource.getName());
+    			datasource.setName(datasource.getName() + " (" + connector.getName() + ")");
+    			datasource.setLabel(datasource.getLabel() + " (" + connector.getName() + ")");
     			result.add(datasource);
     		}
     	}
@@ -106,34 +105,12 @@ public class TransformationServiceBean implements TransformationService {
     
 	@Override
     public Datasource findDatasourceByName(String name) {
-    	try {
-    		if (StringUtils.contains(name, "__")) {
-    			// connector datasource
-    			String connectorName = StringUtils.substringBefore(name, "__");
-    			String datasourceName = StringUtils.substringAfter(name, "__");
-    			Connector connector = entityManager
-    					.createQuery("SELECT c FROM Connector c WHERE c.name = :name", Connector.class)
-    					.setParameter("name", connectorName)
-    					.getSingleResult();
-    			for (Datasource datasource : connector.getSchemaDetached().getDatasources()) {
-    				if (StringUtils.equals(datasourceName, datasource.getName())) {
-    					datasource.setName(connector.getName() + "__" + datasource.getName());
-    					return datasource;
-    				}
-    			}
-    		} else {
-    			// dataset group datasource
-    			DatasetGroup datasetGroup = entityManager
-    					.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.name = :name", DatasetGroup.class)
-    					.setParameter("name", name)
-    					.getSingleResult();
-    			return createDatasource(datasetGroup);
-    		}
-    		return null;
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    		return null;
-    	}
+		for (Datasource datasource : getDatasources()) {
+			if (datasource.getName().equals(name)) {
+				return datasource;
+			}
+		}
+		return null;
     }
 
     private Datasource createDatasource(DatasetGroup datasetGroup) {
@@ -141,7 +118,7 @@ public class TransformationServiceBean implements TransformationService {
     	datasource.setName(datasetGroup.getName());
     	datasource.setLabel(datasetGroup.getName());
     	datasource.getSchema().addOutput(createOutput(datasetGroup.getSchema().getRootElement()));
-    	datasource.setRouteSpec("<from uri='file:/home/te/temp/connector-work/collections/" + datasetGroup.getName() + "/datasource' />");
+    	datasource.setRouteSpec("<from uri='file:/home/te/temp/datahub-work/" + datasetGroup.getName() + "/datasource' />");
     	return datasource;
     }
 
@@ -154,7 +131,8 @@ public class TransformationServiceBean implements TransformationService {
     			.getResultList();
     	for (Connector connector : connectors) {
     		for (Datasink datasink : connector.getSchemaDetached().getDatasinks()) {
-    			datasink.setName(connector.getName() + "__" + datasink.getName());
+    			datasink.setName(datasink.getName() + " (" + connector.getName() + ")");
+    			datasink.setLabel(datasink.getLabel() + " (" + connector.getName() + ")");
     			result.add(datasink);
     		}
     	}
@@ -171,28 +149,10 @@ public class TransformationServiceBean implements TransformationService {
 
     @Override
     public Datasink findDatasinkByName(String name) {
-    	try {
-    		if (StringUtils.contains(name, "__")) {
-    			String connectorName = StringUtils.substringBefore(name, "__");
-    			String datasinkName = StringUtils.substringAfter(name, "__");
-    			Connector connector = entityManager
-    					.createQuery("SELECT c FROM Connector c WHERE c.name = :name", Connector.class)
-    					.setParameter("name", connectorName)
-    					.getSingleResult();
-    			for (Datasink datasink : connector.getSchema().getDatasinks()) {
-    				if (StringUtils.equals(datasinkName, datasink.getName())) {
-    					return datasink;
-    				}
-    			}
-    		} else {
-    			DatasetGroup datasetGroup = entityManager
-    					.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.name = :name", DatasetGroup.class)
-    					.setParameter("name", name)
-    					.getSingleResult();
-    			return createDatasink(datasetGroup);
+    	for (Datasink datasink : getDatasinks()) {
+    		if (datasink.getName().equals(name)) {
+    			return datasink;
     		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
     	}
     	return null;
     }
@@ -202,7 +162,9 @@ public class TransformationServiceBean implements TransformationService {
     	datasink.setName(datasetGroup.getName());
     	datasink.setLabel(datasetGroup.getName());
     	datasink.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
-    	datasink.setRouteSpec("<to uri='file:/home/te/temp/connector-work/collections/" + datasetGroup.getName() + "/datasink' />");
+    	datasink.setRouteSpec(
+    			"<setHeader headerName='datasetGroup'>\n <constant>" + datasetGroup.getName() + "</constant>\n</setHeader>\n" +
+    			"<to uri='bean:transformBean' />");
     	return datasink;
     }
 
@@ -215,7 +177,8 @@ public class TransformationServiceBean implements TransformationService {
 //    			.getResultList();
 //    	for (Connector connector : connectors) {
 //    		for (Lookup lookup : connector.getSchemaDetached().getDLookups()) {
-//    			lookup.setName(connector.getName() + "__" + lookup.getName());
+//    			lookup.setName(lookup.getName() + " (" + connector.getName() + ")");
+//				lookup.setLabel(lookup.getLabel() + " (" + connector.getName() + ")");
 //    			result.add(lookup);
 //    		}
 //    	}
@@ -232,28 +195,10 @@ public class TransformationServiceBean implements TransformationService {
     
     @Override
     public Lookup findLookupkByName(String name) {
-    	try {
-    		if (StringUtils.contains(name, "__")) {
-//    			String connectorName = StringUtils.substringBefore(name, "__");
-//    			String datasinkName = StringUtils.substringAfter(name, "__");
-//    			Connector connector = entityManager
-//    					.createQuery("SELECT c FROM Connector c WHERE c.name = :name", Connector.class)
-//    					.setParameter("name", connectorName)
-//    					.getSingleResult();
-//    			for (Lookup lookup : connector.getSchema().getLookups()) {
-//    				if (StringUtils.equals(datasinkName, lookup.getName())) {
-//    					return lookup;
-//    				}
-//    			}
-    		} else {
-    			DatasetGroup datasetGroup = entityManager
-    					.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.name = :name", DatasetGroup.class)
-    					.setParameter("name", name)
-    					.getSingleResult();
-    			return createLookup(datasetGroup);
+    	for (Lookup lookup : getLookups()) {
+    		if (lookup.getName().equals(name)) {
+    			return lookup;
     		}
-    	} catch (Exception e) {
-    		e.printStackTrace();
     	}
     	return null;
     }
