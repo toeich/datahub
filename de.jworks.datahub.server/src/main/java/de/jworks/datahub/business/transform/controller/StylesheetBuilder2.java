@@ -312,12 +312,19 @@ public class StylesheetBuilder2 {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("(");
-		for (Input input : operation.getSchema().getInputs()) {
-			builder.append(processOutput(sources.get(input), context, 0));
-			builder.append(" " + operation.getOperator() + " ");
+		Output baseOutput = context(operation.getSchema().getInputs());
+		if (baseOutput != null) {
+			builder.append(processOutput(baseOutput, context, 0));
+			builder.append("/");
+			context.add(0, baseOutput);
 		}
-		builder.delete(builder.length() - operation.getOperator().length() - 2, builder.length());
+		
+		builder.append("(");
+		for (Input i : operation.getSchema().getInputs()) {
+			builder.append(processOutput(sources.get(i), context, 0));
+			builder.append(operation.getOperator());
+		}
+		builder.delete(builder.length() - operation.getOperator().length(), builder.length());
 		builder.append(")");
 		
 		return builder.toString();
@@ -326,12 +333,16 @@ public class StylesheetBuilder2 {
 	private String processFilterOutput(Output source, List<Output> context) {
 		Filter filter = (Filter) components.get(source);
 		
-		Output filterContext = context(filter.getSchema().getInputs().get(0));
-		
 		StringBuilder builder = new StringBuilder();
-		builder.append(relativePath(filterContext, source));
+		
+		Output baseOutput = sources.get(filter.getSchema().getInputs().get(0));
+		builder.append(processOutput(baseOutput, context, 0));
+		context.add(baseOutput);
+		
+		List<Output> context2 = new ArrayList<Output>(context);
+		
 		builder.append("[");
-		builder.append(processOutput(sources.get(filter.getSchema().getInputs().get(1)), context, 0));
+		builder.append(processOutput(sources.get(filter.getSchema().getInputs().get(1)), context2, 0));
 		builder.append("]");
 		
 		return builder.toString();
