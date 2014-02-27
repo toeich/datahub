@@ -29,7 +29,7 @@ public class Project implements AccessControlAware {
 	@Column(name = "name")
 	private Map<String, String> localizedNames = new HashMap<String, String>();
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@MapKeyColumn(name = "locale")
 	@Column(name = "description")
 	private Map<String, String> localizedDescriptions = new HashMap<String, String>();

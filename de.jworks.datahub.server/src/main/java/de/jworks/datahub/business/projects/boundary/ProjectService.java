@@ -11,6 +11,7 @@ import de.jworks.datahub.business.common.boundary.AccessControlService;
 import de.jworks.datahub.business.common.entity.Permission;
 import de.jworks.datahub.business.common.entity.Project;
 import de.jworks.datahub.business.common.entity.Role;
+import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 
 @Stateless
 public class ProjectService {
@@ -27,6 +28,11 @@ public class ProjectService {
 				.getResultList();
 		accessControlService.filter(result, Permission.READ);
 		return result;
+	}
+	
+	public List<Project> getProjects(DatasetGroup datasetGroup) {
+		List<Project> projects = entityManager.find(DatasetGroup.class, datasetGroup.getId()).getProjects();
+		return projects.size() > 0 ? projects : getProjects();
 	}
 
 	public Project getProject(long projectId) {

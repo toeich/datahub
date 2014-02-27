@@ -12,7 +12,6 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -30,12 +29,14 @@ import de.jworks.datahub.business.datasets.boundary.DatasetService;
 import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.Dataset;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
+import de.jworks.datahub.business.projects.boundary.ProjectService;
 import de.jworks.datahub.business.util.XMLUtil;
+import de.jworks.datahub.presentation.Constants;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 
 @CDIView(value = "datasetgroup!", supportsParameters = true, uis = { UserUI.class })
-public class DatasetGroupView extends CustomComponent implements View {
+public class DatasetGroupView extends CustomComponent implements View, Constants {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -77,16 +78,17 @@ public class DatasetGroupView extends CustomComponent implements View {
 	@Inject
 	DatasetService datasetService;
 	
-	private IndexedContainer datasets = new IndexedContainer();
+	@Inject
+	ProjectService projectService;
 	
 	private DatasetGroup datasetGroup;
+	
+	private IndexedContainer datasets = new IndexedContainer();
 	
 	public DatasetGroupView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		label.setContentMode(ContentMode.HTML);
-		
 		infoPanel.addLayoutClickListener(new LayoutClickListener() {
 			@Override
 			public void layoutClick(LayoutClickEvent event) {
@@ -115,12 +117,14 @@ public class DatasetGroupView extends CustomComponent implements View {
 		try {
 			long datasetGroupId = Long.parseLong(event.getParameters());
 			datasetGroup = datasetService.getDatasetGroup(datasetGroupId);
+			
 			label.setValue(Messages.format(this, "label_value", datasetGroup.getName()));
 
 			datasetGroupName.setValue(datasetGroup.getName());
 			datasetGroupDescription.setValue(StringUtils.abbreviate(datasetGroup.getDescription(), 100));
 
-			aboutText.setValue(datasetGroup.getDescription()); // TODO
+			aboutText.setValue(datasetGroup.getDescription());
+			aboutText.setValue("" + projectService.getProjects(datasetGroup));
 
 			for (Object propertyId : datasetsTable.getVisibleColumns()) {
 				datasetsTable.removeGeneratedColumn(propertyId);
@@ -147,7 +151,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 					editButton.addClickListener(new ClickListener() {
 						@Override
 						public void buttonClick(ClickEvent event) {
-							UI.getCurrent().getNavigator().navigateTo("dataset!/" + dataset.getId());						}
+							UI.getCurrent().getNavigator().navigateTo(DATASET + dataset.getId());						}
 					});
 					actions.addComponent(editButton);
 					Button deleteButton = new Button();
@@ -168,7 +172,7 @@ public class DatasetGroupView extends CustomComponent implements View {
 			refreshDatasetsTable();
 		} catch (Exception e) {
 			Notification.show("Error", e.getMessage(), Notification.Type.ERROR_MESSAGE);
-			UI.getCurrent().getNavigator().navigateTo("datasetgroups!");
+			UI.getCurrent().getNavigator().navigateTo(DATASET_GROUPS);
 		}
 	}
 

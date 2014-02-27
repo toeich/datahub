@@ -10,11 +10,13 @@ public interface Constants {
 	
 	public String USER = "user!/";
 	
-	public String USER_GROUP = "userGroup!/";
+	public String USER_GROUP = "usergroup!/";
 	
-	public String DATASET_GROUPS = "datasetGroups!/";
+	public String DATASET_GROUPS = "datasetgroups!/";
 	
-	public String DATASET_GROUP = "datasetGroup!/";
+	public String DATASET_GROUP = "datasetgroup!/";
+	
+	public String DATASET = "dataset!/";
 	
 	public String CONNECTORS = "connectors!/";
 	

@@ -32,7 +32,7 @@ public class DatasetService {
 
 	public List<DatasetGroup> getDatasetGroups(Project project) {
 		return entityManager
-				.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.project IS NULL OR dg.project = :project", DatasetGroup.class)
+				.createQuery("SELECT dg FROM DatasetGroup dg WHERE dg.projects IS EMPTY OR :project MEMBER OF dg.projects", DatasetGroup.class)
 				.setParameter("project", project)
 				.getResultList();
 	}

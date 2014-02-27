@@ -6,11 +6,13 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -37,13 +39,16 @@ public class DatasetGroup {
 	@XmlElement
 	private String description;
 	
-	@ManyToOne
-	private Project project;
+	@OneToMany
+	private List<Project> projects = new ArrayList<Project>();
 	
 	@Lob
 	private String schemaData;
 	
 	private transient DatasetSchema schema;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<DatasetField> fields = new ArrayList<DatasetField>();
 	
 	@Lob
 	private String columnsData;
@@ -70,12 +75,8 @@ public class DatasetGroup {
 		this.description = description;
 	}
 
-	public Project getProject() {
-		return project;
-	}
-	
-	public void setProject(Project project) {
-		this.project = project;
+	public List<Project> getProjects() {
+		return projects;
 	}
 	
 	public String getSchemaData() {
@@ -93,6 +94,14 @@ public class DatasetGroup {
 			}
 		}
 		return schema;
+	}
+	
+	public List<DatasetField> getFields() {
+		return fields;
+	}
+	
+	public void setFields(List<DatasetField> fields) {
+		this.fields = fields;
 	}
 	
 	public List<ColumnDefinition> getColumns() {
