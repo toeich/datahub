@@ -19,7 +19,7 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import de.jworks.datahub.business.transform.controller.StylesheetBuilder2;
+import de.jworks.datahub.business.transform.controller.StylesheetBuilder;
 import de.jworks.datahub.business.transform.entity.Transformation;
 
 @Path("query/{queryId}")
@@ -41,7 +41,7 @@ public class QueryResource {
 		try {
 			Transformation query = transformationService.getTransformation(queryId);
 			
-			String stylesheet = StylesheetBuilder2.buildStylesheet(query);
+			String stylesheet = StylesheetBuilder.buildStylesheet(query);
 			
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer(new StreamSource(new StringReader(stylesheet)));

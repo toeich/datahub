@@ -24,6 +24,6 @@ public class Datasink extends Component {
     
     @Override
     public String toString() {
-        return "Datasink [name=" + name + "]";
+        return "Datasink [id=" + id + "]";
     }
 }

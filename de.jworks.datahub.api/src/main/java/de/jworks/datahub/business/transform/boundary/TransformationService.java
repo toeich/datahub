@@ -23,14 +23,14 @@ public interface TransformationService {
 	
     public List<Datasource> getDatasources();
 
-    public Datasource findDatasourceByName(String name);
+    public Datasource findDatasource(String name);
 
     public List<Datasink> getDatasinks();
 
-    public Datasink findDatasinkByName(String name);
+    public Datasink findDatasink(String name);
 
     public List<Lookup> getLookups();
 
-    public Lookup findLookupkByName(String name);
+    public Lookup findLookup(String name);
 
 }

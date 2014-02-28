@@ -24,7 +24,6 @@ import com.vaadin.ui.VerticalLayout;
 import de.jworks.datahub.business.datasets.boundary.DatasetService;
 import de.jworks.datahub.business.datasets.entity.Dataset;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
-import de.jworks.datahub.business.util.XMLUtil;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
 import de.jworks.datahub.presentation.editors.DatasetEditor;
@@ -124,14 +123,14 @@ public class DatasetView extends CustomComponent implements View {
 			
 			String datasetName = "";
 			try {
-				datasetName = XMLUtil.evaluate(datasetGroup.getColumns().get(0).getFormat(), dataset.getDocument());
+				datasetName = dataset.getFields().get("Name");
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			
 			String datasetDescription = "";
 			try {
-				datasetDescription = XMLUtil.evaluate(datasetGroup.getColumns().get(1).getFormat(), dataset.getDocument());
+				datasetDescription = dataset.getFields().get("Description");
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

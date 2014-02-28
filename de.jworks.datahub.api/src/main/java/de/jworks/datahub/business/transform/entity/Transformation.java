@@ -78,7 +78,8 @@ public class Transformation extends Notifier {
 		transformation.setType(TransformationType.Query);
 		transformation.setName(name);
 		Datasink datasink = new Datasink();
-		datasink.setName("query");
+		datasink.setId(name);
+		datasink.setLabel(name);
 		datasink.getSchema().addInput(new Input("result", ItemType.XML_ELEMENT));
 		transformation.getDefinition().setDatasink(datasink);
 		return transformation;

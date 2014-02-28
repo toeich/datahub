@@ -55,8 +55,8 @@ public class TransformationServiceHessian extends HessianServlet implements Tran
     }
 
     @Override
-    public Datasource findDatasourceByName(String name) {
-        return transformationService.findDatasourceByName(name);
+    public Datasource findDatasource(String name) {
+        return transformationService.findDatasource(name);
     }
 
     @Override
@@ -65,8 +65,8 @@ public class TransformationServiceHessian extends HessianServlet implements Tran
     }
 
     @Override
-    public Datasink findDatasinkByName(String name) {
-        return transformationService.findDatasinkByName(name);
+    public Datasink findDatasink(String name) {
+        return transformationService.findDatasink(name);
     }
 
     @Override
@@ -75,8 +75,8 @@ public class TransformationServiceHessian extends HessianServlet implements Tran
     }
     
     @Override
-    public Lookup findLookupkByName(String name) {
-    	return transformationService.findLookupkByName(name);
+    public Lookup findLookup(String name) {
+    	return transformationService.findLookup(name);
     }
     
 }

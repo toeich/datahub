@@ -8,10 +8,8 @@ import javax.persistence.EntityManager;
 
 import de.jworks.datahub.business.common.boundary.AccessControlService;
 import de.jworks.datahub.business.common.entity.Project;
-import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.Dataset;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
-import de.jworks.datahub.business.util.XMLUtil;
 
 @Stateless
 public class DatasetService {
@@ -72,33 +70,16 @@ public class DatasetService {
 
 	public Dataset addDataset(Dataset dataset) {
 		entityManager.persist(dataset);
-		
-		// sync id into the content as attribute "_id"
-		dataset.getDocument().getDocumentElement().setAttribute("_id", String.valueOf(dataset.getId()));
-		dataset.updateData();
-		entityManager.persist(dataset);
-		
-		updateSearchIndex(dataset);
-		
 		return dataset;
 	}
 	
 	public Dataset updateDataset(Dataset dataset) {
 		dataset.updateData();
-		Dataset _dataset = entityManager.merge(dataset);
-		updateSearchIndex(_dataset);
-		return _dataset;
+		return entityManager.merge(dataset);
 	}
 	
 	public void removeDataset(Dataset dataset) {
 		entityManager.remove(entityManager.merge(dataset));
 	}
 
-	private void updateSearchIndex(Dataset dataset) {
-		DatasetGroup datasetGroup = dataset.getGroup();
-		for (ColumnDefinition column : datasetGroup.getColumns()) {
-			System.out.format("%s : %s\n", column.getName(), XMLUtil.evaluate(column.getFormat(), dataset.getDocument()));
-		}
-	}
-	
 }

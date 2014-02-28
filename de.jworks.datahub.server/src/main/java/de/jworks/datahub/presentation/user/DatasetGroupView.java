@@ -26,11 +26,10 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import de.jworks.datahub.business.datasets.boundary.DatasetService;
-import de.jworks.datahub.business.datasets.entity.ColumnDefinition;
 import de.jworks.datahub.business.datasets.entity.Dataset;
+import de.jworks.datahub.business.datasets.entity.DatasetField;
 import de.jworks.datahub.business.datasets.entity.DatasetGroup;
 import de.jworks.datahub.business.projects.boundary.ProjectService;
-import de.jworks.datahub.business.util.XMLUtil;
 import de.jworks.datahub.presentation.Constants;
 import de.jworks.datahub.presentation.Messages;
 import de.jworks.datahub.presentation.UserUI;
@@ -129,15 +128,17 @@ public class DatasetGroupView extends CustomComponent implements View, Constants
 			for (Object propertyId : datasetsTable.getVisibleColumns()) {
 				datasetsTable.removeGeneratedColumn(propertyId);
 			}
-			for (final ColumnDefinition column : datasetGroup.getColumns()) {
-				datasetsTable.addGeneratedColumn(column.getName(), new ColumnGenerator() {
-					@Override
-					public Object generateCell(Table source, Object itemId, Object columnId) {
-						Dataset dataset = (Dataset) itemId;
-						return XMLUtil.evaluate(column.getFormat(), dataset.getDocument());
-					}
-				});
-				datasetsTable.setColumnExpandRatio(column.getName(), 1.0f);
+			for (final DatasetField field : datasetGroup.getFields()) {
+				if (field.isVisible()) {
+					datasetsTable.addGeneratedColumn(field.getName(), new ColumnGenerator() {
+						@Override
+						public Object generateCell(Table source, Object itemId, Object columnId) {
+							final Dataset dataset = (Dataset) itemId;
+							return dataset.getFields().get(columnId);
+						}
+					});
+					datasetsTable.setColumnExpandRatio(field.getName(), 1.0f);
+				}
 			}
 			datasetsTable.addGeneratedColumn("actions", new ColumnGenerator() {
 				@Override

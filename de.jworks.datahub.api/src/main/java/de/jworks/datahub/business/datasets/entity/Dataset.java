@@ -3,12 +3,19 @@ package de.jworks.datahub.business.datasets.entity;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.io.StringWriter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.PrePersist;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,6 +23,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 
@@ -35,6 +44,11 @@ public class Dataset implements Serializable {
 	private String content;
 	
 	private transient Document document;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@MapKeyColumn(name = "field_name")
+	@Column(name = "field_value")
+	private Map<String, String> fields = new HashMap<String, String>();
 
 	public Long getId() {
 		return id;
@@ -72,10 +86,15 @@ public class Dataset implements Serializable {
 		return document;
 	}
 	
+	public Map<String, String> getFields() {
+		return Collections.unmodifiableMap(fields);
+	}
+	
 	@PrePersist
 	public void updateData() {
 		if (document != null) {
 			try {
+				updateFields();
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
 				StringWriter stringWriter = new StringWriter();
@@ -85,6 +104,19 @@ public class Dataset implements Serializable {
 				throw new RuntimeException(e);
 			}
 			
+		}
+	}
+	
+	public void updateFields() {
+		try {
+			XPathFactory xpathFactory = XPathFactory.newInstance();
+			XPath xpath = xpathFactory.newXPath();
+			fields.clear();
+			for (DatasetField field : group.getFields()) {
+				fields.put(field.getName(), xpath.evaluate(field.getFormat(), getDocument()));
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 	

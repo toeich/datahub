@@ -1,17 +1,20 @@
 package de.jworks.datahub.business.datasets.entity;
 
-import java.io.BufferedReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.xml.bind.JAXB;
@@ -36,8 +39,18 @@ public class DatasetGroup {
 	@XmlAttribute
 	private String name;
 	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@MapKeyColumn(name = "locale")
+	@Column(name = "name")
+	private Map<String, String> localizedNames = new HashMap<String, String>();
+	
 	@XmlElement
 	private String description;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@MapKeyColumn(name = "locale")
+	@Column(name = "description")
+	private Map<String, String> localizedDescriptions = new HashMap<String, String>();
 	
 	@OneToMany
 	private List<Project> projects = new ArrayList<Project>();
@@ -50,11 +63,6 @@ public class DatasetGroup {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<DatasetField> fields = new ArrayList<DatasetField>();
 	
-	@Lob
-	private String columnsData;
-	
-	private transient List<ColumnDefinition> columns;
-
 	public Long getId() {
 		return id;
 	}
@@ -104,41 +112,12 @@ public class DatasetGroup {
 		this.fields = fields;
 	}
 	
-	public List<ColumnDefinition> getColumns() {
-		if (columns == null) {
-			try {
-				columns = new ArrayList<ColumnDefinition>();
-				StringReader stringReader = new StringReader(columnsData);
-				BufferedReader bufferedReader = new BufferedReader(stringReader);
-				String line = null;
-				while ((line = bufferedReader.readLine()) != null) {
-					String[] keyValue = line.split("=", 2);
-					columns.add(new ColumnDefinition(keyValue[0], keyValue[1]));
-				}
-			} catch (Exception e) {
-				columns = new ArrayList<ColumnDefinition>();
-			}
-		}
-		return columns;
-	}
-	
-	public void setColumns(List<ColumnDefinition> columns) {
-		this.columns = columns;
-	}
-	
 	@PrePersist
 	public void updateData() {
 		if (schema != null) {
 			StringWriter stringWriter = new StringWriter();
 			JAXB.marshal(schema, stringWriter);
 			schemaData = stringWriter.toString();
-		}
-		if (columns != null) {
-			StringWriter stringWriter = new StringWriter();
-			for (ColumnDefinition column : columns) {
-				stringWriter.write(column.getName()+ "=" + column.getFormat() + "\n");
-			}
-			columnsData = stringWriter.toString();
 		}
 	}
 	

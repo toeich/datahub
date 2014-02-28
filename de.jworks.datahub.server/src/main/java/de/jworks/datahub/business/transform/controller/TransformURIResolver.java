@@ -3,6 +3,7 @@ package de.jworks.datahub.business.transform.controller;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.CharBuffer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class TransformURIResolver implements URIResolver {
 
 			Transformation transformation = transformationService.getTransformation(transformationId);
 
-			Source stylesheet = new StreamSource(new StringReader(StylesheetBuilder2.buildStylesheet(transformation)));
+			Source stylesheet = new StreamSource(new StringReader(StylesheetBuilder.buildStylesheet(transformation)));
 
 			return stylesheet;
 		} catch (Exception e) {
@@ -85,7 +86,7 @@ public class TransformURIResolver implements URIResolver {
 
 		return new StreamSource(new Reader() {
 			
-			private StringBuffer buffer = new StringBuffer();
+			private CharBuffer buffer = CharBuffer.allocate(32*1024);
 			
 			private boolean startAdded = false;
 			private boolean endAdded = false;
@@ -93,7 +94,7 @@ public class TransformURIResolver implements URIResolver {
 			@Override
 			public int read(char[] cbuf, int off, int len) throws IOException {
 				if (!startAdded) {
-					buffer.append("<result>");
+					buffer.put("<result>");
 					startAdded = true;
 				}
 				while (buffer.length() < len && iterator.hasNext()) {
@@ -102,7 +103,7 @@ public class TransformURIResolver implements URIResolver {
 					if (content.startsWith("<?")) {
 						content = content.substring(content.indexOf("?>") + 2);
 					}
-					buffer.append(content);
+					buffer.put(content);
 				}
 				if (!iterator.hasNext() && !endAdded) {
 					buffer.append("</result>");
@@ -110,8 +111,7 @@ public class TransformURIResolver implements URIResolver {
 				}
 				if (buffer.length() == 0) return -1;
 				int length = Math.min(buffer.length(), len);
-				buffer.getChars(0, length, cbuf, off);
-				buffer.delete(0, length);
+				buffer.get(cbuf, off, length);
 				return length;
 			}
 			

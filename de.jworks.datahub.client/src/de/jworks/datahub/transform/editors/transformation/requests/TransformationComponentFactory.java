@@ -26,7 +26,7 @@ public class TransformationComponentFactory implements CreationFactory {
 	@Override
 	public Object getNewObject() {
 		TransformationComponent component = copy(prototype);
-		component.setName(UUID.randomUUID().toString());
+		component.setId(UUID.randomUUID().toString());
 		return component;
 	}
 	

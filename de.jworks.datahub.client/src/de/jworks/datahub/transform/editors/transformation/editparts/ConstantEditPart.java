@@ -20,7 +20,7 @@ public class ConstantEditPart extends TransformationComponentEditPart {
 	
 	@Override
 	protected IFigure createFigure() {
-		String outputSpec = getModel().getName() + ":" + "/value#0#" + getConstant().getValue();
+		String outputSpec = getModel().getId() + ":" + "/value#0#" + getConstant().getValue();
 		return new ConstantFigure(getModel().getLabel(), getInputSpecs(), Arrays.asList(outputSpec));
 	}
 	

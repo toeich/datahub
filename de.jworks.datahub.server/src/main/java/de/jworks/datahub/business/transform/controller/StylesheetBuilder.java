@@ -1,5 +1,5 @@
-package de.jworks.datahub.business.transform.controller;
 
+package de.jworks.datahub.business.transform.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,14 +54,13 @@ public class StylesheetBuilder {
 	private StringBuilder builder = new StringBuilder();
 
 	public static String buildStylesheet(Transformation transformation) {
-		String stylesheet = buildStylesheet(transformation.getDefinition());
-		logger.info("stylesheet of transformation '" + transformation + "':\n" + stylesheet);
-		return stylesheet;
+		return buildStylesheet(transformation.getDefinition());
 	}
 	
 	public static String buildStylesheet(TransformationDefinition transformationDefinition) {
 		StylesheetBuilder builder = new StylesheetBuilder(transformationDefinition);
 		String stylesheet = builder.buildStylesheet();
+		System.out.println(stylesheet);
 		return stylesheet;
 	}
 
@@ -74,8 +73,6 @@ public class StylesheetBuilder {
 		collectInputs();
 		collectSources();
 		
-		addMissingSources();
-
 		process(transformationDefinition.getDatasink());
 
 		String stylesheet = builder.toString();
@@ -94,7 +91,7 @@ public class StylesheetBuilder {
 	}
 
 	private void collectOutputs(Component component) {
-		String componentUri = component.getName() + ":";
+		String componentUri = component.getId() + ":";
 		for (Output output : component.getSchema().getOutputs()) {
 			collectOutputs(output, component, componentUri);
 		}
@@ -128,7 +125,7 @@ public class StylesheetBuilder {
 	}
 
 	private void collectInputs(Component component) {
-		String componentUri = component.getName() + ":";
+		String componentUri = component.getId() + ":";
 		for (Input input : component.getSchema().getInputs()) {
 			collectInputs(input, componentUri);
 		}
@@ -164,37 +161,6 @@ public class StylesheetBuilder {
 		}
 	}
 
-	private void addMissingSources() {
-		addMissingSources(transformationDefinition.getDatasink());
-	}
-
-	private void addMissingSources(Datasink datasink) {
-		for (Input input : datasink.getSchema().getInputs()) {
-			addMissingSources(input, null);
-		}
-	}
-
-	private boolean addMissingSources(Input target, Output parentSource) {
-		Output source = sources.get(target);
-		
-		boolean mapped = false;
-		for (Input input : target.getInputs()) {
-			boolean childMapped = addMissingSources(input, source != null ? source : parentSource);
-			if (childMapped) {
-				mapped = true;
-			}
-		}
-		
-		if (source == null && mapped) {
-			if (parentSource == null) {
-				throw new RuntimeException();
-			}
-			sources.put(target, parentSource);
-		}
-		
-		return mapped;
-	}
-
 	private void process(Datasink datasink) {
 		builder.append("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\n");
 		
@@ -204,173 +170,202 @@ public class StylesheetBuilder {
 		}
 		builder.append(">\n");
 		
-		builder.append("<xsl:output method='xml' omit-xml-declaration='yes' indent='yes' />\n\n");
+		builder.append(" <xsl:output method='xml' omit-xml-declaration='yes' indent='yes' />\n");
 
-		builder.append("<xsl:template match='/'>\n");
+		builder.append(" <xsl:template match='/'>\n");
 		for (Input i : datasink.getSchema().getInputs()) {
-			builder.append("<xsl:call-template name='" + templateName(i) + "' />\n");
+			processInput(i, Arrays.asList((Output) null), 1);
 		}
-		builder.append("</xsl:template>\n\n");
-
-		for (Input i : datasink.getSchema().getInputs()) {
-			processInput(i, null);
-		}
+		builder.append(" </xsl:template>\n");
 
 		builder.append("</xsl:stylesheet>\n");
 	}
 
-	private void processInput(Input input, Output context) {
-		builder.append("<xsl:template name='" + templateName(input) + "'>\n");
+	private void processInput(Input input, List<Output> context, int indent) {
+		List<Output> newContext = new ArrayList<Output>(context);
 		
-		if (sources.get(input) != null) {
-			builder.append("<xsl:for-each select='" + expr(input, context) + "'>\n");
-		}
+		logger.fine("processing Input '" + inputUris.get(input) + dump(newContext));
+		
+		String prefix = ""; for (int i = 0; i < indent; i++) { prefix+=" "; }
 
-		switch (input.getType()) {
-		case XML_ELEMENT:
-			builder.append("<xsl:element name='" + elementName(input) + "'>\n");
-			break;
-		case XML_ATTRIBUTE:
-			builder.append("<xsl:attribute name='" + attributeName(input) + "'>\n");
-			break;
-		default:
-			throw new RuntimeException("unsupported type: " + input.getType());
+		String xpath = null;
+		Output output = sources.get(input);
+		if (output != null) {
+			xpath = processOutput(output, newContext, indent+1);
+			if (xpath != null) {
+				builder.append(prefix + "<xsl:for-each select='" + xpath + "'>\n");
+			}
+			newContext.add(output);
 		}
-
+		
+		if (input.getType() != null) {
+			switch (input.getType()) {
+			case XML_ELEMENT:
+				builder.append(prefix + " <xsl:element name='" + elementName(input) + "'>\n");
+				break;
+			case XML_ATTRIBUTE:
+				builder.append(prefix + " <xsl:attribute name='" + attributeName(input) + "'>\n");
+				break;
+			default:
+				throw new RuntimeException("unsupported type: " + input.getType());
+			}
+		}
+		
 		if (input.getInputs().size() > 0) {
 			for (Input i : input.getInputs()) {
-//				if (sources.get(i) != null) {
-					builder.append("<xsl:call-template name='" + templateName(i) + "' />\n");
-//				}
-			}
+				processInput(i, newContext, indent+1);
+			} 
 		} else {
-			builder.append("<xsl:value-of select='.' />\n");
-		}
-
-		switch (input.getType()) {
-		case XML_ELEMENT:
-			builder.append("</xsl:element>\n");
-			break;
-		case XML_ATTRIBUTE:
-			builder.append("</xsl:attribute>\n");
-			break;
-		default:
-			throw new RuntimeException("unsupported type: " + input.getType());
-		}
-
-		if (sources.get(input) != null) {
-			builder.append("</xsl:for-each>\n");
+			builder.append(prefix + "  <xsl:value-of select='.' />\n");
 		}
 		
-		builder.append("</xsl:template>\n\n");
-
-		for (Input i : input.getInputs()) {
-//			if (sources.get(i) != null) {
-				processInput(i, context(input));
-//			}
-		}
-	}
-
-	private String expr(Input input, Output context) {
-		Output source = sources.get(input);
-		
-		Component sourceComponent = components.get(source);
-
-		if (sourceComponent instanceof Datasource) {
-			return datasourceExpr(source, context);
-		}
-		if (sourceComponent instanceof Constant) {
-			return constantExpr(source, context);
-		}
-		if (sourceComponent instanceof Function) {
-			return functionExpr(source, context);
-		}
-		if (sourceComponent instanceof Operation) {
-			return operationExpr(source, context);
-		}
-		if (sourceComponent instanceof Filter) {
-			return filterExpr(source, context);
-		}
-		if (sourceComponent instanceof Lookup) {
-			return lookupExpr(source, context);
+		if (input.getType() != null) {
+			switch (input.getType()) {
+			case XML_ELEMENT:
+				builder.append(prefix + " </xsl:element>\n");
+				break;
+			case XML_ATTRIBUTE:
+				builder.append(prefix + " </xsl:attribute>\n");
+				break;
+			default:
+				throw new RuntimeException("unsupported type: " + input.getType());
+			}
 		}
 		
-		throw new RuntimeException("unable to compute select expression" + input);
-	}
-
-	private String datasourceExpr(Output source, Output context) {
-		return relativePath(source, context);
+		if (xpath != null) {
+			builder.append(prefix + "</xsl:for-each>\n");
+		}
 	}
 	
-	private String constantExpr(Output source, Output context) {
-		Constant constant = (Constant) components.get(source);
+	private String dump(List<Output> context) {
+		StringBuffer buffer = new StringBuffer();
+		for (int i = 0; i < context.size(); i++) {
+			String outputUri = outputUris.get(context.get(i));
+			if (outputUri != null) {
+				buffer.append("\n\t" + outputUri);
+			}
+		}
+		return buffer.toString();
+	}
+	
+	private String processOutput(Output output, List<Output> context, int indent) {
+		logger.info("processing Output '" + outputUris.get(output) + " of " + components.get(output).getClass().getSimpleName() + dump(context));
+		
+		Component component = components.get(output);
+		if (component instanceof Datasource) {
+			return processDatasourceOutput(output, context);
+		}
+		if (component instanceof Lookup) {
+			return processLookupOutput(output, context);
+		}
+		if (component instanceof Constant) {
+			return processConstantOutput(output, context);
+		}
+		if (component instanceof Function) {
+			return processFunctionOutput(output, context);
+		}
+		if (component instanceof Operation) {
+			return processOperationOutput(output, context);
+		}
+		if (component instanceof Filter) {
+			return processFilterOutput(output, context);
+		}
+		throw new RuntimeException();
+	}
+	
+	private String processDatasourceOutput(Output output, List<Output> context) {
+		return path(output, context);
+	}
+	
+	private String processConstantOutput(Output output, List<Output> context) {
+		Constant constant = (Constant) components.get(output);
 		return constant.getValue();
 	}
 
-	private String functionExpr(Output source, Output context) {
-		Function function = (Function) components.get(source);
+	private String processFunctionOutput(Output output, List<Output> context) {
+		Function function = (Function) components.get(output);
 		
-		Output functionContext = context(function.getSchema().getInputs());
+		StringBuilder builder = new StringBuilder(); 
 		
-		StringBuilder builder = new StringBuilder();
-		if (functionContext != null) {
-			builder.append(relativePath(functionContext, context));
+		Output baseOutput = context(function.getSchema().getInputs());
+		logger.info("\tbase Output '"+outputUris.get(baseOutput)+"'");
+		if (baseOutput != null) {
+			builder.append(processOutput(baseOutput, context, 0));
 			builder.append("/");
+			context.add(0, baseOutput);
 		}
+	
 		builder.append(function.getXpathFunction());
 		builder.append("(");
 		for (Input i : function.getSchema().getInputs()) {
 			if (i.getType() == ItemType.CONTEXT) continue;
-			builder.append(expr(i, functionContext) + ",");
+			builder.append(processOutput(sources.get(i), context, 0) + ",");
 		}
 		builder.deleteCharAt(builder.length() - 1);
-		builder.append(")");		
-		return builder.toString();
-	}
-	
-	private String operationExpr(Output source, Output context) {
-		Operation operation = (Operation) components.get(source);
-		
-		StringBuilder builder = new StringBuilder();
-		builder.append("(");
-		for (Input input : operation.getSchema().getInputs()) {
-			builder.append(expr(input, context));
-			builder.append(" " + operation.getOperator() + " ");
-		}
-		builder.delete(builder.length() - operation.getOperator().length() - 2, builder.length());
 		builder.append(")");
 		
 		return builder.toString();
 	}
 	
-	private String filterExpr(Output source, Output context) {
-		Filter filter = (Filter) components.get(source);
-		
-		Output filterContext = context(filter.getSchema().getInputs().get(0));
+	private String processOperationOutput(Output source, List<Output> context) {
+		Operation operation = (Operation) components.get(source);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append(relativePath(filterContext, context));
+		
+		Output baseOutput = context(operation.getSchema().getInputs());
+		if (baseOutput != null) {
+			builder.append(processOutput(baseOutput, context, 0));
+			builder.append("/");
+			context.add(0, baseOutput);
+		}
+		
+		builder.append("(");
+		for (Input i : operation.getSchema().getInputs()) {
+			builder.append(processOutput(sources.get(i), context, 0));
+			builder.append(operation.getOperator());
+		}
+		builder.delete(builder.length() - operation.getOperator().length(), builder.length());
+		builder.append(")");
+		
+		return builder.toString();
+	}
+	
+	private String processFilterOutput(Output source, List<Output> context) {
+		Filter filter = (Filter) components.get(source);
+		
+		StringBuilder builder = new StringBuilder();
+		
+		Output baseOutput = sources.get(filter.getSchema().getInputs().get(0));
+		builder.append(processOutput(baseOutput, context, 0));
+		context.add(baseOutput);
+		
+		List<Output> context2 = new ArrayList<Output>(context);
+		
 		builder.append("[");
-		builder.append(expr(filter.getSchema().getInputs().get(1), filterContext));
+		builder.append(processOutput(sources.get(filter.getSchema().getInputs().get(1)), context2, 0));
 		builder.append("]");
 		
 		return builder.toString();
 	}
 
-	private String lookupExpr(Output source, Output context) {
-		Lookup lookup = (Lookup) components.get(source);
+	private String processLookupOutput(Output output, List<Output> context) {
+		Lookup lookup = (Lookup) components.get(output);
 		
-		if (components.get(context) == lookup) {
-			return relativePath(source, context);
+		String relativePath = relativePath(output, context);
+		if (relativePath != null) {
+			return relativePath;
 		}
-		
-		Output lookupContext = context(lookup.getSchema().getInputs());
 		
 		StringBuilder builder = new StringBuilder();
-		if (lookupContext != null) {
-			builder.append(relativePath(lookupContext, context));
+		
+		Output base = context(lookup.getSchema().getInputs());
+		logger.info("\tbase Output '" + outputUris.get(base) + "'");
+		if (base != null) {
+			builder.append(processOutput(base, context, 0));
 			builder.append("/");
+			context.add(0, base);
 		}
+
 		builder.append("document(concat(\"\", \"" + lookup.getDatasourceSpec() + "\"");
 		if (lookup.getSchema().getInputs().size() > 0) {
 			builder.append(",\"?");
@@ -378,13 +373,14 @@ public class StylesheetBuilder {
 				builder.append(step(input));
 				builder.append("=\"");
 				builder.append(",");
-				builder.append(expr(input, lookupContext));
+				builder.append(processOutput(sources.get(input), context, 0));
 				builder.append(",\"&\"");
 			}
 			builder.delete(builder.length() - 4, builder.length());
 		}
 		builder.append("))");
-		builder.append(absolutePath(source));
+		
+		builder.append(absolutePath(output));
 		
 		return builder.toString();
 	}
@@ -436,45 +432,6 @@ public class StylesheetBuilder {
 		return null;
 	}
 
-	private String relativePath(Output source, Output context) {
-		if (context == null) {
-			return absolutePath(source);
-		}
-		if (source == context) {
-			return ".";
-		}
-		if (components.get(source) != components.get(context)) {
-			return absolutePath(source);
-		}
-
-		List<String> sourcePath = new ArrayList<String>(Arrays.asList(outputUris.get(source).split("/")));
-		List<String> outputPath = new ArrayList<String>(Arrays.asList(outputUris.get(context).split("/")));
-		while (sourcePath.size() > 0 && outputPath.size() > 0 && sourcePath.get(0).equals(outputPath.get(0))) {
-			sourcePath.remove(0);
-			outputPath.remove(0);
-		}
-
-		StringBuffer relativePath = new StringBuffer();
-		for (int i = 0; i < outputPath.size(); i++) {
-			relativePath.append("../");
-		}
-		for (String s : sourcePath) {
-			relativePath.append(s + "/");
-		}
-
-		return normalize(relativePath.substring(0, relativePath.length() - 1).toString());
-	}
-
-	private String absolutePath(Output source) {
-		String uri = outputUris.get(source);
-		String path  = uri.substring(uri.indexOf(":") + 1);
-		return path;
-	}
-	
-	private String templateName(Input input) {
-		return inputUris.get(input).replaceAll("\\W", "_");
-	}
-
 	private String elementName(Input input) {
 		return normalize(input.getName());
 	}
@@ -482,7 +439,7 @@ public class StylesheetBuilder {
 	private String attributeName(Input input) {
 		return normalize(input.getName());
 	}
-	
+
 	private String step(Item item) {
 		if (item.getType() != null) {
 			switch (item.getType()) {
@@ -497,6 +454,57 @@ public class StylesheetBuilder {
 		return item.getName();
 	}
 
+	private String path(Output output, List<Output> context) {
+		String relativePath = relativePath(output, context);
+		if (relativePath != null) {
+			return relativePath;
+		}
+		return absolutePath(output);
+	}
+	
+	private String relativePath(Output output, List<Output> context) {
+		for (Output c : context) {
+			String relativePath = relativePath(output, c);
+			if (relativePath != null) {
+				return relativePath;
+			}
+		}
+		return null;
+	}
+	
+	private String relativePath(Output output, Output base) {
+		if (components.get(output) != components.get(base)) {
+			return null;
+		}
+		
+		if (output == base) {
+			return ".";
+		}
+
+		List<String> outputPath = new ArrayList<String>(Arrays.asList(outputUris.get(output).split("/")));
+		List<String> contextPath = new ArrayList<String>(Arrays.asList(outputUris.get(base).split("/")));
+		while (outputPath.size() > 0 && contextPath.size() > 0 && outputPath.get(0).equals(contextPath.get(0))) {
+			outputPath.remove(0);
+			contextPath.remove(0);
+		}
+
+		StringBuffer relativePath = new StringBuffer();
+		for (int i = 0; i < contextPath.size(); i++) {
+			relativePath.append("../");
+		}
+		for (String s : outputPath) {
+			relativePath.append(s + "/");
+		}
+
+		return normalize(relativePath.substring(0, relativePath.length() - 1).toString());
+	}
+	
+	private String absolutePath(Output output) {
+		String uri = outputUris.get(output);
+		String path  = uri.substring(uri.indexOf(":") + 1);
+		return path;
+	}
+	
 	private String normalize(String s) {
 		StringBuilder builder = new StringBuilder(s);
 		int startIdx = builder.indexOf("{");

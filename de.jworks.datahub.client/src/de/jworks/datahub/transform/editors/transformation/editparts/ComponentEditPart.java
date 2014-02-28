@@ -50,7 +50,7 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	protected List<?> getModelSourceConnections() {
 		List<Link> links = new ArrayList<Link>();
 		for (Link link : context.getDefinition().getLinks()) {
-			if (link.getSource().startsWith(getModel().getName() + ":")) {
+			if (link.getSource().startsWith(getModel().getId() + ":")) {
 				links.add(link);
 			}
 		}
@@ -61,7 +61,7 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	protected List<?> getModelTargetConnections() {
 		List<Link> links = new ArrayList<Link>();
 		for (Link link : context.getDefinition().getLinks()) {
-			if (link.getTarget().startsWith(getModel().getName() + ":")) {
+			if (link.getTarget().startsWith(getModel().getId() + ":")) {
 				links.add(link);
 			}
 		}
@@ -156,7 +156,7 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	
 	protected List<String> getInputSpecs() {
 		List<String> inputSpecs = new ArrayList<String>();
-		String componentPath = getModel().getName() + ":";
+		String componentPath = getModel().getId() + ":";
 		for (Input input : getModel().getSchema().getInputs()) {
 			collectInputSpecs(input, componentPath, 0, inputSpecs);
 		}
@@ -173,7 +173,7 @@ public abstract class ComponentEditPart extends AbstractGraphicalEditPart implem
 	
 	protected List<String> getOutputSpecs() {
 		List<String> outputSpecs = new ArrayList<String>();
-		String componentPath = getModel().getName() + ":";
+		String componentPath = getModel().getId() + ":";
 		for (Output output : getModel().getSchema().getOutputs()) {
 			collectOutputSpecs(output, componentPath, 0, outputSpecs);
 		}

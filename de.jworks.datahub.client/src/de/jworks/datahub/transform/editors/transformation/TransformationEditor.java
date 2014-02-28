@@ -146,7 +146,7 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		PaletteDrawer lookupsDrawer = new PaletteDrawer("Lookups");
 		TransformationService transformationService = (TransformationService) PlatformUI.getWorkbench().getService(TransformationService.class);
 		for (Lookup lookup : transformationService.getLookups()) {
-			lookupsDrawer.add(new CombinedTemplateCreationEntry(lookup.getName(), null, new TransformationComponentFactory(lookup), null, null));
+			lookupsDrawer.add(new CombinedTemplateCreationEntry(lookup.getId(), null, new TransformationComponentFactory(lookup), null, null));
 		}
 		root.add(lookupsDrawer);
 		
@@ -158,7 +158,7 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 				for (Group group : library.getGroups()) {
 					PaletteDrawer drawer = new PaletteDrawer(group.getName());
 					for (TransformationComponent component : group.getComponents()) {
-						drawer.add(new CombinedTemplateCreationEntry(component.getName(), null, new TransformationComponentFactory(component), null, null));
+						drawer.add(new CombinedTemplateCreationEntry(component.getId(), null, new TransformationComponentFactory(component), null, null));
 					}
 					root.add(drawer);
 				}
@@ -185,7 +185,7 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		@Override
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			Constant constant = new Constant();
-			constant.setName(UUID.randomUUID().toString());
+			constant.setId(UUID.randomUUID().toString());
 			constant.setLabel("Constant");
 			
 			ConstantDialog dialog = new ConstantDialog(getSite().getShell());
@@ -208,7 +208,7 @@ public class TransformationEditor extends GraphicalEditorWithFlyoutPalette {
 		@Override
 		public Object execute(ExecutionEvent event) throws ExecutionException {
 			Filter filter = new Filter();
-			filter.setName(UUID.randomUUID().toString());
+			filter.setId(UUID.randomUUID().toString());
 			filter.setLabel("Filter");
 			
 			TransformationComponentAddCommand command = new TransformationComponentAddCommand();

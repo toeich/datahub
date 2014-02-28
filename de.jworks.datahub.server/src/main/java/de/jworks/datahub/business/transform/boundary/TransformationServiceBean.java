@@ -87,7 +87,7 @@ public class TransformationServiceBean implements TransformationService {
     			.getResultList();
     	for (Connector connector : connectors) {
     		for (Datasource datasource : connector.getSchemaDetached().getDatasources()) {
-    			datasource.setName(datasource.getName() + " (" + connector.getName() + ")");
+    			datasource.setId(datasource.getId() + " (" + connector.getName() + ")");
     			datasource.setLabel(datasource.getLabel() + " (" + connector.getName() + ")");
     			result.add(datasource);
     		}
@@ -104,9 +104,9 @@ public class TransformationServiceBean implements TransformationService {
     }
     
 	@Override
-    public Datasource findDatasourceByName(String name) {
+    public Datasource findDatasource(String id) {
 		for (Datasource datasource : getDatasources()) {
-			if (datasource.getName().equals(name)) {
+			if (datasource.getId().equals(id)) {
 				return datasource;
 			}
 		}
@@ -115,7 +115,7 @@ public class TransformationServiceBean implements TransformationService {
 
     private Datasource createDatasource(DatasetGroup datasetGroup) {
     	Datasource datasource = new Datasource();
-    	datasource.setName(datasetGroup.getName());
+    	datasource.setId(datasetGroup.getName());
     	datasource.setLabel(datasetGroup.getName());
     	datasource.getSchema().addOutput(createOutput(datasetGroup.getSchema().getRootElement()));
     	datasource.setRouteSpec("<from uri='file:/home/te/temp/datahub-work/" + datasetGroup.getName() + "/datasource' />");
@@ -131,7 +131,7 @@ public class TransformationServiceBean implements TransformationService {
     			.getResultList();
     	for (Connector connector : connectors) {
     		for (Datasink datasink : connector.getSchemaDetached().getDatasinks()) {
-    			datasink.setName(datasink.getName() + " (" + connector.getName() + ")");
+    			datasink.setId(datasink.getId() + " (" + connector.getName() + ")");
     			datasink.setLabel(datasink.getLabel() + " (" + connector.getName() + ")");
     			result.add(datasink);
     		}
@@ -148,9 +148,9 @@ public class TransformationServiceBean implements TransformationService {
     }
 
     @Override
-    public Datasink findDatasinkByName(String name) {
+    public Datasink findDatasink(String id) {
     	for (Datasink datasink : getDatasinks()) {
-    		if (datasink.getName().equals(name)) {
+    		if (datasink.getId().equals(id)) {
     			return datasink;
     		}
     	}
@@ -159,7 +159,7 @@ public class TransformationServiceBean implements TransformationService {
 
     private Datasink createDatasink(DatasetGroup datasetGroup) {
     	Datasink datasink = new Datasink();
-    	datasink.setName(datasetGroup.getName());
+    	datasink.setId(datasetGroup.getName());
     	datasink.setLabel(datasetGroup.getName());
     	datasink.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
     	datasink.setRouteSpec(
@@ -194,9 +194,9 @@ public class TransformationServiceBean implements TransformationService {
     }
     
     @Override
-    public Lookup findLookupkByName(String name) {
+    public Lookup findLookup(String id) {
     	for (Lookup lookup : getLookups()) {
-    		if (lookup.getName().equals(name)) {
+    		if (lookup.getId().equals(id)) {
     			return lookup;
     		}
     	}
@@ -205,7 +205,7 @@ public class TransformationServiceBean implements TransformationService {
 
     private Lookup createLookup(DatasetGroup datasetGroup) {
     	Lookup lookup = new Lookup();
-    	lookup.setName(datasetGroup.getName());
+    	lookup.setId(datasetGroup.getName());
     	lookup.setLabel(datasetGroup.getName());
 //    	lookup.getSchema().addInput(createInput(datasetGroup.getSchema().getRootElement()));
     	lookup.getSchema().addOutput(new Output("result", ItemType.XML_ELEMENT, createOutput(datasetGroup.getSchema().getRootElement())));

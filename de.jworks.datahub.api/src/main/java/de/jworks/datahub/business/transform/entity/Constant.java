@@ -33,7 +33,7 @@ public class Constant extends TransformationComponent {
     
     @Override
     public String toString() {
-        return "Constant [name=" + name + ", value=" + value + "]";
+        return "Constant [id=" + id + ", value=" + value + "]";
     }
     
 }

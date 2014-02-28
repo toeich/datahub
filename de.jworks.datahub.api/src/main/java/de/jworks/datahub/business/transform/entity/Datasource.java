@@ -24,7 +24,7 @@ public class Datasource extends Component {
     
     @Override
     public String toString() {
-        return "Datasource [name=" + name + "]";
+        return "Datasource [id=" + id + "]";
     }
     
 }
